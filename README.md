@@ -11,3 +11,4 @@ Here are some ideas to get you started:
 - 😄 Pronouns: He/Him
 - ⚡ Fun fact: I love indigenous history.
 
+<li><g-emoji class="g-emoji" alias="speech_balloon" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4ac.png"><img class="emoji" alt="speech_balloon" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f4ac.png"></g-emoji> Ask me about anything.</li>
