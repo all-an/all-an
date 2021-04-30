@@ -16,3 +16,5 @@
 <li><g-emoji class="g-emoji" alias="smile" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"><img class="emoji" alt="smile" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"></g-emoji></li>
 
 [![Allan's GitHub stats](https://github-readme-stats.vercel.app/api?username=all-an)](https://github.com/all-an/github-readme-stats&show_icons=true&theme=dark)
+
+![Allan's GitHub stats](https://github-readme-stats.vercel.app/api?username=all-an&show_icons=true&theme=dark)
