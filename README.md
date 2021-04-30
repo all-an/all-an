@@ -17,8 +17,9 @@
 
 ![Allan's GitHub stats](https://github-readme-stats.vercel.app/api?username=all-an&show_icons=true&theme=vision-friendly-dark)
 
-<a href="https://github.com/all-an/github-readme-stats">
+<div align="center"><a href="https://github.com/all-an/github-readme-stats">
   <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&show_icons=true&theme=vision-friendly-dark" />
 </a>
+</div>
 
 
