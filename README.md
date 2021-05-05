@@ -11,7 +11,7 @@
 - 💬 Ask me about anything.
 - 📫 How to reach me: [website](http://all-an.github.io)
 - 😄 Pronouns: He/Him
-- ⚡ Fun fact: I like the [Ελληνική γλώσσα](https://el.wikipedia.org/wiki/Ελληνική_γλώσσα)
+- ⚡ Fun fact: I like [Esperanto](https://en.wikipedia.org/wiki/Esperanto)
 
 <li><g-emoji class="g-emoji" alias="smile" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"><img class="emoji" alt="smile" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"></g-emoji></li>
 
