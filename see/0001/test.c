@@ -2,6 +2,8 @@
 #include <stdlib.h>
 
 int main(){
+
+    
     typedef struct NO{
         int dado;
         struct NO* prox;
@@ -18,14 +20,28 @@ int main(){
         NO* ptr = (NO *) malloc(sizeof(NO));
         ptr->dado = valor;
         ptr->prox = NULL;
+        printf("%d", ptr->dado);
         if(f->inicio == NULL){
             f->inicio = ptr;
         }else{
             f->fim->prox = ptr;
             f->fim = ptr;
-            printf("%p", &f);
+            
         }
+        void imprimir(){
+	        NO* ptr = f->inicio;
+	
+	        while(ptr != NULL){
+		        printf("\n%d ", ptr->dado);
+		        ptr = ptr->prox;
+	        }
+	
+        }
+        
+        
     }
+    
+    
 
     int desenfileira(){
         NO* ptr = f->inicio;
@@ -39,7 +55,10 @@ int main(){
         }
     }
     
+    
+    
     int main(){
+        
         f = (FILA *) malloc(sizeof(FILA));
         f->inicio = NULL;
         f->fim = NULL;
@@ -48,6 +67,10 @@ int main(){
         enfileira(50);
         desenfileira();
         enfileira(14);
+        
     }
+    
+    
 
 }
+
