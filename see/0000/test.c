@@ -11,6 +11,7 @@ int main(){
     int chute;
 
 	for(int i = 1; i <= 3; i++){
+		printf("Tentativa %d de 3\n", i);
 	    printf("Qual é o seu chute ? ");
 	    scanf("%d", &chute);
 	    printf("Seu chute foi %d\n", chute);
@@ -19,7 +20,8 @@ int main(){
 
 		if(acertou){
 			printf("Você acertou!\n");
-			printf("Denovo, você joga bem!\n");
+			printf("Você joga bem!\n");
+			break;
 		}
 		else{
 
@@ -33,4 +35,5 @@ int main(){
 		} 
 
 	}
+	printf("Fim de jogo !\n");
 }
