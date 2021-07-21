@@ -1,0 +1,830 @@
+Google
+
+Da Wikipedia, a enciclopedia aberta.
+From Wikipedia, the free encyclopedia
+Jump to navigationJump to search
+This article is about the company. For the search engine, see Google Search. For other uses, see Google (disambiguation).
+Not to be confused with Googol.
+
+It h been suggested that .google be merged into this article. (Discuss) Proposed since April 2021.
+Google LLC
+Each letter of "Google" is colored (from left to right) in blue, red, yellow, blue, green, and red.
+Logo since 2015
+Googpcd).jpg
+Google's headquarters, the Googleplex
+Formerly	Google Inc. (1998–2017)
+Type	Subsidiary (LLC)
+Industry	
+Internet
+Cloud coting
+Computer software
+Computerware
+Artificial intelligence
+Founded	September 4, 1998; 22 years ago[a] in Menlo Park, California, United States
+Founders	
+Larry Page
+Sergey Brin
+Headquarters	1600 Amphitheatre Parkway, Mountain View, California, U.S.
+Area served	Worlwide
+Key people	
+Sundar Pichai (CEO)
+Ruth Porat (CFO)
+Products	List of products
+Revenue	182,527,000,000 United States dollar (2020) 
+Operating income	41,224,000,000 United States dollar (2020) 
+Net income	40,269,000,000 United States dollar (2020) 
+Total assets	319,616,000,000 United States dollar (2020) 
+Number of employees	139,995 (2021) 
+Parent	Aljphabet Inc.
+Website	google.com
+Footnotes / references
+[5][6][7][8]
+Eric Schmidt, Sergey Brin, and Larry Page sitting together
+Then-CEO, and former Chairman of Google Eric Schmidt with cofounders Sergey Brin and Larry Page (left to right) in 2008.
+Google LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware. It is considered one of the big four technology companies along with Amazon, Facebook, and Apple.[9][10][11]
+
+Google was founded in September 1998 by Larry Page and Sergey Brin while they were Ph.D. students at Stanford University in California. Together they own about 14% of its publicly-listed shares and control 56% of the stockholder voting power through super-voting stock. The company went public via an initial public offering (IPO) in 2004. In 2015, Google was reorganized as a wholly owned subsidiary of Alphabet Inc.. Google is Alphabet's largest subsidiary and is a holding company for Alphabet's Internet properties and interests. Sundar Pichai was appointed CEO of Google on October 24, 2015, replacing Larry Page, who became the CEO of Alphabet. On December 3, 2019, Pichai also became the CEO of Alphabet.[12]
+
+In 2021, the Alphabet Workers Union was founded, mainly composed of Google employees.[13]
+
+The company's rapid growth since incorporation has included products, acquisitions, and partnerships beyond Google's core search engine, (Google Search). It offers services designed for work and productivity (Google Docs, Google Sheets, and Google Slides), email (Gmail), scheduling and time management (Google Calendar), cloud storage (Google Drive), instant messaging and video chat (Google Duo, Google Chat, and Google Meet), language translation (Google Translate), mapping and navigation (Google Maps, Waze, Google Earth, and Street View), podcast hosting (Google Podcasts), video sharing (YouTube), blog publishing (Blogger), note-taking (Google Keep and Jamboard), and photo organizing and editing (Google Photos). The company leads the development of the Android mobile operating system, the Google Chrome web browser, and Chrome OS (a lightweight, proprietary operating system based on the free and open-source Chromium OS operating system). Google has moved increasingly into hardware; from 2010 to 2015, it partnered with major electronics manufacturers in the production of its Google Nexus devices, and it released multiple hardware products in 2016, including the Google Pixel line of smartphones, Google Home smart speaker, Google Wifi mesh wireless router. Google has also experimented with becoming an Internet carrier (Google Fiber and Google Fi).
+
+Google.com is the most visited website worldwide. Several other Google-owned websites also are on the list of most popular websites, including YouTube and Blogger.[14] On the list of most valuable brands, Google is ranked second by Forbes[15] and fourth by Interbrand.[16] It has received significant criticism involving issues such as privacy concerns, tax avoidance, censorship, search neutrality, antitrust and abuse of its monopoly position.
+
+
+Contents
+1	History
+1.1	Early years
+1.2	Growth
+1.3	Initial public offering
+1.4	2012 onward
+2	Products and services
+2.1	Search engine
+2.2	Advertising
+2.3	Consumer services
+2.3.1	Web-based services
+2.3.2	Software
+2.3.3	Hardware
+2.4	Enterprise services
+2.5	Internet services
+3	Corporate affairs
+3.1	Stock price performance and quarterly earnings
+3.2	Tax avoidance strategies
+3.3	Corporate identity
+3.4	Workplace culture
+3.5	Office locations
+3.5.1	North America
+3.5.2	Latin America
+3.5.3	Europe
+3.5.4	Asia Pacific
+3.5.5	Africa & Middle East
+3.6	Infrastructure
+3.7	Environment
+3.8	Philanthropy
+4	Criticism and controversies
+4.1	Anti-trust, privacy, and other litigation
+5	See also
+6	Notes
+7	References
+8	Further reading
+9	External links
+History
+Main articles: History of Google and List of mergers and acquisitions by Alphabet
+See also: Alphabet Inc.
+Early years
+
+Larry Page and Sergey Brin in 2003
+Google began in January 1996 as a research project by Larry Page and Sergey Brin when they were both PhD students at Stanford University in California.[17][18][19] The project initially involved an unofficial "third founder", Scott Hassan, the original lead programmer who wrote much of the code for the original Google Search engine, but he left before Google was officially founded as a company;[20][21] Hassan went on to pursue a career in robotics and founded the company Willow Garage in 2006.[22][23]
+
+While conventional search engines ranked results by counting how many times the search terms appeared on the page, they theorized about a better system that analyzed the relationships among websites.[24] They called this algorithm PageRank; it determined a website's relevance by the number of pages, and the importance of those pages that linked back to the original site.[25][26] Page told his ideas to Hassan, who began writing the code to implement Page's ideas.[20]
+
+Page and Brin originally nicknamed the new search engine "BackRub", because the system checked backlinks to estimate the importance of a site.[17][27][28] Hassan as well as Alan Steremberg were cited by Page and Brin as being critical to the development of Google. Rajeev Motwani and Terry Winograd later co-authored with Page and Brin the first paper about the project, describing PageRank and the initial prototype of the Google search engine, published in 1998. Héctor García-Molina and Jeff Ullman were also cited as contributors to the project.[29] PageRank was influenced by a similar page-ranking and site-scoring algorithm earlier used for RankDex, developed by Robin Li in 1996, with Larry Page's PageRank patent including a citation to Li's earlier RankDex patent; Li later went on to create the Chinese search engine Baidu.[30][31]
+
+Eventually, they changed the name to Google; the name of the search engine was a play on the word "googol",[17][32][33] the number 1 followed by 100 zeros, which was picked to signify that the search engine was intended to provide large quantities of information.[34]
+
+Google's homepage in 1998
+Google's original homepage had a simple design because the company founders had little experience in HTML, the markup language used for designing web pages.[35]
+The domain name www.google.com was registered on September 15, 1997,[36] and the company was incorporated on September 4, 1998. It was based in the garage of Susan Wojcicki[19] in Menlo Park, California. Craig Silverstein, a fellow PhD student at Stanford, was hired as the first employee.[19][37][38]
+
+Google was initially funded by an August 1998 investment of $100,000 from Andy Bechtolsheim,[17] co-founder of Sun Microsystems, a few weeks prior to September 7, 1998, the day Google was officially incorporated.[39][40] Google received money from three other angel investors in 1998: Amazon.com founder Jeff Bezos, Stanford University computer science professor David Cheriton, and entrepreneur Ram Shriram.[41] Between these initial investors, friends, and family Google raised around $1,000,000, which is what allowed them to open up their original shop in Menlo Park, California.[42]
+
+After some additional, small investments through the end of 1998 to early 1999,[41] a new $25 million round of funding was announced on June 7, 1999,[43] with major investors including the venture capital firms Kleiner Perkins and Sequoia Capital.[40]
+
+Growth
+In March 1999, the company moved its offices to Palo Alto, California,[44] which is home to several prominent Silicon Valley technology start-ups.[45] The next year, Google began selling advertisements associated with search keywords against Page and Brin's initial opposition toward an advertising-funded search engine.[46][19] To maintain an uncluttered page design, advertisements were solely text-based.[47] In June 2000, it was announced that Google would become the default search engine provider for Yahoo!, one of the most popular websites at the time, replacing Inktomi.[48][49]
+
+Google's first servers, showing lots of exposed wiring and circuit boards
+Google's first production server.[50]
+In 2003, after outgrowing two other locations, the company leased an office complex from Silicon Graphics, at 1600 Amphitheatre Parkway in Mountain View, California.[51] The complex became known as the Googleplex, a play on the word googolplex, the number one followed by a googol zeroes. Three years later, Google bought the property from SGI for $319 million.[52] By that time, the name "Google" had found its way into everyday language, causing the verb "google" to be added to the Merriam-Webster Collegiate Dictionary and the Oxford English Dictionary, denoted as: "to use the Google search engine to obtain information on the Internet".[53][54] The first use of the verb on television appeared in an October 2002 episode of Buffy the Vampire Slayer.[55]
+
+Additionally, in 2001 Google's Investors felt the need to have a strong internal management, and they agreed to hire Eric Schmidt as the chairman and CEO of Google[56]
+
+Initial public offering
+On August 19, 2004, Google became a public company via an initial public offering. At that time Larry Page, Sergey Brin, and Eric Schmidt agreed to work together at Google for 20 years, until the year 2024.[57] The company offered 19,605,052 shares at a price of $85 per share.[58][59] Shares were sold in an online auction format using a system built by Morgan Stanley and Credit Suisse, underwriters for the deal.[60][61] The sale of $1.67 billion gave Google a market capitalization of more than $23 billion.[62]
+
+
+Eric Schmidt, CEO of Google from 2001 to 2011
+On November 13, 2006, Google acquired YouTube for $1.65 billion in Google stock,[63][64][65][66] On March 11, 2008, Google acquired DoubleClick for $3.1 billion, transferring to Google valuable relationships that DoubleClick had with Web publishers and advertising agencies.[67][68]
+
+In May 2011, the number of monthly unique visitors to Google surpassed one billion for the first time.[69][70]
+
+By 2011, Google was handling approximately 3 billion searches per day. To handle this workload, Google built 11 data centers around the world with several thousand servers in each. These data centers allowed Google to handle the ever-changing workload more efficiently.[56]
+
+In May 2012, Google acquired Motorola Mobility for $12.5 billion, in its largest acquisition to date.[71][72][73] This purchase was made in part to help Google gain Motorola's considerable patent portfolio on mobile phones and wireless technologies, to help protect Google in its ongoing patent disputes with other companies,[74] mainly Apple and Microsoft,[75] and to allow it to continue to freely offer Android.[76]
+
+2012 onward
+In June 2013, Google acquired Waze, a $966 million deal.[77] While Waze would remain an independent entity, its social features, such as its crowdsourced location platform, were reportedly valuable integrations between Waze and Google Maps, Google's own mapping service.[78]
+
+Google announced the launch of a new company, called Calico, on September 19, 2013, to be led by Apple Inc. chairman Arthur Levinson. In the official public statement, Page explained that the "health and well-being" company would focus on "the challenge of ageing and associated diseases".[79]
+
+
+Entrance of building where Google and its subsidiary Deep Mind are located at 6 Pancras Square, London
+On January 26, 2014, Google announced it had agreed to acquire DeepMind Technologies, a privately held artificial intelligence company from London.[80] Technology news website Recode reported that the company was purchased for $400 million though it was not disclosed where the information came from. A Google spokesman would not comment of the price.[81][82] The purchase of DeepMind aids in Google's recent growth in the artificial intelligence and robotics community.[83]
+
+According to Interbrand's annual Best Global Brands report, Google has been the second most valuable brand in the world (behind Apple Inc.) in 2013,[84] 2014,[85] 2015,[86] and 2016, with a valuation of $133 billion.[87]
+
+On August 10, 2015, Google announced plans to reorganize its various interests as a conglomerate named Alphabet Inc. Google became Alphabet's largest subsidiary and the umbrella company for Alphabet's Internet interests. Upon completion of the restructuring, Sundar Pichai became CEO of Google, replacing Larry Page, who became CEO of Alphabet.[88][89][90]
+
+
+Current Google CEO, Sundar Pichai, with Prime Minister of India, Narendra Modi
+On August 8, 2017, Google fired employee James Damore after he distributed a memo throughout the company which argued that bias and "Google's Ideological Echo Chamber" clouded their thinking about diversity and inclusion, and that it is also biological factors, not discrimination alone, that cause the average woman to be less interested than men in technical positions.[91] Google CEO Sundar Pichai accused Damore in violating company policy by "advancing harmful gender stereotypes in our workplace", and he was fired on the same day.[92][93][94] New York Times columnist David Brooks argued Pichai had mishandled the case, and called for his resignation.[95][96]
+
+Between 2018 and 2019, tensions between the company's leadership and its workers escalated as staff protested company decisions on internal sexual harassment, Dragonfly, a censored Chinese search engine, and Project Maven, a military drone artificial intelligence, which had been seen as areas of revenue growth for the company.[97][98] On October 25, 2018, The New York Times published the exposé, "How Google Protected Andy Rubin, the ‘Father of Android’". The company subsequently announced that "48 employees have been fired over the last two years" for sexual misconduct.[99] On November 1, 2018, more than 20,000 Google employees and contractors staged a global walk-out to protest the company's handling of sexual harassment complaints.[100][101] Later in 2019, some workers accused the company of retaliating against internal activists.[98]
+
+On March 19, 2019, Google announced that it would enter the video game market, launching a cloud gaming platform called Google Stadia.[102]
+
+On June 3, 2019, the United States Department of Justice reported that it would investigate Google for antitrust violations.[103] This led to the filing of an antitrust lawsuit in October 2020, on the grounds the company had abused a monopoly position in the search and search advertising markets.[104]
+
+In December 2019, former PayPal chief operating officer Bill Ready became Google's new commerce chief. Ready's role will not be directly involved with Google Pay.[105]
+
+In April 2020, due to the COVID-19 pandemic, Google announced several cost-cutting measures. Such measures included slowing down hiring for the remainder of 2020, except for a small number of strategic areas, recalibrating the focus and pace of investments in areas like data centers and machines, and non-business essential marketing and travel.[106]
+
+The 2020 Google services outages disrupted Google services: one in August that affected Google Drive among others, another in November affecting YouTube, and a third in December affecting the entire suite of Google applications. All three outages were resolved within hours.[107][108][109]
+
+In January 2021, the Australian Government proposed legislation that would require Google and Facebook to pay media companies for the right to use their content. In response, Google threatened to close off access to its search engine in Australia.[110]
+
+In March 2021, Google reportedly paid $20 million for Ubisoft ports on Google Stadia.[111] Google spent "tens of millions of dollars" on getting major publishers such as Ubisoft and Take-Two to bring some of their biggest games to Stadia.
+
+In April 2021, The Wall Street Journal reported that Google ran a years-long program called 'Project Bernanke' that used data from past advertising bids to gain an advantage over competing ad services. This was revealed in documents concerning the antitrust lawsuit filed by ten US states against Google in December.[112]
+
+Products and services
+Main article: List of Google products
+Search engine
+Main articles: Google Search and Google Images
+Google indexes billions of web pages to allow users to search for the information they desire through the use of keywords and operators.[113] According to comScore market research from November 2009, Google Search is the dominant search engine in the United States market, with a market share of 65.6%.[114] In May 2017, Google enabled a new "Personal" tab in Google Search, letting users search for content in their Google accounts' various services, including email messages from Gmail and photos from Google Photos.[115][116]
+
+Google launched its Google News service in 2002, an automated service which summarizes news articles from various websites.[117] Google also hosts Google Books, a service which searches the text found in books in its database and shows limited previews or and the full book where allowed.[118]
+
+Advertising
+
+Google on ad-tech London, 2010
+Google generates most of its revenues from advertising. This includes sales of apps, purchases made in-app, digital content products on Google and YouTube, Android and licensing and service fees, including fees received for Google Cloud offerings. Forty-six percent of this profit was from clicks (cost per clicks), amounting to US$109,652 million in 2017. This includes three principal methods, namely AdMob, AdSense (such as AdSense for Content, AdSense for Search, etc.) and DoubleClick AdExchange.[119]
+
+In addition to its own algorithms for understanding search requests, Google uses technology its acquisition of DoubleClick, to project user interest and target advertising to the search context and the user history.[120][121]
+
+In 2007, Google launched "AdSense for Mobile", taking advantage of the emerging mobile advertising market.[122]
+
+Google Analytics allows website owners to track where and how people use their website, for example by examining click rates for all the links on a page.[123] Google advertisements can be placed on third-party websites in a two-part program. Google Ads allows advertisers to display their advertisements in the Google content network, through a cost-per-click scheme.[124] The sister service, Google AdSense, allows website owners to display these advertisements on their website and earn money every time ads are clicked.[125] One of the criticisms of this program is the possibility of click fraud, which occurs when a person or automated script clicks on advertisements without being interested in the product, causing the advertiser to pay money to Google unduly. Industry reports in 2006 claimed that approximately 14 to 20 percent of clicks were fraudulent or invalid.[126] Google Search Console (rebranded from Google Webmaster Tools in May 2015) allows webmasters to check the sitemap, crawl rate, and for security issues of their websites, as well as optimize their website's visibility.
+
+Consumer services
+Web-based services
+Google offers Gmail for email,[127] Google Calendar for time-management and scheduling,[128] Google Maps for mapping, navigation and satellite imagery,[129] Google Drive for cloud storage of files,[130] Google Docs, Sheets and Slides for productivity,[130] Google Photos for photo storage and sharing,[131] Google Keep for note-taking,[132] Google Translate for language translation,[133] YouTube for video viewing and sharing,[134] Google My Business for managing public business information,[135] and Duo for social interaction.[136] In March 2019, Google unveiled a cloud gaming service named Stadia.[102] A job search product has also existed since before 2017,[137][138][139] Google for Jobs is an enhanced search feature that aggregates listings from job boards and career sites.[140][141]
+
+Some Google services are not web-based. Google Earth, launched in 2005, allowed users to see high-definition satellite pictures from all over the world for free through a client software downloaded to their computers.[142]
+
+Google web-based services
+
+Ads
+
+ 
+
+Blogger
+
+ 
+
+Clasroom
+
+ 
+
+Docs
+
+ 
+
+Meet
+
+ 
+
+Drive
+
+ 
+
+Duo
+
+ 
+
+Earth
+
+ 
+
+Gmail
+
+ 
+
+Keep
+
+ 
+
+One
+
+ 
+
+Maps
+
+ 
+
+News
+
+ 
+
+Photos
+
+ 
+
+Shopping
+
+ 
+
+Stadia
+
+ 
+
+Translate
+
+ 
+
+YouTube
+
+Software
+Google develops the Android mobile operating system,[143] as well as its smartwatch,[144] television,[145] car,[146] and Internet of things-enabled smart devices variations.[147]
+
+It also develops the Google Chrome web browser,[148] and Chrome OS, an operating system based on Chrome.[149]
+
+Google software products
+
+Android
+
+ 
+
+Android Auto
+
+ 
+
+Android TV
+
+ 
+
+Cast
+
+ 
+
+Chrome
+
+ 
+
+Fuchsia
+
+ 
+
+Wear OS
+
+Hardware
+
+Google Pixel smartphones on display in a store
+In January 2010, Google released Nexus One, the first Android phone under its own brand.[150] It spawned a number of phones and tablets under the "Nexus" branding[151] until its eventual discontinuation in 2016, replaced by a new brand called Pixel.[152]
+
+In 2011, the Chromebook was introduced, which runs on Chrome OS.[153]
+
+In July 2013, Google introduced the Chromecast dongle, which allows users to stream content from their smartphones to televisions.[154][155]
+
+In June 2014, Google announced Google Cardboard, a simple cardboard viewer that lets user place their smartphone in a special front compartment to view virtual reality (VR) media.[156][157]
+
+Other hardware products include:
+
+Nest, a series of voice assistant smart speakers that can answer voice queries, play music, find information from apps (calendar, weather etc.), and control third-party smart home appliances (users can tell it to turn on the lights, for example). The Google Nest line includes the original Google Home[158] (later succeeded by the Nest Audio), the Google Home Mini (later succeeded by the Nest Mini, the Google Home Max, the Google Home Hub (later rebranded as the Nest Hub), and the Nest Hub Max.
+Nest Wifi (originally Google Wifi), a connected set of Wi-Fi routers to simplify and extend coverage of home Wi-Fi.[159]
+Google hardware products
+
+Cardboard
+
+ 
+
+Chromebook Pixel
+
+ 
+
+Chromecast
+
+ 
+
+Daydream View
+
+ 
+
+Fitbit
+
+ 
+
+Galaxy Nexus
+
+ 
+
+Nexus 9
+
+ 
+
+Nest
+
+ 
+
+Nest Hello
+
+ 
+
+Nest Thermostat
+
+ 
+
+Nest Wifi
+
+ 
+
+Pixel
+
+ 
+
+Pixelbook
+
+ 
+
+Pixel Buds
+
+ 
+
+Pixel Slate
+
+ 
+
+Stadia Controller
+
+Enterprise services
+Main articles: Google Workspace and Google Cloud Platform
+Google Workspace, (formerly G Suite until October 2020[160]) is a monthly subscription offering for organizations and businesses to get access to a collection of Google's services, including Gmail, Google Drive and Google Docs, Google Sheets and Google Slides, with additional administrative tools, unique domain names, and 24/7 support.[161]
+
+On September 24, 2012,[162] Google launched Google for Entrepreneurs, a largely not-for-profit business incubator providing startups with co-working spaces known as Campuses, with assistance to startup founders that may include workshops, conferences, and mentorships.[163] Presently, there are 7 Campus locations in Berlin, London, Madrid, Seoul, São Paulo, Tel Aviv, and Warsaw.
+
+On March 15, 2016, Google announced the introduction of Google Analytics 360 Suite, "a set of integrated data and marketing analytics products, designed specifically for the needs of enterprise-class marketers" which can be integrated with BigQuery on the Google Cloud Platform. Among other things, the suite is designed to help "enterprise class marketers" "see the complete customer journey", generate "useful insights", and "deliver engaging experiences to the right people".[164] Jack Marshall of The Wall Street Journal wrote that the suite competes with existing marketing cloud offerings by companies including Adobe, Oracle, Salesforce, and IBM.[165]
+
+Internet services
+In February 2010, Google announced the Google Fiber project, with experimental plans to build an ultra-high-speed broadband network for 50,000 to 500,000 customers in one or more American cities.[166][167] Following Google's corporate restructure to make Alphabet Inc. its parent company, Google Fiber was moved to Alphabet's Access division.[168][169]
+
+In April 2015, Google announced Project Fi, a mobile virtual network operator, that combines Wi-Fi and cellular networks from different telecommunication providers in an effort to enable seamless connectivity and fast Internet signal.[170][171]
+
+Corporate affairs
+Stock price performance and quarterly earnings
+Google's initial public offering (IPO) took place on August 19, 2004. At IPO, the company offered 19,605,052 shares at a price of $85 per share.[58][59] The sale of $1.67 billion gave Google a market capitalization of more than $23 billion.[62] The stock performed well after the IPO, with shares hitting $350 for the first time on October 31, 2007,[172] primarily because of strong sales and earnings in the online advertising market.[173] The surge in stock price was fueled mainly by individual investors, as opposed to large institutional investors and mutual funds.[173] GOOG shares split into GOOG class C shares and GOOGL class A shares.[174] The company is listed on the NASDAQ stock exchange under the ticker symbols GOOGL and GOOG, and on the Frankfurt Stock Exchange under the ticker symbol GGQ1. These ticker symbols now refer to Alphabet Inc., Google's holding company, since the fourth quarter of 2015.[175]
+
+In the third-quarter of 2005, Google reported a 700% increase in profit, largely due to large companies shifting their advertising strategies from newspapers, magazines, and television to the Internet.[176][177][178]
+
+For the 2006 fiscal year, the company reported $10.492 billion in total advertising revenues and only $112 million in licensing and other revenues.[179] In 2011, 96% of Google's revenue was derived from its advertising programs.[180]
+
+The year 2012 was the first time that Google generated $50 billion in annual revenue for the first time in 2012, generating $38 billion the previous year. In January 2013, then-CEO Larry Page commented, "We ended 2012 with a strong quarter ... Revenues were up 36% year-on-year, and 8% quarter-on-quarter. And we hit $50 billion in revenues for the first time last year – not a bad achievement in just a decade and a half."[181]
+
+Google's consolidated revenue for the third quarter of 2013 was reported in mid-October 2013 as $14.89 billion, a 12 percent increase compared to the previous quarter.[182] Google's Internet business was responsible for $10.8 billion of this total, with an increase in the number of users' clicks on advertisements.[183] By January 2014, Google's market capitalization had grown to $397 billion.[184]
+
+Tax avoidance strategies
+Further information: Corporation tax in the Republic of Ireland § Multinational tax schemes, and Google tax
+Google uses various tax avoidance strategies. On the list of the largest information technology companies, it pays the lowest taxes to the countries of origin of its revenues. Google between 2007 and 2010 saved $3.1 billion in taxes by shuttling non-U.S. profits through Ireland and the Netherlands and then to Bermuda. Such techniques lower its non-U.S. tax rate to 2.3 per cent, while normally the corporate tax rate in for instance the UK is 28 per cent.[185] This has reportedly sparked a French investigation into Google's transfer pricing practices.[186]
+
+Google said it overhauled its controversial global tax structure and consolidated all of its intellectual property holdings back to the US.[187]
+
+Google Vice-President Matt Brittin testified to the Public Accounts Committee of the UK House of Commons that his UK sales team made no sales and hence owed no sales taxes to the UK.[188] In January 2016, Google reached a settlement with the UK to pay £130m in back taxes plus higher taxes in future.[189] In 2017, Google channeled $22.7 billion from the Netherlands to Bermuda to reduce its tax bill.[190]
+
+In 2013, Google ranked 5th in lobbying spending, up from 213th in 2003. In 2012, the company ranked 2nd in campaign donations of technology and Internet sections.[191]
+
+Corporate identity
+Further information: History of Google § Name, Google (verb), Google logo, Google Doodle, List of Google April Fools' Day jokes, and List of Google Easter eggs
+
+Google's logo from 2013 to 2015
+The name "Google" originated from a misspelling of "googol",[192][193] which refers to the number represented by a 1 followed by one-hundred zeros. Page and Brin write in their original paper on PageRank:[29] "We chose our systems name, Google, because it is a common spelling of googol, or 10100 and fits well with our goal of building very large-scale search engines." Having found its way increasingly into everyday language, the verb "google" was added to the Merriam Webster Collegiate Dictionary and the Oxford English Dictionary in 2006, meaning "to use the Google search engine to obtain information on the Internet."[194][195] Google's mission statement, from the outset, was "to organize the world's information and make it universally accessible and useful",[196] and its unofficial slogan is "Don't be evil".[197] In October 2015, a related motto was adopted in the Alphabet corporate code of conduct by the phrase: "Do the right thing".[198] The original motto was retained in the code of conduct of Google, now a subsidiary of Alphabet.
+
+The original Google logo was designed by Sergey Brin.[199] Since 1998, Google has been designing special, temporary alternate logos to place on their homepage intended to celebrate holidays, events, achievements and people. The first Google Doodle was in honor of the Burning Man Festival of 1998.[200][201] The doodle was designed by Larry Page and Sergey Brin to notify users of their absence in case the servers crashed. Subsequent Google Doodles were designed by an outside contractor, until Larry and Sergey asked then-intern Dennis Hwang to design a logo for Bastille Day in 2000. From that point onward, Doodles have been organized and created by a team of employees termed "Doodlers".[202]
+
+Google has a tradition of creating April Fools' Day jokes. Its first on April 1, 2000, was Google MentalPlex which allegedly featured the use of mental power to search the web.[203] In 2007, Google announced a free Internet service called TiSP, or Toilet Internet Service Provider, where one obtained a connection by flushing one end of a fiber-optic cable down their toilet.[204]
+
+Google's services contain easter eggs, such as the Swedish Chef's "Bork bork bork," Pig Latin, "Hacker" or leetspeak, Elmer Fudd, Pirate, and Klingon as language selections for its search engine.[205] When searching for the word "anagram," meaning a rearrangement of letters from one word to form other valid words, Google's suggestion feature displays "Did you mean: nag a ram?"[206]
+
+Workplace culture
+
+Google employees marching in the Pride in London parade in 2016
+On Fortune magazine's list of the best companies to work for, Google ranked first in 2007, 2008 and 2012,[207][208][209] and fourth in 2009 and 2010.[210][211] Google was also nominated in 2010 to be the world's most attractive employer to graduating students in the Universum Communications talent attraction index.[212] Google's corporate philosophy includes principles such as "you can make money without doing evil," "you can be serious without a suit," and "work should be challenging and the challenge should be fun."[213]
+
+As of September 30, 2020, Alphabet Inc. had 132,121 employees,[214] of which more than 100,000 worked for Google.[8] Google's 2020 diversity report states that 32 percent of its workforce are women and 68 percent are men, with the ethnicity of its workforce being predominantly white (51.7%) and Asian (41.9%).[215] Within tech roles, 23.6 percent were women; and 26.7 percent of leadership roles were held by women.[216] In addition to its 100,000+ full-time employees, Google used about 121,000 temporary workers and contractors, as of March 2019.[8]
+
+Google's employees are hired based on a hierarchical system. Employees are split into six hierarchies based on experience and can range "from entry-level data center workers at level one to managers and experienced engineers at level six."[217] As a motivation technique, Google uses a policy known as Innovation Time Off, where Google engineers are encouraged to spend 20% of their work time on projects that interest them. Some of Google's services, such as Gmail, Google News, Orkut, and AdSense originated from these independent endeavors.[218] In a talk at Stanford University, Marissa Mayer, Google's Vice-President of Search Products and User Experience until July 2012, showed that half of all new product launches in the second half of 2005 had originated from the Innovation Time Off.[219]
+
+In 2005, articles in The New York Times[220] and other sources began suggesting that Google had lost its anti-corporate, no evil philosophy.[221][222][223] In an effort to maintain the company's unique culture, Google designated a Chief Culture Officer whose purpose was to develop and maintain the culture and work on ways to keep true to the core values that the company was founded on.[224] Google has also faced allegations of sexism and ageism from former employees.[225][226] In 2013, a class action against several Silicon Valley companies, including Google, was filed for alleged "no cold call" agreements which restrained the recruitment of high-tech employees.[227] In a lawsuit filed January 8, 2018, multiple employees and job applicants alleged Google discriminated against a class defined by their “conservative political views[,] male gender[,] and/or […] Caucasian or Asian race”.[228]
+
+On January 25, 2020, the formation of an international workers union of Google employees, Alpha Global, was announced.[229] The coalition is made up of "13 different unions representing workers in 10 countries, including the United States, United Kingdom, and Switzerland."[230] The group is affiliated with UNI Global Union, which represents nearly 20 million international workers from various unions and federations. The formation of the union is in response to persistent allegations of mistreatment of Google employees and a toxic workplace culture.[230][231][228] Google had previously been accused of surveilling and firing employees who were suspected of organizing a workers union.[232]
+
+Office locations
+Further information: Googleplex
+
+Google's New York City office building houses its largest advertising sales team.
+
+Google's Toronto office.
+Google's headquarters in Mountain View, California is referred to as "the Googleplex", a play on words on the number googolplex and the headquarters itself being a complex of buildings. Internationally, Google has over 78 offices in more than 50 countries.[233]
+
+In 2006, Google moved into about 300,000 square feet (27,900 m2) of office space at 111 Eighth Avenue in Manhattan, New York City. The office was designed and built specially for Google, and houses its largest advertising sales team.[234] In 2010, Google bought the building housing the headquarter, in a deal that valued the property at around $1.9 billion.[235][236] In March 2018, Google's parent company Alphabet bought the nearby Chelsea Market building for $2.4 billion. The sale is touted as one of the most expensive real estate transactions for a single building in the history of New York.[237][238][239][240] In November 2018, Google announced its plan to expand its New York City office to a capacity of 12,000 employees.[241] The same December, it was announced that a $1 billion, 1,700,000-square-foot (160,000 m2) headquarters for Google would be built in Manhattan's Hudson Square neighborhood.[242][243] Called Google Hudson Square, the new campus is projected to more than double the number of Google employees working in New York City.[244]
+
+By late 2006, Google established a new headquarters for its AdWords division in Ann Arbor, Michigan.[245] In November 2006, Google opened offices on Carnegie Mellon's campus in Pittsburgh, focusing on shopping-related advertisement coding and smartphone applications and programs.[246][247] Other office locations in the U.S. include Atlanta, Georgia; Austin, Texas; Boulder, Colorado; Cambridge, Massachusetts; San Francisco, California; Seattle, Washington; Kirkland, Washington; Birmingham, Michigan; Reston, Virginia, and Washington, D.C.[248]
+
+
+Google's Dublin Ireland office, headquarters of Google Ads for Europe
+It also has product research and development operations in cities around the world, namely Sydney (birthplace location of Google Maps)[249] and London (part of Android development).[250] In November 2013, Google announced plans for a new London headquarter, a 1 million square foot office able to accommodate 4,500 employees. Recognized as one of the biggest ever commercial property acquisitions at the time of the deal's announcement in January,[251] Google submitted plans for the new headquarter to the Camden Council in June 2017.[252][253] In May 2015, Google announced its intention to create its own campus in Hyderabad, India. The new campus, reported to be the company's largest outside the United States, will accommodate 13,000 employees.[254][255]
+
+Google's Global Offices sum a total of 85 Locations worldwide,[256] with 32 offices in North America, 3 of them in Canada and 29 in United States Territory, California being the state with the most Google's offices with 9 in total including the Googleplex. In the Latin America Region Google counts with 6 offices,in Europe 24 (3 of them in UK),The Asia Pacific region counts with 18 offices principally in India and China, and the Africa Middle East region counts 5 offices.
+
+North America
+Ann Arbor  Michigan
+Atlanta  Georgia
+North America
+Austin  Texas
+North America
+Boulder  Colorado
+Boulder – Pearl Place  Colorado
+Boulder – Walnut  Colorado
+North America
+Boulder  Colorado
+North America
+Boulder  Colorado
+Boulder – Pearl Place  Colorado
+Boulder – Walnut  Colorado
+Cambridge  Massachusetts
+Boulder – Pearl Place  Colorado
+Boulder – Walnut  Colorado
+Cambridge  Massachusetts
+Cambridge  Massachusetts
+Chapel Hill  North Carolina
+Chicago – Carpenter  Illinois
+Chicago – Fulton Market  Illinois
+Detroit  Michigan
+Irvine  California
+Kirkland  Washington
+Kitchener  Canada
+Los Angeles  California
+Madison  Wisconsin
+Miami  Florida
+Montreal  Canada
+Mountain View  California
+New York  New York
+Pittsburgh  Pennsylvania
+Playa Vista  California
+Portland  Oregon
+Redwood City  California
+Reston  Virginia
+San Bruno  California
+San Diego  California
+San Francisco  California
+Seattle  Washington
+Sunnyvale  California
+Toronto  Canada
+Washington DC  District of Columbia
+Latin America
+Belo Horizonte  Brazil
+Bogota  Colombia
+Buenos Aires  Argentina
+Mexico City  Mexico
+Santiago  Chile
+Sao Paulo  Brazil
+Europe
+Aarhus  Denmark
+Amsterdam
+Athens  Greece
+Berlin  Germany
+Brussels  Belgium
+Copenhagen  Denmark
+Dublin  Ireland
+Hamburg  Germany
+Lisbon  Portugal
+London – 6PS  United Kingdom
+London – BEL  United Kingdom
+London – CSG  United Kingdom
+Madrid  Spain
+Milan  Italy
+Moscow  Russia
+Munich  Germany
+Oslo  Norway
+Paris  France
+Prague  Czech Republic
+Stockholm  Sweden
+Vienna  Austria
+Warsaw  Poland
+Wroclaw  Poland
+Zurich   Switzerland
+Asia Pacific
+Bangalore  India
+Bangkok  Thailand
+Beijing  China
+Guangzhou  China
+Gurgaon  India
+Hong Kong  Hong Kong
+Hyderabad  India
+Jakarta  Indonesia
+Kuala Lumpur  Malaysia
+Melbourne  Australia
+Mumbai  India
+Seoul  South Korea
+Shanghai  China
+Singapore  Singapore
+Sydney  Australia
+Taipei  Taiwan
+Tokyo – RPG  Japan
+Tokyo – STRM  Japan
+Africa & Middle East
+Dubai  United Arab Emirates
+Haifa  Israel
+Istanbul  Turkey
+Johannesburg  South Africa
+Tel Aviv  Israel
+Infrastructure
+Further information: Google data centers
+Google data centers are located in North and South America, Asia, and Europe.[257] There is no official data on the number of servers in Google data centers; however, research and advisory firm Gartner estimated in a July 2016 report that Google at the time had 2.5 million servers.[258] Traditionally, Google relied on parallel computing on commodity hardware like mainstream x86 computers (similar to home PCs) to keep costs per query low.[259][260][261] In 2005, it started developing its own designs, which were only revealed in 2009.[261]
+
+Google built its own private submarine communications cables; the first, named Curie, connects California with Chile and was completed on November 15, 2019.[262][263] The second fully Google-owned undersea cable, named Dunant, connects the United States with France and is planned to begin operation in 2020.[264] Google's third subsea cable, Equiano, will connect Lisbon, Portugal with Lagos, Nigeria and Cape Town, South Africa.[265] The company's fourth cable, named Grace Hopper, connects landing points in New York, US, Bude, UK and Bilbao, Spain, and is expected to become operational in 2022.[266]
+
+Environment
+In October 2006, the company announced plans to install thousands of solar panels to provide up to 1.6 Megawatt of electricity, enough to satisfy approximately 30% of the campus' energy needs.[267][268] The system is the largest rooftop photovoltaic power station constructed on a U.S. corporate campus and one of the largest on any corporate site in the world.[267] Since 2007, Google has aimed for carbon neutrality in regard to its operations.[269]
+
+Google disclosed in September 2011 that it "continuously uses enough electricity to power 200,000 homes", almost 260 million watts or about a quarter of the output of a nuclear power plant. Total carbon emissions for 2010 were just under 1.5 million metric tons, mostly due to fossil fuels that provide electricity for the data centers. Google said that 25 percent of its energy was supplied by renewable fuels in 2010. An average search uses only 0.3 watt-hours of electricity, so all global searches are only 12.5 million watts or 5% of the total electricity consumption by Google.[270]
+
+In 2010, Google Energy made its first investment in a renewable energy project, putting $38.8 million into two wind farms in North Dakota. The company announced the two locations will generate 169.5 megawatts of power, enough to supply 55,000 homes.[271] In February 2010, the Federal Energy Regulatory Commission FERC granted Google an authorization to buy and sell energy at market rates.[272] The corporation exercised this authorization in September 2013 when it announced it would purchase all the electricity produced by the not-yet-built 240-megawatt Happy Hereford wind farm.[273]
+
+In July 2010, Google signed an agreement with an Lowa wind farm to buy 114 megawatts of power for 20 years.[274]
+
+In December 2016, Google announced that—starting in 2017—it would purchase enough renewable energy to match 100% of the energy usage of its data centers and offices. The commitment will make Google "the world's largest corporate buyer of renewable power, with commitments reaching 2.6 gigawatts (2,600 megawatts) of wind and solar energy".[275][276][277]
+
+In November 2017, Google bought 536 megawatts of wind power. The purchase made the firm reach 100% renewable energy. The wind energy comes from two power plants in South Dakota, one in Iowa and one in Oklahoma.[278] In September 2019, Google's chief executive announced plans for a $2 billion wind and solar investment, the biggest renewable energy deal in corporate history. This will grow their green energy profile by 40%, giving them an extra 1.6 gigawatt of clean energy, the company said.[279]
+
+In September 2020, Google announced it had retroactively offset all of its carbon emissions since the company's foundation in 1998.[280] It also committed to operating its data centers and offices using only carbon-free energy by 2030.[281] In October 2020, the company pledged to make the packaging for its hardware products 100% plastic-free and 100% recyclable by 2025. It also said that all its final assembly manufacturing sites will achieve a UL 2799 Zero Waste to Landfill certification by 2022 by ensuring that the vast majority of waste from the manufacturing process is recycled instead of ending up in a landfill.[282]
+
+Google donates to politicians who deny climate change, including Jim Inhofe, and sponsors climate change denial political groups including the State Policy Network and the Competitive Enterprise Institute.[283][284][285]
+
+Philanthropy
+Main article: Google.org
+In 2004, Google formed the not-for-profit philanthropic Google.org, with a start-up fund of $1 billion.[286] The mission of the organization is to create awareness about climate change, global public health, and global poverty. One of its first projects was to develop a viable plug-in hybrid electric vehicle that can attain 100 miles per gallon. Google hired Larry Brilliant as the program's executive director in 2004[287] and Megan Smith has since replaced him as director.[288]
+
+In 2008, Google announced its "project 10100" which accepted ideas for how to help the community and then allowed Google users to vote on their favorites.[289] After two years of silence, during which many wondered what had happened to the program,[290] Google revealed the winners of the project, giving a total of ten million dollars to various ideas ranging from non-profit organizations that promote education to a website that intends to make all legal documents public and online.[291]
+
+In March 2007, in partnership with the Mathematical Sciences Research Institute (MSRI), Google hosted the first Julia Robinson Mathematics Festival at its headquarters in Mountain View.[292] In 2011, Google donated 1 million euros to International Mathematical Olympiad to support the next five annual International Mathematical Olympiads (2011–2015).[293][294] In July 2012, Google launched a "Legalize Love" campaign in support of gay rights.[295]
+
+Criticism and controversies
+Main articles: Criticism of Google, Censorship by Google, and Privacy concerns regarding Google
+
+This section should include a better summary of Criticism of Google. See Wikipedia:Summary style for information on how to properly incorporate it into this article's main text. (April 2019)
+
+San Francisco activists protest privately owned shuttle buses that transport workers for tech companies such as Google from their homes in San Francisco and Oakland to corporate campuses in Silicon Valley.
+Google's market dominance has led to prominent media coverage, including criticism of Google over issues such as aggressive tax avoidance,[296] search neutrality, copyright, censorship of search results and content,[297] and privacy.[298][299] Other criticisms include alleged misuse and manipulation of search results, its use of others' intellectual property, concerns that its compilation of data may violate people's privacy, and the energy consumption of its servers, as well as concerns over traditional business issues such as monopoly, restraint of trade, anti-competitive practices, and patent infringement.
+
+Google formerly complied with Internet censorship policies of the People's Republic of China,[300] enforced by means of filters colloquially known as "The Great Firewall of China", but no longer does so. As a result, all Google services except for Chinese Google Maps are blocked from access within mainland China without the aid of virtual private networks (VPNs), proxy servers, or other similar technologies. In August 2018, The Intercept reported that Google is developing for the People's Republic of China a censored version of its search engine (known as Dragonfly) "that will blacklist websites and search terms about human rights, democracy, religion, and peaceful protest".[301][302] However, the project had been withheld due to privacy concerns.[303]
+
+Following media reports about PRISM, the NSA's massive electronic surveillance program, in June 2013, several technology companies were identified as participants, including Google.[304] According to unnamed sources, Google joined the PRISM program in 2009, as did its wholly-owned subsidiary YouTube in 2010.[305]
+
+Google has worked with the United States Department of Defense on drone software through the 2017 Project Maven that could be used to improve the accuracy of drone strikes.[306] In April 2018, thousands of Google employees, including senior engineers, signed a letter urging Google CEO Sundar Pichai to end this controversial contract with the Pentagon.[307] Google ultimately decided not to renew this DoD contract, which was set to expire in 2019.[308]
+
+In 2019, a hub for critics of Google dedicated to abstaining from using Google products coalesced in the Reddit online community /r/degoogle.[309] The DeGoogle grassroots campaign continues to grow as privacy activists highlight information about Google products, and the associated incursion on personal privacy rights by the company.
+
+In July 2018, Mozilla program manager Chris Peterson accused Google of intentionally slowing down YouTube performance on Firefox.[310][311] In April 2019, former Mozilla executive Jonathan Nightingale accused Google of intentionally and systematically sabotaging the Firefox browser over the past decade in order to boost adoption of Google Chrome.[312]
+
+In November 2019, the Office for Civil Rights of the United States Department of Health and Human Services began investigation into Project Nightingale, to assess whether the "mass collection of individuals’ medical records" complied with HIPAA.[313] According to The Wall Street Journal, Google secretively began the project in 2018, with St. Louis-based healthcare company Ascension.[314]
+
+Anti-trust, privacy, and other litigation
+Main article: Google litigation
+
+The European Commission, which imposed three fines on Google in 2017, 2018 and 2019
+Google has been involved in a number of lawsuits including the High-Tech Employee Antitrust Litigation which resulted in Google being one of four companies to pay a $415 million settlement to employees.[315]
+
+On June 27, 2017, the company received a record fine of €2.42 billion from the European Union for "promoting its own shopping comparison service at the top of search results."[316] Commenting on the penalty, New Scientist magazine said:
+
+"The hefty sum – the largest ever doled out by the EU's competition regulators – will sting in the short term, but Google can handle it. Alphabet, Google’s parent company, made a profit of $2.5 billion (€2.2 billion) in the first six weeks of 2017 alone. The real impact of the ruling is that Google must stop using its dominance as a search engine to give itself the edge in another market: online price comparisons."
+
+Google (Alphabet) disputed the ruling.[317] The hearing at the General Court of Luxembourg was scheduled for 2020. The court is going to deliver the ultimate judgment by the end of the year.[318]
+
+On July 18, 2018,[319] the European Commission fined Google €4.34 billion for breaching EU antitrust rules. The abuse of dominant position has been referred to Google's constraint applied to Android device manufacturers and network operators to ensure that traffic on Android devices goes to the Google search engine. On October 9, 2018, Google confirmed[320] that it had appealed the fine to the General Court of the European Union.[321]
+
+On October 8, 2018, a class action lawsuit was filed against Google and Alphabet due to "non-public" Google+ account data being exposed as a result of a bug that allowed app developers to gain access to the private information of users. The litigation was settled in July 2020 for $7.5 million with a payout to claimants of at least $5 each, with a maximum of $12 each.[322][323][324]
+
+On January 21, 2019, French data regulator CNIL imposed a record €50 million fine on Google for breaching the European Union's General Data Protection Regulation. The judgment claimed Google had failed to sufficiently inform users of its methods for collecting data to personalize advertising. Google issued a statement saying it was “deeply committed” to transparency and was “studying the decision” before determining its response.[325]
+
+On March 20, 2019, the European Commission imposed a €1.49 billion ($1.69 billion) fine on Google for preventing rivals from being able to “compete and innovate fairly” in the online advertising market.[326] European Union competition commissioner Margrethe Vestager said Google had violated EU antitrust rules by “imposing anti-competitive contractual restrictions on third-party websites” that required them to exclude search results from Google's rivals. Kent Walker, Google's senior vice-president of global affairs, said the company had “already made a wide range of changes to our products to address the Commission’s concerns,” and that "we'll be making further updates to give more visibility to rivals in Europe."[327]
+
+After U.S. Congressional hearings in July 2020,[328] and a report from the U.S. House of Representatives' Antitrust Subcommittee released in early October,[329] the United States Department of Justice filed an antitrust lawsuit against Google on October 20, 2020, asserting that it has illegally maintained its monopoly position in web search and search advertising.[330][331] The lawsuit alleged that Google engaged in anticompetitive behavior by paying Apple between $8 billion and $12 billion to be the default search engine on iPhones.[332] Ken Paxton, the Texas Attorney General leading the suit, stated that "Google is a trillion-dollar monopoly brazenly abusing its monopolistic power, going so far as to induce senior Facebook executives to agree to a contractual scheme that undermines the heart of [the] competitive process." In part, the suit challenges Alphabet's capacity to fairly compete with the company in online advertising. No Democratic politicians joined Mr. Paxion in the suit. The majority of the accusations against Google involve their ad-tech software, of which Google owns the dominant tool at every link in the chain connecting online publishers and advertisers.[333] Later that month, both Facebook and Alphabet agreed to "cooperate and assist one another" in the face of investigation into their online advertising practices.[334][335]
+
+See also
+Outline of Google
+History of Google
+List of mergers and acquisitions by Alphabet
+List of Google products
+Google China
+Google logo
+Googlization
+Google.org
+Google ATAP
+Notes
+ Google was incorporated on September 4, 1998, however, since 2002, the company has celebrated its anniversaries on various days in September, most frequently on September 27.[1][2][3] The shift in dates reportedly happened to celebrate index-size milestones in tandem with the birthday.[4]
+References
+ Fitzpatrick, Alex (September 4, 2014). "Google Used to Be the Company That Did 'Nothing But Search'". Time.
+ Telegraph Reporters (September 27, 2019). "When is Google's birthday – and why are people confused?". The Telegraph.
+ Griffin, Andrew (September 27, 2019). "Google birthday: The one big problem with the company's celebratory doodle". The Independent.
+ Wray, Richard (September 5, 2008). "Happy birthday Google". The Guardian.
+ "Company – Google". January 16, 2015. Archived from the original on January 16, 2015. Retrieved September 13, 2018.
+ Claburn, Thomas (September 24, 2008). "Google Founded By Sergey Brin, Larry Page... And Hubert Chang?!?". InformationWeek. UBM plc. Archived from the original on June 28, 2011. Retrieved January 22, 2017.
+ "Locations— Google Jobs". Archived from the original on September 30, 2013. Retrieved September 27, 2013.
+ Wakabayashi, Daisuke (May 28, 2019). "Google's Shadow Work Force: Temps Who Outnumber Full-Time Employees (Published 2019)". The New York Times. ISSN 0362-4331. Archived from the original on December 18, 2020. Retrieved December 30, 2020.
+ Rivas, Teresa. "Ranking The Big Four Tech Stocks: Google Is No. 1, Apple Comes In Last". www.barrons.com. Archived from the original on December 28, 2018. Retrieved December 27, 2018.
+ Ritholtz, Barry (October 31, 2017). "The Big Four of Technology". Bloomberg L.P. Archived from the original on June 26, 2019. Retrieved December 27, 2018.
+ "What is GAFA (the big four)? - Definition from WhatIs.com". WhatIs.com. Retrieved March 5, 2020.
+ Feiner, Lauren (December 3, 2019). "Larry Page steps down as CEO of Alphabet, Sundar Pichai to take over". CNBC. Retrieved June 16, 2021.
+ "Google employees are forming a union". Android Police. January 4, 2021. Retrieved January 25, 2021.
+ "The top 500 sites on the web". Alexa Internet.
+ "THE WORLD'S VALUABLE BRANDS". Forbes.
+ "BEST GLOBAL BRANDS". Interbrand.
+ "How we started and where we are today - Google". about.google. Archived from the original on April 22, 2020. Retrieved April 24, 2021.
+ Brezina, Corona (2013). Sergey Brin, Larry Page, Eric Schmidt, and Google (1st ed.). New York: Rosen Publishing Group. p. 18. ISBN 9781448869114. LCCN 2011039480.
+ "Our history in depth". Google Company. Archived from the original on April 1, 2012. Retrieved July 15, 2017.
+ Fisher, Adam (July 10, 2018). "Brin, Page, and Mayer on the Accidental Birth of the Company that Changed Everything". Vanity Fair. Archived from the original on July 4, 2019. Retrieved August 23, 2019.
+ McHugh, Josh (January 1, 2003). "Google vs. Evil". Wired. Archived from the original on June 2, 2019. Retrieved August 24, 2019.
+ "Willow Garage Founder Scott Hassan Aims To Build A Startup Village". IEEE Spectrum. September 5, 2014. Archived from the original on August 24, 2019. Retrieved September 1, 2019.
+ D'Onfro, Jillian (February 13, 2016). "How a billionaire who wrote Google's original code created a robot revolution". Business Insider. Archived from the original on August 24, 2019. Retrieved August 24, 2019.
+ Page, Lawrence; Brin, Sergey; Motwani, Rajeev; Winograd, Terry (November 11, 1999). "The PageRank Citation Ranking: Bringing Order to the Web". Stanford University. Archived from the original on November 18, 2009.
+ "Helpful products. For everyone". Google, Inc. Archived from the original on February 10, 2010.
+ Page, Larry (August 18, 1997). "PageRank: Bringing Order to the Web". Stanford Digital Library Project. Archived from the original on May 6, 2002. Retrieved November 27, 2010.
+ Battelle, John (August 2005). "The Birth of Google". Wired. Archived from the original on October 20, 2012. Retrieved October 12, 2010.
+ "Backrub search engine at Stanford University". Archived from the original on December 24, 1996. Retrieved March 12, 2011.
+ Brin, Sergey; Page, Lawrence (1998). "The anatomy of a large-scale hypertextual Web search engine" (PDF). Computer Networks and ISDN Systems. 30 (1–7): 107–117. CiteSeerX 10.1.1.115.5930. doi:10.1016/S0169-7552(98)00110-X. ISSN 0169-7552. Archived (PDF) from the original on September 27, 2015. Retrieved April 7, 2019.
+ "About: RankDex" Archived February 2, 2012, at WebCite, RankDex
+ "Method for node ranking in a linked database". Google Patents. Archived from the original on October 15, 2015. Retrieved October 19, 2015.
+ Koller, David (January 2004). "Origin of the name "Google"". Stanford University. Archived from the original on July 4, 2012.
+ Hanley, Rachael (February 12, 2003). "From Googol to Google". The Stanford Daily. Stanford University. Archived from the original on March 27, 2010. Retrieved February 15, 2010.
+ "Google! Beta website". Google, Inc. Archived from the original on February 21, 1999. Retrieved October 12, 2010.
+ Williamson, Alan (January 12, 2005). "An evening with Google's Marissa Mayer". Alan Williamson. Archived from the original on September 21, 2011. Retrieved July 5, 2010.
+ "Google.com WHOIS, DNS, & Domain Info - DomainTools". WHOIS. Archived from the original on March 14, 2016.
+ "Craig Silverstein's website". Stanford University. Archived from the original on October 2, 1999. Retrieved October 12, 2010.
+ Kopytoff, Verne (September 7, 2008). "Craig Silverstein grew a decade with Google". San Francisco Chronicle. Hearst Communications, Inc. Archived from the original on October 20, 2012.
+ Long, Tony (September 7, 2007). "Sept. 7, 1998: If the Check Says 'Google Inc.,' We're 'Google Inc.'". Wired.
+ Kopytoff, Verne (April 29, 2004). "For early Googlers, key word is $". San Francisco Chronicle. Archived from the original on September 19, 2009.
+ Auletta, Ken (2010). Googled: The End of the World as We Know it (Reprint ed.). New York, N.Y.: Penguin Books. ISBN 9780143118046. OCLC 515456623. On September 7, 1998, the day Google officially incorporated, he [Shriram] wrote out a check for just over $250,000, one of four of this size the founders received.
+ Hosch, William L.; Hall, Mark. "Google Inc". Britannica. Britannica. Archived from the original on February 20, 2019. Retrieved March 17, 2019.
+ "Google Receives $25 Million in Equity Funding" (Press release). Palo Alto, Calif. June 7, 1999. Archived from the original on February 12, 2001. Retrieved February 16, 2009.
+ Weinberger, Matt (October 12, 2015). "Google's cofounders are stepping down from their company. Here are 43 photos showing Google's rise from a Stanford dorm room to global internet superpower". Business Insider. Axel Springer SE. Archived from the original on August 19, 2017.
+ "A building blessed with tech success". CNET. CBS Interactive. Archived from the original on May 23, 2017. Retrieved July 15, 2017.
+ Stross, Randall (September 2008). "Introduction". Planet Google: One Company's Audacious Plan to Organize Everything We Know. New York: Free Press. pp. 3–4. ISBN 978-1-4165-4691-7. Retrieved February 14, 2010.
+ "Google Launches Self-Service Advertising Program". News from Google. October 23, 2000. Archived from the original on April 1, 2012. Retrieved July 15, 2017.
+ Naughton, John (July 2, 2000). "Why's Yahoo gone to Google? Search me". The Guardian. Archived from the original on January 31, 2019. Retrieved January 30, 2019 – via www.theguardian.com.
+ "Yahoo! Selects Google as its Default Search Engine Provider – News announcements – News from Google – Google". googlepress.blogspot.com. Archived from the original on January 31, 2019. Retrieved January 30, 2019.
+ "Google Server Assembly". Computer History Museum. Archived from the original on July 22, 2010. Retrieved July 4, 2010.
+ Olsen, Stephanie (July 11, 2003). "Google's movin' on up". CNET. CBS Interactive. Archived from the original on October 20, 2012. Retrieved February 15, 2010.
+ "Google to buy headquarters building from Silicon Graphics". American City Business Journals. June 16, 2006. Archived from the original on April 18, 2010.
+ Krantz, Michael (October 25, 2006). "Do You "Google"?". Google, Inc. Archived from the original on May 30, 2012. Retrieved February 17, 2010.
+ Bylund, Anders (July 5, 2006). "To Google or Not to Google". msnbc.com. Archived from the original on July 7, 2006. Retrieved February 17, 2010.
+ Meyer, Robinson. "The First Use of 'to Google' on Television? Buffy the Vampire Slayer". The Atlantic. Retrieved June 30, 2021.
+ Hosch, William L.; Hall, Mark. "Google Inc". Britannica. Britannica. Archived from the original on February 20, 2019. Retrieved March 17, 2019.
+ Lashinsky, Adam (January 29, 2008). "Google wins again". Fortune. Time Warner. Archived from the original on October 20, 2012. Retrieved January 22, 2011.
+ "GOOG Stock". Business Insider.
+ "2004 Annual Report" (PDF). Google, Inc. Mountain View, California. 2004. p. 29. Archived (PDF) from the original on February 2, 2012. Retrieved February 19, 2010.
+ La Monica, Paul R. (April 30, 2004). "Google sets $2.7 billion IPO". CNN Money. Archived from the original on October 20, 2012. Retrieved February 19, 2010.
+ Kawamoto, Dawn (April 29, 2004). "Want In on Google's IPO?". ZDNet. Archived from the original on February 2, 2012. Retrieved February 19, 2010.
+ Webb, Cynthia L. (August 19, 2004). "Google's IPO: Grate Expectations". The Washington Post. Washington, D.C. Archived from the original on October 20, 2012. Retrieved February 19, 2010.
+ Arrington, Michael (October 9, 2006). "Google Has Acquired YouTube". TechCrunch. AOL. Archived from the original on March 16, 2017. Retrieved March 15, 2017.
+ Sorkin, Andrew Ross; Peters, Jeremy W. (October 9, 2006). "Google to Acquire YouTube for $1.65 Billion". The New York Times. Archived from the original on June 9, 2017. Retrieved March 15, 2017.
+ Arrington, Michael (November 13, 2006). "Google Closes YouTube Acquisition". TechCrunch. AOL. Archived from the original on March 16, 2017. Retrieved March 15, 2017.
+ Auchard, Eric (November 14, 2006). "Google closes YouTube deal". Reuters. Thomson Reuters. Archived from the original on March 16, 2017. Retrieved March 15, 2017.
+ Lawsky, David (March 11, 2008). "Google closes DoubleClick merger after EU approval". Reuters.
+ Story, Louise; Helft, Miguel (April 14, 2007). "Google Buys DoubleClick for $3.1 Billion". The New York Times. Archived from the original on April 4, 2017. Retrieved March 9, 2017.
+ Worstall, Tim (June 22, 2011). "Google Hits One Billion Visitors in Only One Month". Forbes.
+ Efrati, Amir (June 21, 2011). "Google Notches One Billion Unique Visitors Per Month". The Wall Street Journal.
+ "Google Completes Takeover of Motorola Mobility". IndustryWeek. Agence France-Presse. May 22, 2012.
+ Tsukayama, Hayley (August 15, 2011). "Google agrees to acquire Motorola Mobility". The Washington Post. Archived from the original on November 13, 2012.
+ "Google to Acquire Motorola Mobility — Google Investor Relations". Google. Archived from the original on August 17, 2011. Retrieved August 17, 2011.
+ Page, Larry (August 15, 2011). "Official Google Blog: Supercharging Android: Google to Acquire Motorola Mobility". Official Google Blog. Archived from the original on July 28, 2012.
+ Hughes, Neil (August 15, 2011). "Google CEO: 'Anticompetitive' Apple, Microsoft forced Motorola deal". AppleInsider. Archived from the original on December 10, 2011.
+ Cheng, Roger (August 15, 2011). "Google to buy Motorola Mobility for $12.5B". CNet News. Archived from the original on October 6, 2011. Retrieved August 15, 2011.
+ Kerr, Dara (July 25, 2013). "Google reveals it spent $966 million in Waze acquisition". CNET. CBS Interactive. Archived from the original on February 16, 2017. Retrieved June 12, 2017.
+ Lunden, Ingrid (June 11, 2013). "Google Bought Waze For $1.1B, Giving A Social Data Boost To Its Mapping Business". TechCrunch. AOL. Archived from the original on July 6, 2017. Retrieved June 12, 2017.
+ Wakefield, Jane (September 19, 2013). "Google spin-off Calico to search for answers to ageing". BBC News. Archived from the original on September 19, 2013. Retrieved September 20, 2013.
+ Chowdhry, Amit (January 27, 2014). "Google To Acquire Artificial Intelligence Company DeepMind". Forbes. Archived from the original on January 29, 2014. Retrieved January 27, 2014.
+ Helgren, Chris (January 27, 2014). "Google to buy artificial intelligence company DeepMind". Reuters. Archived from the original on January 27, 2014. Retrieved January 27, 2014.
+ Ribeiro, Jon (January 27, 2014). "Google buys artificial intelligence company DeepMind". PC World. Archived from the original on January 30, 2014. Retrieved January 27, 2014.
+ Opam, Kwame (January 26, 2014). "Google buying AI startup DeepMind for a reported $400 million". The Verge. Vox Media. Archived from the original on July 8, 2017. Retrieved March 9, 2017.
+ "Rankings - 2013 - Best Global Brands - Interbrand". Interbrand. Archived from the original on October 22, 2016. Retrieved October 23, 2016.
+ "Rankings - 2014 - Best Global Brands - Interbrand". Interbrand. Archived from the original on November 3, 2016. Retrieved October 23, 2016.
+ "Rankings - 2015 - Best Global Brands - Interbrand". Interbrand. Archived from the original on October 21, 2016. Retrieved October 23, 2016.
+ "Rankings - 2016 - Best Global Brands". Interbrand. Archived from the original on December 20, 2016. Retrieved October 23, 2016.
+ Womack, Brian (August 10, 2015). "Google Rises After Creating Holding Company Called Alphabet". Bloomberg L.P. Archived from the original on November 23, 2016. Retrieved November 22, 2016.
+ Barr, Alistair; Winkler, Rolf (August 10, 2015). "Google Creates Parent Company Called Alphabet in Restructuring". The Wall Street Journal. Archived from the original on November 28, 2016. Retrieved November 22, 2016.
+ Dougherty, Conor (August 10, 2015). "Google to Reorganize as Alphabet to Keep Its Lead as an Innovator". The New York Times. Archived from the original on October 19, 2016. Retrieved November 22, 2016.
+ "Google Fires Engineer Who Wrote Memo Questioning Women in Tech" Archived August 10, 2017, at the Wayback Machine. The New York Times, August 7, 2017
+ Contentious Memo Strikes Nerve Inside Google and Out Archived August 9, 2017, at the Wayback Machine. The New York Times, August 8, 2017
+ diversitymemo.com
+ Friedersdorf, Conor (August 8, 2017). "The Most Common Error in Media Coverage of the Google Memo". Archived from the original on August 8, 2017. Retrieved August 9, 2017.
+ Brooks, David (August 11, 2017). "Sundar Pichai Should Resign as Google's C.E.O". The New York Times. Archived from the original on August 11, 2017. Retrieved August 11, 2017.
+ "New York Times columnist David Brooks wants Google's CEO to resign". Business Insider. August 11, 2017. Archived from the original on August 12, 2017. Retrieved August 12, 2017.
+ Bergen, Mark (November 22, 2019). "Google Workers Protest Company's 'Brute Force Intimidation'". Bloomberg.com.
+ Hollister, Sean (November 25, 2019). "Google is accused of union busting after firing four employees". The Verge. Retrieved November 26, 2019.
+ Welch, Chris (October 25, 2018). "Google says 48 people have been fired for sexual harassment in the last two years". The Verge. Archived from the original on October 31, 2018. Retrieved October 31, 2018.
+ Hamilton, Isobel Asher; et al. (November 1, 2018). "PHOTOS: Google employees all over the world left their desk and walked out in protest over sexual misconduct". Business Insider. Archived from the original on November 2, 2018. Retrieved November 6, 2018.
+ Segarra, Lisa Marie (November 3, 2018). "More Than 20,000 Google Employees Participated in Walkout Over Sexual Harassment Policy". Fortune. Archived from the original on November 7, 2018. Retrieved November 6, 2018.
+ Warren, Tom (March 19, 2019). "Google unveils Stadia cloud gaming service, launches in 2019". The Verge. Archived from the original on March 19, 2019. Retrieved April 8, 2019.
+ "Google shares take a dive with reports of US DoJ 'competition' probe". www.theregister.com.
+ "U.S. Files Antitrust Suit Against Google". NPR.org.
+ Perez, Sarah (December 11, 2019). "PayPal's exiting COO Bill Ready to join Google as its new president of Commerce". TechCrunch.
+ "Bloomberg - Google to Slow Hiring for Rest of 2020, CEO Tells Staff". www.bloomberg.com. April 15, 2020. Retrieved April 16, 2020.
+ "Google services including Gmail hit by serious disruption". Sky News.
+ Li, Abner (November 12, 2020). "YouTube is currently down amid widespread outage".
+ "YouTube back online, all services restored as Google apologizes for 'system outage' | TechRadar". www.techradar.com.
+ Jose, Renju (January 22, 2021). "Google says to block search engine in Australia if forced to pay for news". Reuters. Retrieved January 22, 2021.
+ "Google reportedly paid $20m for Ubisoft ports on Stadia". GamesIndustry.biz. Retrieved March 1, 2021.
+ "Google's Secret 'Project Bernanke' Revealed in Texas Antitrust Case". The Wall Street Journal. April 11, 2021. Retrieved April 13, 2021.
+ Arrington, Michael (July 25, 2008). "Google's Misleading Blog Post: The Size Of The Web And The Size Of Their Index Are Very Different". TechCrunch. AOL. Archived from the original on March 12, 2017. Retrieved March 9, 2017.
+ "comScore Releases November 2009 U.S. Search Engine Rankings". December 16, 2006. Archived from the original on February 25, 2010. Retrieved July 5, 2010.
+ Schwartz, Barry (May 26, 2017). "Google Adds Personal Tab To Search Filters". Search Engine Roundtable. RustyBrick. Archived from the original on May 27, 2017. Retrieved May 27, 2017.
+ Gartenberg, Chaim (May 26, 2017). "Google adds new Personal tab to search results to show Gmail and Photos content". The Verge. Vox Media. Archived from the original on May 26, 2017. Retrieved May 27, 2017.
+ Macht, Joshua (September 30, 2002). "Automatic for the People". Time. Archived from the original on October 22, 2010. Retrieved June 7, 2010.
+ Martin, China (November 26, 2007). "Google hit with second lawsuit over Library project". InfoWorld. Archived from the original on May 10, 2011. Retrieved July 5, 2010.
+ Annualg report (Alphabet Inc.) - 2017. Alphabet Inc. Investor relations. March 1, 2018. Archived from the original on February 3, 2016. Retrieved December 3, 2018.
+ Nakashima, Ellen (August 12, 2008). "Some Web Firms Say They Track Behavior Without Explicit Consent". The Washington Post. Archived from the original on November 12, 2012.
+ Helft, Miguel (March 11, 2009). "Google to Offer Ads Based on Interests". The New York Times. Archived from the original on March 28, 2017. Retrieved March 9, 2017.
+ "Google AdSense for Mobile unlocks the potential of the mobile advertising market". Google, Inc. September 17, 2007. Archived from the original on June 20, 2012. Retrieved February 26, 2010.
+ Bright, Peter (August 27, 2008). "Surfing on the sly with IE8's new "InPrivate" Internet". Ars Technica. Condé Nast. Archived from the original on March 12, 2017. Retrieved March 9, 2017.
+ Beal, Vangie. "AdWords - Google AdWords". Webopedia. QuinStreet Inc. Archived from the original on June 29, 2017. Retrieved May 27, 2017.
+ Beal, Vangie. "AdSense - Google AdSense". Webopedia. QuinStreet Inc. Archived from the original on May 2, 2017. Retrieved May 27, 2017.
+ Mills, Elinor (July 25, 2006). "Google to offer advertisers click fraud stats". news.cnet.com. CNET. Archived from the original on May 10, 2011. Retrieved July 29, 2006.
+ Gayomali, Chris (April 1, 2014). "When Gmail Launched On April 1, 2004, People Thought It Was A Joke". Fast Company. Mansueto Ventures. Archived from the original on October 18, 2017. Retrieved June 12, 2017.
+ Vincent, James (January 5, 2017). "Google Calendar update makes it easier to track your New Year's fitness goals". The Verge. Vox Media. Archived from the original on January 13, 2017. Retrieved June 12, 2017.
+ Broussard, Mitchel (March 22, 2017). "Google Maps Introduces New Location Sharing Feature With Real-Time Friend Tracking". MacRumors. Archived from the original on March 27, 2017. Retrieved June 12, 2017.
+ Sottek, T.C. (April 24, 2012). "Google Drive officially launches with 5 GB free storage, Google Docs integration". The Verge. Vox Media. Archived from the original on December 26, 2016. Retrieved June 12, 2017.
+ Perez, Sarah (May 28, 2015). "Google Photos Breaks Free Of Google+, Now Offers Free, Unlimited Storage". TechCrunch. AOL. Archived from the original on July 6, 2017. Retrieved June 12, 2017.
+ Graziano, Dan (March 20, 2013). "Google launches Google Keep note-taking service [video]". BGR. Penske Media Corporation. Archived from the original on October 8, 2016. Retrieved June 12, 2017.
+ Eadicicco, Lisa (November 16, 2016). "Google's Translation App Is About To Get Much Better". Time. Archived from the original on April 1, 2017. Retrieved June 12, 2017.
+ Hamedy, Saba (February 28, 2017). "People now spend 1 billion hours watching YouTube every day". Mashable. Archived from the original on May 17, 2017. Retrieved June 12, 2017.
+ "Google My Business – Stand Out on Google for Free". www.google.com. Archived from the original on February 7, 2019. Retrieved February 6, 2019.
+ Levy, Steven (June 28, 2011). "Inside Google+ - How the search giant plans to go social". Wired. Condé Nast. Archived from the original on April 5, 2017. Retrieved June 12, 2017.
+ Zakrasek, Nick (2017). "Connecting more Americans with jobs". blog.google.
+ "Job Search on Google - Get Your Job Postings on Google Today". jobs.google.com.
+ "Search Job Opportunities & Expand Career Skills". Grow With Google.
+ Ryan, Robin (2019). "How To Use Google's Job Search Feature To Land A Job". forbes.com.
+ "How to post job listings on the 'Google for Jobs' search engine". Recruiting Resources: How to Recruit and Hire Better. July 17, 2017.
+ Clarke, Philippa; Ailshire, Jennifer; Melendez, Robert; Bader, Michael; Morenoff, Jeffrey (2010). "Using Google Earth to conduct a neighborhood audit: reliability of a virtual audit instrument". Health & Place. 16 (6): 1224–1229. doi:10.1016/j.healthplace.2010.08.007. PMC 2952684. PMID 20797897 – via PubMed.
+ Schonfeld, Erick (November 5, 2007). "Breaking: Google Announces Android and Open Handset Alliance". TechCrunch. AOL. Archived from the original on June 22, 2017. Retrieved June 12, 2017.
+ D'Orazio, Dante (March 18, 2014). "Google reveals Android Wear, an operating system for smartwatches". The Verge. Vox Media. Archived from the original on February 10, 2017. Retrieved April 4, 2017.
+ Ong, Josh (June 25, 2014). "Google announces Android TV to bring 'voice input, user experience and content' to the living room". The Next Web. Archived from the original on March 13, 2017. Retrieved April 4, 2017.
+ Wilhelm, Alex (June 25, 2014). "Google Announces Android Auto, Promises Enabled Cars By The End Of 2014". TechCrunch. AOL. Archived from the original on June 22, 2017. Retrieved April 4, 2017.
+ Kastrenakes, Jacob (December 13, 2016). "Android Things is Google's new OS for smart devices". The Verge. Vox Media. Archived from the original on February 17, 2017. Retrieved April 4, 2017.
+ Pichai, Sundar; Upson, Linus (September 1, 2008). "A fresh take on the browser". Official Google Blog. Archived from the original on March 15, 2016. Retrieved November 22, 2016.
+ Pichai, Sundar; Upson, Linus (July 7, 2009). "Introducing the Google Chrome OS". Official Google Blog. Archived from the original on November 22, 2016. Retrieved November 22, 2016.
+ Siegler, MG (January 5, 2010). "The Droid You're Looking For: Live From The Nexus One Event". TechCrunch. AOL. Archived from the original on November 23, 2016. Retrieved November 22, 2016.
+ Ion, Florence (May 15, 2013). "From Nexus One to Nexus 10: a brief history of Google's flagship devices". Ars Technica. Condé Nast. Archived from the original on June 24, 2017. Retrieved June 12, 2017.
+ Bohn, Dieter (October 4, 2016). "The Google Phone: The inside story of Google's bold bet on hardware". The Verge. Vox Media. Archived from the original on January 6, 2017. Retrieved June 12, 2017.
+ Pichai, Sundar; Upson, Linus (May 11, 2011). "A new kind of computer: Chromebook". Official Google Blog. Archived from the original on November 22, 2016. Retrieved November 22, 2016.
+ Robertson, Adi (July 24, 2013). "Google reveals Chromecast: video streaming to your TV from any device for $35". The Verge. Vox Media. Archived from the original on December 26, 2016. Retrieved November 29, 2016.
+ "Google Chromecast takes on streaming content to TV". BBC News. BBC. July 31, 2013. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ O'Toole, James (June 26, 2014). "Google's cardboard virtual-reality goggles". CNN. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ Kain, Erik (June 26, 2014). "Google Cardboard Is Google's Awesomely Weird Answer To Virtual Reality". Forbes. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ Bohn, Dieter (October 4, 2016). "Google Home is smart, loud, and kind of cute". The Verge. Vox Media. Archived from the original on October 7, 2016. Retrieved October 8, 2016.
+ Bohn, Dieter (October 4, 2016). "The Google Wifi routers are little white pucks you can scatter throughout your house". The Verge. Vox Media. Archived from the original on October 7, 2016. Retrieved October 8, 2016.
+ "Announcing Google Workspace, everything you need to get it done, in one location". Google Cloud Blog. Retrieved October 24, 2020.
+ "Choose a Plan". G Suite by Google Cloud. Archived from the original on December 12, 2016. Retrieved December 2, 2016.
+ "Celebrating the spirit of entrepreneurship with the new Google for Entrepreneurs". Official Google Blog. Archived from the original on March 20, 2018. Retrieved March 20, 2018.
+ Fell, Jason (September 27, 2012). "How Google Wants to Make Starting Up Easier for Entrepreneurs". Entrepreneur. Archived from the original on March 20, 2018. Retrieved March 20, 2018.
+ Muret, Paul (March 15, 2016). "Introducing the Google Analytics 360 Suite". Archived from the original on January 12, 2017. Retrieved January 22, 2017.
+ Marshall, Jack (March 15, 2016). "Google Launches New Data Tools for Marketers". The Wall Street Journal. Archived from the original on November 13, 2016. Retrieved January 22, 2017.
+ Ingersoll, Minnie; Kelly, James (February 10, 2010). "Think big with a gig: Our experimental fiber network". Official Google Blog. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ Schonfeld, Erick (February 10, 2010). "Google Plans To Deliver 1Gb/sec Fiber-Optic Broadband Network To More Than 50,000 Homes". TechCrunch. AOL. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ McLaughlin, Kevin (August 25, 2016). "Inside the Battle Over Google Fiber". The Information. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ Statt, Nick (August 25, 2016). "Alphabet is putting serious pressure on Google Fiber to cut costs". The Verge. Vox Media. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ Fox, Nick (April 22, 2015). "Say hi to Fi: A new way to say hello". Official Google Blog. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ Goldman, David (April 22, 2015). "Google launches 'Project Fi' wireless service". CNN. Archived from the original on November 29, 2016. Retrieved November 29, 2016.
+ Hancock, Jay (October 31, 2007). "Google shares hit $700". The Baltimore Sun. Archived from the original on February 2, 2012. Retrieved November 27, 2010.
+ La Monica, Paul R. (May 25, 2005). "Bowling for Google". CNN. Archived from the original on February 2, 2012. Retrieved February 28, 2007.
+ "This could cost Google more than $500 million". CNBC. April 2, 2015. Archived from the original on December 26, 2015. Retrieved December 30, 2015.
+ Pramuk, Jacob (August 10, 2015). "Google to become part of new company, Alphabet". CNBC. Archived from the original on August 11, 2015. Retrieved August 11, 2015.
+ Vise, David (October 21, 2005). "Online Ads Give Google Huge Gain in Profit". The Washington Post. Archived from the original on October 20, 2016. Retrieved November 27, 2016.
+ La Monica, Paul R. (October 21, 2005). "All signals go for Google". CNN.
+ "Google shares jump on big profit increase". CBC News. October 21, 2005.
+ "Form 10-K – Annual Report". SEC. Archived from the original on November 6, 2010. Retrieved July 5, 2010.
+ "Google Inc, Form 10-K, Annual Report, Filing Date January 26, 2012" (PDF). secdatabase.com. Archived (PDF) from the original on May 2, 2013. Retrieved March 8, 2013.
+Fiegerman, Seth (January 22, 2013). "Google Has Its First $50 Billion Year". Mashable. Archived from the original on December 1, 2016. Retrieved November 30, 2016.
+ Whitwam, Ryan (October 18, 2013). "Google Beats Analyst Estimates For Third Quarter Results, Stock Passes $1000 Per Share". Android Police. Archived from the original on March 16, 2017. Retrieved March 15, 2017.
+ "Google earnings up 12% in third quarter even as Motorola losses deepen". The Guardian. Reuters. October 17, 2013. Archived from the original on October 17, 2013. Retrieved October 18, 2013.
+ "Google Overview". Marketwatch. Archived from the original on February 2, 2014. Retrieved February 2, 2014.
+ Metz, Cade (October 22, 2010). "Google slips $3.1bn through 'Double Irish' tax loophole". The Register. Archived from the original on July 6, 2017. Retrieved August 10, 2017.
+ each, Anna (October 31, 2012). "French gov 'plans to hand Google €1bn tax bill' – report". Theregister.co.u
