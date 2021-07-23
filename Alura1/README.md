@@ -1,4 +1,4 @@
 Alura1
 
 001 > Intro & Linux
-002 > HTML & CSS
+002 > HTML & CSS ( Barbearia Alura )
