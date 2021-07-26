@@ -1,5 +1,5 @@
-body {
-    text-align: center
+.titulo-principal {
+    padding-left: 30px;
 }
 
 #banner {
@@ -8,10 +8,8 @@ body {
 
 .principal {
     background-color: #CCCCCC;
-}
-
-h1{
     text-align: center;
+    padding: 30px;
 }
 
 #missao {
@@ -22,7 +20,7 @@ em strong {
     color: red;
 }
 
-h2 {
+.titulo-centralizado {
     text-align: center;
 }
 
@@ -36,7 +34,17 @@ h2 {
 
 .beneficios {
     background: #FFFFFF;
+    padding: 20px;
 }
 
+ul {
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+    margin-right: 15%;
+}
 
+.imagembeneficios {
+    width: 50%;
+}
     
