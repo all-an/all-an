@@ -25,3 +25,25 @@ https://devhints.io/git-log // (git log hints)
 .gitignore // (inside file names or directories with / right afters)
 
 /// Warning /// Never commit a project that does not run ///
+
+git remote // (enlist all remote servers that our repository know)
+
+git remote add local adress  // (change adress with url or directory)
+
+git remote -v // (show server adress)
+
+git clone adress // (bring / download the repository indicated in adress)
+
+git push foldername branch // (send repository to foldername on specific sbranch)
+
+git pull foldername branch // (update repository with changes from foldername on specific branch)
+
+git branch // (list branchess)
+
+git checkout branch // (change to branch, where branch is the branch name)
+
+git merge branch // (unite branches and changes)
+
+git rebase branch // (make specified branch become the base)
+
+git log --graph // (Show datailed graphic of changes, merges, commits e etc..)
