@@ -3,14 +3,71 @@ print("guessing game")
 print("*************")
 
 secret_number = 42
+attempts = 3
+#round = 1
 
-guess = int(input("Type the first guess: "))
+print("You have ", attempts, " attempts.")
 
-print("Your guess is: ", guess)
+#while(attempts > 0):
+for round in range(1, attempts + 1):
+    
+    print("_____________")
+    print("Attempt {}.".format(round))
+    
+    """
+    user_input = input("Type a number ")
+    try:
+        user_input = int(user_input)
+        print("Your guess is: ", user_input)
 
-if(secret_number == guess):
-    print("You're Right !")
-else:
-    print("You miss")
+        hit = secret_number == user_input
 
-print("Game Over !")
+        greaterThan = user_input > secret_number
+
+        lowerThan = user_input < secret_number
+
+        if(hit):
+            print("You're Right !")
+            break
+        else:
+            if(greaterThan):    
+                print("Your guess is higher than the secret number!")
+            elif(lowerThan):
+                print("Your guess is lower than the secret number")
+
+        print("Game Over !")
+        attempts -= 1
+        round += 1
+        # do something
+    except ValueError:
+        print("input a valid choice please")
+
+    """
+    guess = input("Type a number: ")
+
+    if(guess.isnumeric()):
+        guess = int(guess)
+    else:
+        print("Restart the game and type a number please !")
+        break
+
+    print("Your guess is: ", guess)
+
+    hit = secret_number == guess
+
+    greaterThan = guess > secret_number
+
+    lowerThan = guess < secret_number
+
+    if(hit):
+        print("You're Right !")
+        break
+    else:
+        if(greaterThan):    
+            print("Your guess is higher than the secret number!")
+        elif(lowerThan):
+            print("Your guess is lower than the secret number")
+
+    print("Game Over !")
+    attempts -= 1
+    round += 1
