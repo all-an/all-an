@@ -1,0 +1,15 @@
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\bin\Debug\net5.0\SwitchCase.exe
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\bin\Debug\net5.0\SwitchCase.deps.json
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\bin\Debug\net5.0\SwitchCase.runtimeconfig.json
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\bin\Debug\net5.0\SwitchCase.runtimeconfig.dev.json
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\bin\Debug\net5.0\SwitchCase.dll
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\bin\Debug\net5.0\ref\SwitchCase.dll
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\bin\Debug\net5.0\SwitchCase.pdb
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\obj\Debug\net5.0\SwitchCase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\obj\Debug\net5.0\SwitchCase.AssemblyInfoInputs.cache
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\obj\Debug\net5.0\SwitchCase.AssemblyInfo.cs
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\obj\Debug\net5.0\SwitchCase.csproj.CoreCompileInputs.cache
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\obj\Debug\net5.0\SwitchCase.dll
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\obj\Debug\net5.0\ref\SwitchCase.dll
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\obj\Debug\net5.0\SwitchCase.pdb
+C:\Users\Public\all-an\001_Alura1\C#\003\SwitchCase\SwitchCase\obj\Debug\net5.0\SwitchCase.genruntimeconfig.cache
