@@ -1,0 +1,64 @@
+https://stackoverflow.com/questions/16312323/what-does-it-mean-to-return-a-value#:~:text=In%20simple%20terms%2C%20it%20means,allowing%20them%20access%20to%20it.
+
+In simple terms, it means to return the value to caller of the method...
+
+So, in your example, the method getX would return the value of x to the caller, allowing them access to it.
+
+class Class1{
+
+    static int x = 3;
+
+    public static int getX(){
+        return x;
+    }
+
+    public static void main(String args[]){
+        int myX = Class1.getX(); // return the value to the caller...
+        System.out.println(myX); // print the result to the console...
+    }
+}
+Share
+Follow
+answered May 1 '13 at 3:33
+
+MadProgrammer
+325k2121 gold badges207207 silver badges332332 bronze badges
+1
+You should also note that when you return, it exits the method. – RoccoDev Jun 24 '16 at 16:18
+Add a comment
+
+2
+
+Returning a value is a way for methods to talk to each other
+
+public void method1() {
+    int value = 5 + method2(5);
+    System.out.println(value);
+}
+
+public int method2(int param) {
+    return param + 5;
+}
+This will print 15 (5 gets sent to method2, which adds 5 to it and returns the result to method1, which adds 5 to it and prints the result).
+
+Java returns copies of values - in this case, it's copying the value 10 and returning it to method1. If method2 were returning an Object then it would return a copy of the object's reference. Different languages have different semantics for method returns, so be cautious when switching between languages. Java also copies the values of parameters passed to methods - in this case method1 copies the value 5 and passes it to method2.
+
+public void method1() {
+    int value = 5;
+    method2(value);
+}
+
+public void method2(int param) {
+    param = param + 5;
+}
+The value in method1 is unaffected by method2 (value still equals 5 after method2 executes), because only a copy of value was sent as a parameter.
+
+Share
+Follow
+edited May 9 '13 at 4:59
+answered May 1 '13 at 3:36
+
+Zim-Zam O'Pootertoot
+17.5k44 gold badges3838 silver badges6767 bronze badges
+Thanks, that makes a lot of sense. So if I understand correctly, method2, whose argument equals 5 by declaration inside method1, adds 5 to the original argument, and then replaces the original argument with 10? – user2338180 May 9 '13 at 4:49
+Yes, just remember that method2 only sees a copy of the argument passed from method1; the value of param in method2 is changed to 10, but value in method1 is still equal to 5. – Zim-Zam O'Pootertoot May 9 '13 at 4:57

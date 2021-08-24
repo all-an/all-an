@@ -4,7 +4,7 @@ public class Conta { //classe blueprint planta para crianção de objetos
 	double saldo;
 	int agencia; //atributos
 	int numero;
-	String titular;
+	Cliente titular;
 	
 	public void deposita(double valor) { //valor é um argumento do método, métodos lembram funções
 		this.saldo += valor; //this quer dizer para o objeto específico que chamou o metodo
