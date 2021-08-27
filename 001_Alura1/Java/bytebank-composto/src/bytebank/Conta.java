@@ -29,7 +29,7 @@ public class Conta { //classe blueprint planta para crianção de objetos
 		
 	}
 	
-	public double getSaldo() { //get é convenção
+	public double getSaldo() { //get é convenção //método getter para o atributo saldo que é privado
 		return this.saldo;
 	}
 }
