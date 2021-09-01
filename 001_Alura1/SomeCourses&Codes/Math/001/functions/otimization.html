@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <title>otimization</title>
+    <meta name="generator" content="wxMaxima"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/x-mathjax-config">  MathJax.Hub.Config({
+    displayAlign: "left",
+    context: "MathJax",
+    TeX: {TagSide: "left"}
+  })
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async="async">  // A comment that hinders wxWidgets from optimizing this tag too much.
+</script>
+    <link rel="stylesheet" type="text/css" href="otimization_htmlimg/otimization.css"/>
+  </head>
+  <body>
+    <!-- ****************************************************** -->
+    <!-- *        Created with wxMaxima version 21.05.2       * -->
+    <!-- ****************************************************** -->
+    <noscript>
+      <div class="error message">
+        <p>Please enable JavaScript in order to get a 2d display of the equations embedded in this web page.</p>
+      </div>
+    </noscript>
+    <p hidden="hidden">\(      \DeclareMathOperator{\abs}{abs}
+      \newcommand{\ensuremath}[1]{\mbox{$#1$}}
+\)</p>
+    <!-- Code cell -->
+    <table>
+      <tr>
+        <td>
+          <span class="prompt">(%i7)	
+  </span>
+        </td>
+        <td>
+          <span class="input">
+            <span class="code_function">C</span>
+            <span class="code_operator">(</span>
+            <span class="code_variable">x</span>
+            <span class="code_operator">)</span>
+            <span class="code_operator">:</span>
+            <span class="code_operator">=</span>
+            <span class="code_number">0</span>
+            <span class="code_endofline">.</span>
+            <span class="code_number">02</span>
+            <span class="code_operator">·</span>
+            <span class="code_variable">x</span>
+            <span class="code_operator">^</span>
+            <span class="code_number">2</span>
+            <span class="code_operator">+</span>
+            <span class="code_operator">(</span>
+            <span class="code_number">80</span>
+            <span class="code_operator">/</span>
+            <span class="code_variable">x</span>
+            <span class="code_operator">)</span>
+            <span class="code_endofline">;</span>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <p>\[\operatorname{	}\operatorname{C}(x)\operatorname{:=}0.02 {{x}^{2}}+\frac{80}{x}\]
+</p>
+    <!-- Code cell -->
+    <table>
+      <tr>
+        <td>
+          <span class="prompt">(%i12)	
+  </span>
+        </td>
+        <td>
+          <span class="input">
+            <span class="code_function">wxplot2d</span>
+            <span class="code_operator">(</span>
+            <span class="code_operator">[</span>
+            <span class="code_function">C</span>
+            <span class="code_operator">(</span>
+            <span class="code_variable">x</span>
+            <span class="code_operator">)</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">22</span>
+            <span class="code_operator">]</span>
+            <span class="code_endofline">,</span>
+            <span class="code_operator">[</span>
+            <span class="code_variable">x</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">0</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">35</span>
+            <span class="code_operator">]</span>
+            <span class="code_endofline">,</span>
+            <span class="code_operator">[</span>
+            <span class="code_variable">y</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">0</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">120</span>
+            <span class="code_operator">]</span>
+            <span class="code_operator">)</span>
+            <span class="code_endofline">$</span>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <p>\[\]\[plot2d: expression evaluates to non-numeric value somewhere in plotting range.\]
+</p>
+    <p>\[\operatorname{	}\]
+</p>
+    <img src="otimization_htmlimg/otimization_3.png" width="1198" style="max-width:90%;" loading="lazy" alt=" (Graphics) "/>
+    <br/>
+    <!-- Code cell -->
+    <table>
+      <tr>
+        <td>
+          <span class="prompt">(%i18)	
+  </span>
+        </td>
+        <td>
+          <span class="input">
+            <span class="code_function">c</span>
+            <span class="code_operator">(</span>
+            <span class="code_variable">x</span>
+            <span class="code_operator">)</span>
+            <span class="code_operator">:</span>
+            <span class="code_operator">=</span>
+            <span class="code_function">C</span>
+            <span class="code_operator">(</span>
+            <span class="code_variable">x</span>
+            <span class="code_operator">)</span>
+            <span class="code_operator">−</span>
+            <span class="code_number">22</span>
+            <span class="code_endofline">;</span>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <p>\[\operatorname{	}\operatorname{c}(x)\operatorname{:=}\operatorname{C}(x)-22\]
+</p>
+    <!-- Code cell -->
+    <table>
+      <tr>
+        <td>
+          <span class="prompt">(%i20)	
+  </span>
+        </td>
+        <td>
+          <span class="input">
+            <span class="code_function">find_root</span>
+            <span class="code_operator">(</span>
+            <span class="code_function">c</span>
+            <span class="code_operator">(</span>
+            <span class="code_variable">x</span>
+            <span class="code_operator">)</span>
+            <span class="code_endofline">,</span>
+            <span class="code_variable">x</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">0</span>
+            <span class="code_endofline">.</span>
+            <span class="code_number">5</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">5</span>
+            <span class="code_operator">)</span>
+            <span class="code_endofline">;</span>
+            <span class="code_comment">/*finding the first root between 0.5 and 5*/</span>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <p>\[\operatorname{	}3.681733162459649\]
+</p>
+    <!-- Code cell -->
+    <table>
+      <tr>
+        <td>
+          <span class="prompt"> --&gt;	
+  </span>
+        </td>
+        <td>
+          <span class="input"/>
+        </td>
+      </tr>
+    </table>
+    <!-- Code cell -->
+    <table>
+      <tr>
+        <td>
+          <span class="prompt">(%i21)	
+  </span>
+        </td>
+        <td>
+          <span class="input">
+            <span class="code_function">find_root</span>
+            <span class="code_operator">(</span>
+            <span class="code_function">c</span>
+            <span class="code_operator">(</span>
+            <span class="code_variable">x</span>
+            <span class="code_operator">)</span>
+            <span class="code_endofline">,</span>
+            <span class="code_variable">x</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">30</span>
+            <span class="code_endofline">,</span>
+            <span class="code_number">35</span>
+            <span class="code_operator">)</span>
+            <span class="code_endofline">;</span>
+            <span class="code_comment">/*second root</span>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <p>\[\operatorname{	}31.1717617705136\]
+</p>
+    <hr/>
+    <p>
+      <small> Created with 
+        <a href="https://wxMaxima-developers.github.io/wxmaxima/">wxMaxima</a>.</small>
+    </p>
+    <small> The source of this Maxima session can be downloaded 
+      <a href="otimization_htmlimg/otimization.wxmx">here</a>.</small>
+  </body>
+</html>
