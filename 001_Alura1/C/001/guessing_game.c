@@ -12,7 +12,7 @@ int main(){
 
     int seconds = time(0); //EPOCH number of seconds since 1970
     srand(seconds); //change the seed srand() of rand() function to a random time seed
-
+    
     int secret_random_number = rand();
 
     int secretnumber = secret_random_number % 100;

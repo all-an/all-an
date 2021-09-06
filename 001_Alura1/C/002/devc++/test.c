@@ -36,7 +36,7 @@ int jachutou(char letra) {
 
 void desenhaforca() {
 
-    printf("VocÃª jÃ¡ deu %d chutes\n", tentativas);
+    printf("Você já deu %d chutes\n", tentativas);
 
     for(int i = 0; i < strlen(palavrasecreta); i++) {
 
@@ -55,8 +55,14 @@ void escolhepalavra() {
     sprintf(palavrasecreta, "MELANCIA");
 }
 
+int enforcou(){
+	for(int i = 0; i < tentativas; i++){
+		
+	}	
+}
+
 int main() {
-	setlocale(LC_ALL, "pt-BR");
+	setlocale(LC_ALL, "Portuguese");
 
     int acertou = 0;
     int enforcou = 0;
