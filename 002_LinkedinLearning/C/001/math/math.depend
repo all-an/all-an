@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1630837390 source:c:\users\public\all-an\002_linkedinlearning\c\001\math\main.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
