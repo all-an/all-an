@@ -4,7 +4,6 @@
 #include <time.h>
 #include "forca.h"
 #include <locale.h>
-
 char palavrasecreta[TAMANHO_PALAVRA];
 char chutes[26];
 int chutesdados = 0;
@@ -61,9 +60,9 @@ void chuta() {
     scanf(" %c", &chute);
 
     if(letraexiste(chute)) {
-        printf("Você acertou: a palavra tem a letra %c\n\n", chute);
+        printf("Vocï¿½ acertou: a palavra tem a letra %c\n\n", chute);
     } else {
-        printf("\nVocê errou: a palavra não tem a letra %c\n\n", chute);
+        printf("\nVocï¿½ errou: a palavra nï¿½o tem a letra %c\n\n", chute);
     }
 
     chutes[chutesdados] = chute;
@@ -114,7 +113,7 @@ void escolhepalavra() {
 
     f = fopen("palavras.txt", "r");
     if(f == 0) {
-        printf("Banco de dados de palavras não disponível\n\n");
+        printf("Banco de dados de palavras nï¿½o disponï¿½vel\n\n");
         exit(1);
     }
 
@@ -135,20 +134,20 @@ void escolhepalavra() {
 void adicionapalavra() {
     char quer;
 
-    printf("Você deseja adicionar uma nova palavra no jogo (S/N)?");
+    printf("Vocï¿½ deseja adicionar uma nova palavra no jogo (S/N)?");
     scanf(" %c", &quer);
 
     if(quer == 'S') {
         char novapalavra[TAMANHO_PALAVRA];
 
-        printf("Digite a nova palavra, em letras maiúsculas: ");
+        printf("Digite a nova palavra, em letras maiï¿½sculas: ");
         scanf("%s", novapalavra);
 
         FILE* f;
 
         f = fopen("palavras.txt", "r+");
         if(f == 0) {
-            printf("Banco de dados de palavras não disponível\n\n");
+            printf("Banco de dados de palavras nï¿½o disponï¿½vel\n\n");
             exit(1);
         }
 
@@ -181,7 +180,7 @@ int main() {
     } while (!ganhou() && !enforcou());
 
     if(ganhou()) {
-        printf("\nParabêns, você ganhou!\n\n");
+        printf("\nParabï¿½ns, vocï¿½ ganhou!\n\n");
 
         printf("       ___________      \n");
         printf("      '._==_==_=_.'     \n");
@@ -195,7 +194,7 @@ int main() {
         printf("        '-------'       \n\n");
 
     } else {
-        printf("\nPuxa, você foi enforcado!\n");
+        printf("\nPuxa, vocï¿½ foi enforcado!\n");
         printf("A palavra era **%s**\n\n", palavrasecreta);
 
         printf("    _______________         \n");
