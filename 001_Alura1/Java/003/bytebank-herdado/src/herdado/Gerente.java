@@ -1,33 +1,19 @@
 package herdado;
 
-public class Gerente {
-		private String nome;
-		private String cpf;
-		private double salario;
+//Gerente é um funcionário
+public class Gerente extends Funcionario {
 		public int senha;
+		
+		public boolean autentica(int senha) {
+			if(this.senha == senha) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		
 		public double getBonificacao() {  //get foi usado somente como nome do modulo mas não se refere a um atributo
 			return this.salario; //gerente ganha um salario inteiro de bonificação
 		}
 		
-		public String getNome() {
-			return nome;
-		}
-		
-		public void setNome(String nome) {
-			this.nome = nome;
-		}
-		public String getCpf() {
-			return cpf;
-		}
-		public void setCpf(String cpf) {
-			this.cpf = cpf;
-		}
-		public double getSalario() {
-			return salario;
-		}
-		public void setSalario(double salario) {
-			this.salario = salario;
-		}
-
 }

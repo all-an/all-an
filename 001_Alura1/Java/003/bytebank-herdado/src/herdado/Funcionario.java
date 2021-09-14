@@ -3,7 +3,7 @@ package herdado;
 public class Funcionario {
 	private String nome;
 	private String cpf;
-	private double salario;
+	public double salario;
 	
 	public double getBonificacao() {  //get foi usado somente como nome do modulo mas não se refere a um atributo
 		return this.salario * 0.1;
