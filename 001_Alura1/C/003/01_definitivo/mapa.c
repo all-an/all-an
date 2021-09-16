@@ -6,7 +6,7 @@
 #include "mapa.h"
 
 int liberamapa(MAPA* m) {    //ponteiro apontando para m, pode ser passado qualquer mapa futuramente criado
-    for(int i = 0; i < m->linhas; i++){ //m->linhas é o mesmo que ((*m).linhas) onde *m é o conteúdo do ponteiro
+    for(int i = 0; i < m->linhas; i++){ //m->linhas ï¿½ o mesmo que ((*m).linhas) onde *m ï¿½ o conteï¿½do do ponteiro
         free(m->matriz[i]);
     }
     free(m->matriz);

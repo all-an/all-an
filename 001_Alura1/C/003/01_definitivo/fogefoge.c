@@ -5,7 +5,7 @@
 #include "fogefoge.h"
 #include "mapa.h"
 
-//os arquivos tem de ser compilados juntos   >  gcc fogefoge.c mapa.c -o fogefoge.out
+//os arquivos tem de ser compilados juntos   >  gcc fogefoge.c mapa.c -o fogefoge
 MAPA m; //declarou uma struct do tipo mapa de nome m , abaixo ele se refere a ela com m.
 
 void cls(void) { 
@@ -20,11 +20,11 @@ int move(char direcao){
 	int x;
 	int y;
 	
-	for(int i = 0; i < m.linhas; i++){       //procura e dá posição ao jogador em linha
-		for(int j = 0; j < m.colunas; j++){  //procura e dá a posição do jogador em coluna
+	for(int i = 0; i < m.linhas; i++){       //procura e dï¿½ posiï¿½ï¿½o ao jogador em linha
+		for(int j = 0; j < m.colunas; j++){  //procura e dï¿½ a posiï¿½ï¿½o do jogador em coluna
 			if(m.matriz[i][j] == '@') {
-			x = i;  //nomeia a posição x do jogador com a variável i
-			y = j;  // idem só que em y
+			x = i;  //nomeia a posiï¿½ï¿½o x do jogador com a variï¿½vel i
+			y = j;  // idem sï¿½ que em y
 			break;
 			}
 		}
@@ -49,7 +49,7 @@ int move(char direcao){
 }
 
 int main(){
-    lemapa(&m); //&m passa o endereço do ponteiro para a função como parâmetro 
+    lemapa(&m); //&m passa o endereï¿½o do ponteiro para a funï¿½ï¿½o como parï¿½metro 
     
     do{
     	system("cls");
