@@ -13,11 +13,6 @@
 
 <div align="center"><a href="https://github.com/all-an/github-readme-stats">
   <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&show_icons=true&theme=vision-friendly-dark" />
-  <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=all-an&layout=compact&theme=vision-friendly-dark" />
-
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=all-an&layout=compact&theme=vision-friendly-dark)](https://github.com/anuraghazra/github-readme-stats)
-
-
 </a>
 </div>
 
