@@ -4,64 +4,130 @@
 #include <conio.h>
 #include "fogefoge.h"
 #include "mapa.h"
+#include <time.h>
 
 //os arquivos tem de ser compilados juntos   >  gcc fogefoge.c mapa.c -o fogefoge
 MAPA m; //declarou uma struct do tipo mapa de nome m , abaixo ele se refere a ela com m.
+POSICAO heroi;
 
 void cls(void) { 
 	printf("\033[1J\033[H"); 
+}
+
+int praondefantasmavai(int xatual, int yatual, 
+    int* xdestino, int* ydestino) {
+
+    int opcoes[4][2] = { 
+        { xatual   , yatual+1 }, 
+        { xatual+1 , yatual   },  
+        { xatual   , yatual-1 }, 
+        { xatual-1 , yatual   }
+    };
+
+    srand(time(0));
+    for(int i = 0; i < 10; i++) {
+        int posicao = rand() % 4;
+
+        if(ehvalida(&m, opcoes[posicao][0], opcoes[posicao][1]) &&
+            ehVazia(&m, opcoes[posicao][0], opcoes[posicao][1])) {
+            *xdestino = opcoes[posicao][0];
+            *ydestino = opcoes[posicao][1];
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+void fantasmas() {
+    MAPA copia;
+
+    copiamapa(&copia, &m);
+
+    for(int i = 0; i < copia.linhas; i++) {
+        for(int j = 0; j < copia.colunas; j++) {
+            if(copia.matriz[i][j] == FANTASMA) {
+
+                int xdestino;
+                int ydestino;
+
+                int encontrou = praondefantasmavai(i, j, &xdestino, &ydestino);
+
+                if(encontrou) {
+                    andanomapa(&m, i, j, xdestino, ydestino);
+                }
+            }
+        }
+    }
+
+    liberamapa(&copia);
 }
 
 int acabou(){
 	return 0;
 }
 
-int move(char direcao){
+int ehdirecao(char direcao) {
+    return
+        direcao == ESQUERDA || 
+        direcao == CIMA ||
+        direcao == BAIXO ||
+        direcao == DIREITA;
+}
+
+void move(char direcao){
 	int x;
 	int y;
 	
-	for(int i = 0; i < m.linhas; i++){       //procura e d� posi��o ao jogador em linha
-		for(int j = 0; j < m.colunas; j++){  //procura e d� a posi��o do jogador em coluna
-			if(m.matriz[i][j] == '@') {
-			x = i;  //nomeia a posi��o x do jogador com a vari�vel i
-			y = j;  // idem s� que em y
-			break;
-			}
-		}
-	}
+	if(!ehdirecao(direcao))    
+        return;
 	
+	int proximox = heroi.x;
+    int proximoy = heroi.y;
+
 	switch(direcao) {
-        case 'a':
-            m.matriz[x][y-1] = '@';
+        case ESQUERDA:
+            proximoy--;
             break;
-        case 'w':
-            m.matriz[x-1][y] = '@';
+        case CIMA:
+            proximox--;
             break;
-        case 's':
-            m.matriz[x+1][y] = '@';
+        case BAIXO:
+            proximox++;
             break;
-        case 'd':
-            m.matriz[x][y+1] = '@';
+        case DIREITA:
+            proximoy++;
             break;
     }
 
-    m.matriz[x][y] = '.';
+	if(!ehvalida(&m, proximox, proximoy))
+    	return;
+
+	if(!ehVazia(&m, proximox, proximoy))
+		return;
+
+    andanomapa(&m, heroi.x, heroi.y, proximox, proximoy);
+	heroi.x = proximox;
+	heroi.y = proximoy;
 }
 
 int main(){
     lemapa(&m); //&m passa o endere�o do ponteiro para a fun��o como par�metro 
+    encontramapa(&m, &heroi, HEROI);
     
     do{
     	system("cls");
 		imprimemapa(&m);
 	
 		char comando;
-    	scanf(" %c", &comando);
+		comando = _getch();
+    	//scanf(" %c", &comando);
     	move(comando);
+        fantasmas();
 	
 	}while(!acabou());
 
 	
     liberamapa(&m);
-	getch();
+	fflush(stdin);
  }
