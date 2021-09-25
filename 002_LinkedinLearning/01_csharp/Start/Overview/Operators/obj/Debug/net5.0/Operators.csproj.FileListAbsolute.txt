@@ -1,0 +1,16 @@
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\bin\Debug\net5.0\Operators.exe
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\bin\Debug\net5.0\Operators.deps.json
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\bin\Debug\net5.0\Operators.runtimeconfig.json
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\bin\Debug\net5.0\Operators.runtimeconfig.dev.json
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\bin\Debug\net5.0\Operators.dll
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\bin\Debug\net5.0\ref\Operators.dll
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\bin\Debug\net5.0\Operators.pdb
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\Operators.csproj.AssemblyReference.cache
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\Operators.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\Operators.AssemblyInfoInputs.cache
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\Operators.AssemblyInfo.cs
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\Operators.csproj.CoreCompileInputs.cache
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\Operators.dll
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\ref\Operators.dll
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\Operators.pdb
+C:\Users\Public\all-an\002_LinkedinLearning\01_csharp\Start\Overview\Operators\obj\Debug\net5.0\Operators.genruntimeconfig.cache
