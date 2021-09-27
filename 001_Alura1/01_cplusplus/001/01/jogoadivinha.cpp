@@ -17,10 +17,29 @@ int main()
 	cout << "| Jogo da Adivinha‡Æo |" <<endl;
 	cout << "^^^^^^^^^^^^^^^^^^^^^^^" <<endl;
 
-	int numero_secreto = 42;
+	const int NUMERO_SECRETO = 42;
+	bool nao_acertou = true;
 
-	cout << "Numero secreto ‚ " << numero_secreto << " , o sentido da vida." <<endl;
+	while(nao_acertou){
+		
+		cout << "Chute um n£mero: ";
+		int chute;
+		cin >> chute;
 
+		cout << "Chutou : " << chute << endl;
 
-	return 0;
+		bool acertou = (chute == NUMERO_SECRETO);
+		bool maior = (chute > NUMERO_SECRETO);
+
+		if(acertou){
+			cout << "Parab‚ns, acertou !" << endl;
+			nao_acertou = false;
+		}else if(maior){
+			cout << "Errou, chutou maior que o n£mero secreto !" << endl;
+		}else{
+			cout << "Errou, chutou menor que o n£mero secreto !" << endl;
+		}
+	}
+	
+	cout << "Fim !" << endl;
 }
