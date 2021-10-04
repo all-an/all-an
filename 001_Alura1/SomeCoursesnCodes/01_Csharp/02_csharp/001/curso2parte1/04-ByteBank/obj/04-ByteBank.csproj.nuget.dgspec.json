@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Public\\all-an\\001_Alura1\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\04-ByteBank.csproj": {}
+    "C:\\Users\\Public\\all-an\\001_Alura1\\SomeCoursesnCodes\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\04-ByteBank.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Public\\all-an\\001_Alura1\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\04-ByteBank.csproj": {
+    "C:\\Users\\Public\\all-an\\001_Alura1\\SomeCoursesnCodes\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\04-ByteBank.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Public\\all-an\\001_Alura1\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\04-ByteBank.csproj",
+        "projectUniqueName": "C:\\Users\\Public\\all-an\\001_Alura1\\SomeCoursesnCodes\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\04-ByteBank.csproj",
         "projectName": "04-ByteBank",
-        "projectPath": "C:\\Users\\Public\\all-an\\001_Alura1\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\04-ByteBank.csproj",
+        "projectPath": "C:\\Users\\Public\\all-an\\001_Alura1\\SomeCoursesnCodes\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\04-ByteBank.csproj",
         "packagesPath": "C:\\Users\\all-a\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Public\\all-an\\001_Alura1\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\obj\\",
+        "outputPath": "C:\\Users\\Public\\all-an\\001_Alura1\\SomeCoursesnCodes\\01_Csharp\\02_csharp\\001\\curso2parte1\\04-ByteBank\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\all-a\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

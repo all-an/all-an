@@ -6,9 +6,12 @@ namespace _04_ByteBank
     {
         static void Main(string[] args)
         {
+            //cria o novo objeto contaDoBruno referênciando ao objeto ContaCorrente()
             ContaCorrente contaDoBruno = new ContaCorrente();
 
+            //atribui valor ao atributo titular dentro do objeto contaDoBruno
             contaDoBruno.titular = "Bruno";
+
 
             Console.WriteLine(contaDoBruno.saldo);
 
