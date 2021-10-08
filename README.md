@@ -1,8 +1,5 @@
 ### Hi there 👋
 
-<div align="center">
-  <img     src="https://media4.giphy.com/media/H4nUqdNomOWzJfoIa6/giphy.gif" width="700px" style="max-width:100%;">
-</div>
 
 - 🌱 
 - 💬 Ask me about anything.
