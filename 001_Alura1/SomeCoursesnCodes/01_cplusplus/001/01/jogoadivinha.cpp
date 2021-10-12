@@ -1,54 +1,52 @@
-//g++ jogoadivinha.cpp -o jogoadivinha
-//./jogoadivinha
-// Simple C++ program to display "Hello World"
-
-// Header file for input output functions
-#include<iostream>
-
+#include <iostream>
 using namespace std;
 
-// main function -
-// where the execution of program begins
 int main()
 {
-	setlocale(LC_ALL,"pt_BR.UTF-8");
-	// prints hello world
-	cout << "vvvvvvvvvvvvvvvvvvvvvvv" <<endl;
-	cout << "| Jogo da Adivinha‡Æo |" <<endl;
-	cout << "^^^^^^^^^^^^^^^^^^^^^^^" <<endl;
+    cout << "**************************************" << endl;
+    cout << "*********  Guessing Game  ************" << endl;
+    cout << "**************************************" << endl;
 
-	const int NUMERO_SECRETO = 42;
-	bool nao_acertou = true;
-	int tentativas = 0;
+    const int SECRET_NUMBER = 42;
 
-	double pontos = 1000.0;
+    bool not_hit = true;
+    int attempts = 0;
 
-	while(nao_acertou){
-		tentativas++;
-		
-		cout << "Tentativa " << tentativas << endl;
-		cout << "Chute um n£mero: ";
-		int chute;
-		cin >> chute;
+	double score = 1000.0;
 
-		double pontos_perdidos = abs(chute - NUMERO_SECRETO)/2.0;
-		pontos -= pontos_perdidos;
-		cout << "Total de pontos: " << pontos << endl;
+    while(not_hit){
+        attempts++;
+        int guess;
+        cout << "Attempt " << attempts << endl;
+        cout << "Guess a number? ";
+        cin >> guess;
 
-		cout << "Chutou : " << chute << endl;
+        double lost_score = abs(guess - SECRET_NUMBER)/2.0;
+        score -= lost_score;
 
-		bool acertou = (chute == NUMERO_SECRETO);
-		bool maior = (chute > NUMERO_SECRETO);
+        cout << "You guess: " << guess << endl;
+        bool hit = guess == SECRET_NUMBER;
+        bool higher = guess > SECRET_NUMBER;
 
-		if(acertou){
-			cout << "Parab‚ns, acertou !" << endl;
-			nao_acertou = false;
-		}else if(maior){
-			cout << "Errou, chutou maior que o n£mero secreto !" << endl;
-		}else{
-			cout << "Errou, chutou menor que o n£mero secreto !" << endl;
-		}
-	}
-	
-	cout << "Fim !" << endl;
+        if (hit)
+        {
+            cout << "Nice ! You guess the secret number !" << endl;
+            not_hit = false;
+        }
+        else if (higher)
+        {
+            cout << "Your guess was higher !" << endl;
+        }
+        else
+        {
+            cout << "Your guess was lower !" << endl;
+        }
+    }
+    cout << "The End !" << endl;
+    cout << "You guess the secret number in " << attempts  << " attempts" << endl;
+
+    cout.precision(2);
+    cout << fixed;
+
+    cout << "Your score was " << score << " points." << endl;
 }
