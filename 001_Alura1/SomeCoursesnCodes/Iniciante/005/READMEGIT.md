@@ -33,3 +33,9 @@ or
 git push -f origin main
 
 see online for other things
+
+// delete branch locally
+git branch -d localBranchName
+
+// delete branch remotely
+git push origin --delete remoteBranchName
