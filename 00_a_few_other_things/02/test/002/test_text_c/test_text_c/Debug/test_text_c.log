@@ -1,4 +1,0 @@
-﻿  test.c
-C:\Users\Public\all-an\test\002\test_text_c\test_text_c\test.c(6,8): warning C4013: 'printf' undefined; assuming extern returning int
-test.obj : error LNK2019: unresolved external symbol _printf referenced in function _main
-C:\Users\Public\all-an\test\002\test_text_c\Debug\test_text_c.exe : fatal error LNK1120: 1 unresolved externals
