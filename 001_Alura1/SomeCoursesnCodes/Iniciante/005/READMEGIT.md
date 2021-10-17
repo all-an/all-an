@@ -39,3 +39,5 @@ git branch -d localBranchName
 
 // delete branch remotely
 git push origin --delete remoteBranchName
+
+https://www.nobledesktop.com/learn/git/git-branches
