@@ -15,7 +15,7 @@
   <a href="#"><img src="https://camo.githubusercontent.com/5824ca600d608f1ad14695e859e6f94cf7e45e7f6ccf51be2299509ea0da08e9/68747470733a2f2f6769746875622d726561646d652d73746174732e76657263656c2e6170702f6170693f757365726e616d653d616c6578616e64726573616e6c696d2673686f775f69636f6e733d7472756526636f756e745f707269766174653d74727565267468656d653d6461726b" width="350" data-canonical-src="https://github-readme-stats.vercel.app/api?username=all-an&theme=dark" style="max-width: 100%;"></a>
 </p>
 
-[![Allan's GitHub stats](https://github-readme-stats.vercel.app/api?username=all-an)](https://github.com/all-an/github-readme-stats)
+[![Allan's GitHub stats](https://github-readme-stats.vercel.app/api?username=all-an&theme=dark)](https://github.com/all-an/github-readme-stats)
 
 
 
