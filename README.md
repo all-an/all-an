@@ -12,7 +12,9 @@
 [![allan8tech@gmail.com](https://img.shields.io/badge/-allan8tech@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:allan8tech@gmail.com)](mailto:allan8tech@gmail.com)
 
 <p align="center">
-  <a href="#">[![Allan's GitHub stats](https://github-readme-stats.vercel.app/api?username=all-an&theme=dark)](https://github.com/all-an/github-readme-stats)</a>
+  <a href="https://github.com/anuraghazra/github-readme-stats">
+  <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&theme=dark&repo=github-readme-stats" />
+</a>
 </p>
 
 [![Allan's GitHub stats](https://github-readme-stats.vercel.app/api?username=all-an&theme=dark)](https://github.com/all-an/github-readme-stats)
