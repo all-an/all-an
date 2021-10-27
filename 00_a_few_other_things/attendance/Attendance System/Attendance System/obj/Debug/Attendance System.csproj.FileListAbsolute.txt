@@ -1,0 +1,17 @@
+D:\Youtube\attendance system\Attendance System\Attendance System\bin\Debug\Attendance System.exe.config
+D:\Youtube\attendance system\Attendance System\Attendance System\bin\Debug\Attendance System.exe
+D:\Youtube\attendance system\Attendance System\Attendance System\bin\Debug\Attendance System.pdb
+D:\Youtube\attendance system\Attendance System\Attendance System\bin\Debug\MetroFramework.dll
+D:\Youtube\attendance system\Attendance System\Attendance System\bin\Debug\MetroFramework.Fonts.dll
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance System.csprojAssemblyReference.cache
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance_System.MainFrm.resources
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance_System.LoginFrm.resources
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance_System.Properties.Resources.resources
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance System.csproj.GenerateResource.cache
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance System.csproj.CoreCompileInputs.cache
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance System.csproj.CopyComplete
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance System.exe
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance System.pdb
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance_System.FrmAddClass.resources
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance_System.StudentsFrm.resources
+D:\Youtube\attendance system\Attendance System\Attendance System\obj\Debug\Attendance_System.RegisterFrm.resources
