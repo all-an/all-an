@@ -22,7 +22,7 @@
 
 <p align="center">
   <a href="https://github.com/anuraghazra/github-readme-stats">
-  <img align="center" src="/google_fu1.png" />
+  <img align="center" height="222" width="290" src="/google_fu1.png" />
 </a>
 </p>
 
