@@ -23,7 +23,7 @@
 
 <p align="center">
   <a href="https://www.linkedin.com/in/all-an/">
-  <img align="center" height="160" width="112" src="/duke.png" />
+  <img align="center" height="130" width="102" src="/duke.png" />
   <img align="center" height="122" width="190" src="/google_fu1.png" />
 </a>
 </p>
