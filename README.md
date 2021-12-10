@@ -4,6 +4,8 @@
 
 ### I'm a brazilian Software Developer, master in the arts of Google-Fu, , I like all programming subjects, but at the moment I'm studying Java. I know how to program in C, C#, Python and Javascript in an elementary but efficient way.
 
+#### If any of you don't know what cryptocurrency is, I advise you to read about [Nano](https://whynano.cc/), the most amazing cryptocurrency ever created.
+
 - 🌱  💬 How to reach me: 📫  [Linkedin](https://www.linkedin.com/in/all-an/) 
 - 🌱  📚 My Projects: 🧑‍💻 [Projects](https://github.com/all-an?tab=projects)
 
