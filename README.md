@@ -2,9 +2,8 @@
   Hi there <g-emoji class="g-emoji" alias="wave" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44b.png">👋</g-emoji> I'm Allan Pereira Abrahão
 </h1> 👋
 
-### I'm a brazilian Software Developer, master in the arts of Google-Fu, , I like all programming subjects, but at the moment I'm studying Java. I know how to program in C, C#, Python and Javascript in an elementary but efficient way.
+### Software Developer.
 
-#### I like cryptocurrencies , if any of you don't know what cryptocurrency is, I advise you to read about [Nano](https://whynano.cc/), the most amazing, green, fast, lightweight and incredible cryptocurrency ever created.
 
 - 🌱  💬 How to reach me: 📫  [Linkedin](https://www.linkedin.com/in/all-an/) 
 - 🌱  📚 My Projects: 🧑‍💻 [Projects](https://github.com/all-an?tab=projects)
@@ -24,15 +23,10 @@
 
 <p align="center">
   <a href="https://www.linkedin.com/in/all-an/">
-  <img align="center" height="222" width="290" src="/google_fu1.png" />
+  <img align="center" height="222" width="290" src="" />
 </a>
 </p>
 
-<p align="center">
-  <a href="https://www.linkedin.com/in/all-an/">
-  <img align="center" height="104" width="370" src="/google_fu2.png" />
-</a>
-</p>
 
 
 
