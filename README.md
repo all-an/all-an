@@ -23,6 +23,7 @@
 
 <p align="center">
   <a href="https://www.linkedin.com/in/all-an/">
+  <img align="center" height="108" width="179" src="/images-readme/java-name.png" />
   <img align="center" height="83" width="83" src="/images-readme/git.png" />
   <img align="center" height="130" width="102" src="/images-readme/duke.png" />
   <img align="center" height="122" width="190" src="/images-readme/google_fu1.png" />
