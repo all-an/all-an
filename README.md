@@ -2,6 +2,7 @@
   Hi there <g-emoji class="g-emoji" alias="wave" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44b.png">👋</g-emoji> I'm Allan Pereira Abrahão
 </h1> 👋
 
+### I'm a brazilian Software Developer, I'm a master at Google-Fu , I like all programming subjects, but at the moment I'm studying Java. I know how to program in C, C#, Python and Javascript in an elementary but efficient way.
 
 - 🌱  💬 How to reach me: 📫  [Linkedin](https://www.linkedin.com/in/all-an/) 
 - 🌱  📚 My Projects: 🧑‍💻 [Projects](https://github.com/all-an?tab=projects)
