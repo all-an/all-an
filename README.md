@@ -2,7 +2,7 @@
   Hi there <g-emoji class="g-emoji" alias="wave" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44b.png">👋</g-emoji> I'm Allan Pereira Abrahão
 </h1> 👋
 
-### Software Developer.
+### Software Developer
 
 
 - 🌱  💬 How to reach me: 📫  [Linkedin](https://www.linkedin.com/in/all-an/) 
@@ -26,7 +26,6 @@
         <img align="center" height="78" width="54" src="/images-readme/javacoffee2.png" />
         <img align="center" height="100" width="72" src="/images-readme/duke.png" />
         <img align="center" height="63" width="63" src="/images-readme/git.png" />
-        <img align="center" height="63" width="84" src="/images-readme/fallout.png"/>
 </a>
 </p>
 
