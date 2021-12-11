@@ -22,11 +22,11 @@
 </p>
 
 <p align="center">
-  <a href="https://www.linkedin.com/in/all-an/">
-  <img align="center" height="88" width="139" src="/images-readme/java-name.png" />
-  <img align="center" height="130" width="102" src="/images-readme/duke.png" />
-  <img align="center" height="122" width="190" src="/images-readme/google_fu1.png" />
-  <img align="center" height="83" width="83" src="/images-readme/git.png" />
+        <a href="https://www.linkedin.com/in/all-an/">
+        <img align="center" height="78" width="54" src="/images-readme/javacoffee2.png" />
+        <img align="center" height="100" width="72" src="/images-readme/duke.png" />
+        <img align="center" height="63" width="63" src="/images-readme/git.png" />
+        <img align="center" height="63" width="84" src="/images-readme/fallout.png" />
 </a>
 </p>
 
