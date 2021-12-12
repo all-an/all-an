@@ -3,6 +3,8 @@
 </h1> 👋
 
 ### Software Developer
+### [Nano](https://whynano.cc/) cryptocurrency Enthusiast
+### [Nano official website](https://nano.org/)
 
 
 - 🌱  💬 How to reach me: 📫  [Linkedin](https://www.linkedin.com/in/all-an/) 
@@ -23,10 +25,11 @@
 
 <p align="center">
         <a href="https://www.linkedin.com/in/all-an/">
+        <img align="center" width="106" height="80"  src="/images-readme/nanologo.png" />
+        <img align="center" width="54" height="78"  src="/images-readme/javacoffee2.png" />
         <img align="center" width="138" height="42"  src="/images-readme/openjdk.png" />
-        <img align="center" height="78" width="54" src="/images-readme/javacoffee2.png" />
-        <img align="center" height="100" width="72" src="/images-readme/duke.png" />
-        <img align="center" height="63" width="63" src="/images-readme/git.png" />
+        <img align="center" width="72" height="100"  src="/images-readme/duke.png" />
+        <img align="center" width="63" height="63"  src="/images-readme/git.png" />
 </a>
 </p>
 
