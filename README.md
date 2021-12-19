@@ -21,7 +21,7 @@
 
 <p align="center">
   <a href="https://github.com/anuraghazra/github-readme-stats">
-  <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&hide=contribs&theme=dark&repo=github-readme-stats" />
+  <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&hide=contribs&hide=prs&hide=issues&theme=dark&repo=github-readme-stats" />
 </a>
 </p>
 
