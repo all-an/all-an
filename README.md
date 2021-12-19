@@ -17,9 +17,11 @@
 
 [![allan8tech@gmail.com](https://img.shields.io/badge/-allan8tech@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:allan8tech@gmail.com)](mailto:allan8tech@gmail.com)
 
+![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&hide=contribs,prs)
+
 <p align="center">
   <a href="https://github.com/anuraghazra/github-readme-stats">
-  <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&theme=dark&repo=github-readme-stats" />
+  <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&hide=contribs&theme=dark&repo=github-readme-stats" />
 </a>
 </p>
 
