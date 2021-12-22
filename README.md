@@ -7,7 +7,7 @@
 - 🌱  💬 How to reach me: 📫  [Linkedin](https://www.linkedin.com/in/all-an/) 
 - 🌱  📚 My Projects: 🧑‍💻 [Projects](https://github.com/all-an?tab=projects)
 
-#### [Nano](https://whynano.cc/) cryptocurrency Enthusiast
+#### [Nano](https://whynano.cc/) cryptocurrency enthusiast
 #### [Nano official website](https://nano.org/)
 
 
