@@ -1,8 +1,5 @@
 
 
-[![FALAE - SOU O ALLAN](https://img.shields.io/badge/FALAE-SOU_O_ALLAN-2ea44f?style=for-the-badge)](https://)
-[![SEJA  - BEM VINDO](https://img.shields.io/badge/SEJA_-BEM_VINDO-6495ED?style=for-the-badge)](https://)
-[![FORTE - ABRAÇO](https://img.shields.io/badge/FORTE-ABRAÇO-ffff00?style=for-the-badge)](https://)
 
 <meta name="image" property="og:image" content="/github.jpg">
 
