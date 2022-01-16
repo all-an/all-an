@@ -7,13 +7,7 @@
   Hi there <g-emoji class="g-emoji" alias="wave" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44b.png">👋</g-emoji> I'm Allan Pereira Abrahão
 </h1> 👋
 
-### Software Developer
-
 - 🌱  💬 How to reach me: 📫  [Linkedin](https://www.linkedin.com/in/all-an/) 
-- 🌱  📚 My Projects: 🧑‍💻 [Projects](https://github.com/all-an?tab=projects)
-
-#### [Nano](https://whynano.cc/) cryptocurrency enthusiast
-#### [Nano official website](https://nano.org/)
 
 
 <li><g-emoji class="g-emoji" alias="smile" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"><img class="emoji" alt="smile" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"></g-emoji></li>
@@ -26,12 +20,6 @@
 <p align="center">
   <a href="https://www.linkedin.com/in/all-an/">
   <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&hide=issues,contribs&theme=gruvbox&repo=github-readme-stats" />
-</a>
-</p>
-
-<p align="center">
-        <a href="https://www.linkedin.com/in/all-an/">
-        <img align="center" width="106" height="80"  src="/images-readme/nanologo.png" />
 </a>
 </p>
 
