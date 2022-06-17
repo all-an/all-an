@@ -35,7 +35,7 @@
   
 </div>
 
-[![allan8tech@gmail.com](https://img.shields.io/badge/-allan8tech@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:allan8tech@gmail.com)](mailto:allan8tech@gmail.com)
+[allan8tech@gmail.com](https://img.shields.io/badge/-allan8tech@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:allan8tech@gmail.com)](mailto:allan8tech@gmail.com)
   
 
 
