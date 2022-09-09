@@ -7,10 +7,6 @@
   Hi there <g-emoji class="g-emoji" alias="wave" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44b.png">👋</g-emoji> I'm Allan Pereira Abrahão
 </h1> 
 
-[Software Developer](https://www.linkedin.com/in/allan-pereira-abrahao/) na [Senior Sistemas](https://www.linkedin.com/company/senior-sistemas/mycompany/)
-
-
-
 
 
 
