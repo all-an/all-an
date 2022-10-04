@@ -13,16 +13,6 @@
 👋<g-emoji class="g-emoji" alias="smile" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"><img class="emoji" alt="smile" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png"></g-emoji>
 
 
-
-
-
-
-<p align="center">
-  <a href="https://www.linkedin.com/in/all-an/">
-  <img align="center" src="https://github-readme-stats.vercel.app/api?username=all-an&theme=gruvbox&repo=github-readme-stats" />
-</a>
-</p>
-
 - 🌱  💬 How to reach me: 📫
 
   
