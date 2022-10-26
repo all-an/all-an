@@ -22,5 +22,5 @@
 </div>
 
 
-[Nano cryptocurrency](https://github.com/nanocurrency) enthusiast.
-[Nano](https://nano.org/) is a decentralized, fast and feeless cryptocurrency
+- [Nano cryptocurrency](https://github.com/nanocurrency) enthusiast.
+- [Nano](https://nano.org/) is a decentralized, fast and feeless cryptocurrency
