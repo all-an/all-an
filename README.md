@@ -18,4 +18,4 @@
 - Java / Angular Software Developer at Senior Sistemas
 - [Nano cryptocurrency](https://github.com/nanocurrency) enthusiast.
 - [Nano](https://nano.org/) is a decentralized, fast and feeless cryptocurrency
-- [Rust](https://github.com/rust-lang/rust) ❤️ enthusiast.
+- [Rust](https://github.com/rust-lang/rust) ❤️
