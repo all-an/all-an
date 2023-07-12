@@ -18,3 +18,5 @@
 - Java / Angular Software Developer at Senior Sistemas
 - [Nano cryptocurrency](https://github.com/nanocurrency) enthusiast.
 - [Nano](https://nano.org/) is a decentralized, fast and feeless cryptocurrency
+
+![](https://komarev.com/ghpvc/?username=all-an&style=flat-square)
