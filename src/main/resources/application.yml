@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: all-an-app
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/all-an-db}
+    username: ${SPRING_DATASOURCE_USERNAME:allan}
+    password: ${SPRING_DATASOURCE_PASSWORD:allan}
+  jpa:
+    hibernate:
+      # Flyway owns the schema now. validate makes a drift between the entities and the
+      # migrations fail at startup instead of silently altering tables.
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    # Existing databases already have a Hibernate-created greetings table and no schema history.
+    # baseline-on-migrate marks them at V1 and applies V2+ on top, so no data is lost.
+    baseline-on-migrate: true
+    baseline-version: 1
+
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    com.allan.helloworld: INFO

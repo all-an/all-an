@@ -1,0 +1,53 @@
+<main class="dash">
+  <div class="inner">
+    <a class="back" routerLink="/">← Back</a>
+
+    <h1>Best cryptocurrencies</h1>
+    <p class="lede">
+      Ranked by privacy, not market cap. Monero is #1 because its privacy is
+      <strong>mandatory</strong> — every transaction, no opt-out, so the anonymity set is the whole
+      chain. Zcash's cryptography is arguably stronger per transaction, but shielding is opt-in and
+      most transactions are transparent. Highlighted rows are private by default.
+    </p>
+
+    <div class="controls">
+      <input
+        type="search"
+        placeholder="Search name or symbol..."
+        aria-label="Search cryptocurrencies"
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)" />
+
+      @for (option of ['ALL', 'MANDATORY', 'OPTIONAL', 'NONE']; track option) {
+        <button
+          class="chip"
+          [class.active]="privacyFilter() === option"
+          (click)="privacyFilter.set($any(option))">
+          {{ option }}
+        </button>
+      }
+
+      <span class="count">{{ visibleCount() }} of 50 · {{ privateCount() }} private by default</span>
+    </div>
+
+    @if (loading()) {
+      <p class="state">Loading...</p>
+    } @else if (error()) {
+      <p class="state error">{{ error() }}</p>
+    } @else {
+      <app-crypto-table
+        [rows]="visibleRows()"
+        [sortKey]="sortKey()"
+        [sortAsc]="sortAsc()"
+        (sortChange)="onSort($event)" />
+    }
+
+    <p class="disclaimer">
+      <strong>About this data.</strong> Transaction times and fees are an approximate, hand-curated
+      snapshot — not live figures. Fees swing with network congestion, so "typical" is a judgement
+      call. Prices are filled in manually and shown with the date they refer to; a dash means nobody
+      has filled one in yet. The privacy columns describe protocol design rather than market state,
+      so they age far better than the numbers next to them.
+    </p>
+  </div>
+</main>

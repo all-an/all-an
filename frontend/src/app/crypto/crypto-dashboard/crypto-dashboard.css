@@ -1,0 +1,119 @@
+.dash {
+  min-height: 100vh;
+  background: #000;
+  color: #e5e5e5;
+  padding: 2rem 1.5rem 4rem;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/*
+ * Wide enough for all ten columns without horizontal scrolling on a normal laptop, but still
+ * capped so the table does not stretch to absurd line lengths on an ultrawide monitor.
+ */
+.inner {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: #7c7c7c;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.back:hover {
+  color: #ff6600;
+}
+
+h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.lede {
+  margin: 0 0 1.5rem;
+  color: #8a8a8a;
+  font-size: 0.92rem;
+  max-width: 60ch;
+  line-height: 1.5;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+input[type='search'] {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.5rem 0.75rem;
+  background: #0b0b0b;
+  border: 1px solid #262626;
+  border-radius: 8px;
+  color: #e5e5e5;
+  font-size: 0.9rem;
+}
+
+input[type='search']:focus {
+  outline: none;
+  border-color: #ff6600;
+}
+
+.chip {
+  padding: 0.45rem 0.8rem;
+  background: #0b0b0b;
+  border: 1px solid #262626;
+  border-radius: 999px;
+  color: #9a9a9a;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip:hover {
+  color: #e5e5e5;
+}
+
+.chip.active {
+  background: rgba(255, 102, 0, 0.12);
+  border-color: #ff6600;
+  color: #ff8c3a;
+}
+
+.count {
+  margin-left: auto;
+  color: #6f6f6f;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.state {
+  padding: 2rem;
+  text-align: center;
+  color: #8a8a8a;
+}
+
+.state.error {
+  color: #f87171;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 8px;
+}
+
+.disclaimer {
+  margin-top: 1.25rem;
+  color: #5f5f5f;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  max-width: 75ch;
+}
+
+.disclaimer strong {
+  color: #8a8a8a;
+}

@@ -1,0 +1,61 @@
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        @for (col of columns; track col.key) {
+          <th
+            [class.sorted]="sortKey() === col.key"
+            (click)="onSort(col.key)"
+            [attr.aria-sort]="
+              sortKey() === col.key ? (sortAsc() ? 'ascending' : 'descending') : 'none'
+            ">
+            {{ col.label }}
+            @if (sortKey() === col.key) {
+              <span class="arrow">{{ sortAsc() ? '▲' : '▼' }}</span>
+            }
+          </th>
+        }
+        <th>Kind</th>
+        <th>Fungibility</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (row of rows(); track row.symbol) {
+        <tr [class.by-default]="row.privacyByDefault">
+          <td class="num">{{ row.rank }}</td>
+          <td>
+            <a
+              class="name"
+              [href]="row.websiteUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              [title]="'Open ' + row.name + ' official site'">
+              {{ row.name }}
+            </a>
+            <span class="symbol">{{ row.symbol }}</span>
+          </td>
+          <td><app-privacy-badge [level]="row.privacy" /></td>
+          <td class="num">{{ humaniseSeconds(row.mempoolTimeSeconds) }}</td>
+          <td class="num">{{ humaniseSeconds(row.transactionTimeSeconds) }}</td>
+          <td class="num">${{ row.transactionFeeUsd | number: '1.2-4' }}</td>
+          <td class="num">{{ row.launchYear }}</td>
+          <td class="num">
+            @if (row.priceUsd !== null) {
+              ${{ row.priceUsd | number: '1.2-6' }}
+              <span class="as-of">as of {{ row.priceDate }}</span>
+            } @else {
+              <span class="empty">—</span>
+            }
+          </td>
+          <td class="kind">{{ row.privacyKind }}</td>
+          <td class="kind">{{ row.fungibility }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="10" class="empty-row">No cryptocurrencies match this filter.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
