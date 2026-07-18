@@ -61,6 +61,9 @@ export class CryptoDashboard implements OnInit {
 
   protected readonly visibleCount = computed(() => this.visibleRows().length);
 
+  /** Derived, not hardcoded: the row count changes whenever a migration adds coins. */
+  protected readonly totalCount = computed(() => this.all().length);
+
   ngOnInit(): void {
     this.service.findAll().subscribe({
       next: (rows) => {

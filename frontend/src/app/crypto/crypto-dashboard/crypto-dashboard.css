@@ -41,6 +41,114 @@ h1 {
   line-height: 1.5;
 }
 
+/*
+ * The long-form argument, collapsed by default so it never pushes the table below the fold.
+ * Narrower than the table on purpose: this is prose, and prose wants a short measure.
+ */
+.essay {
+  margin: 0 0 1.5rem;
+  max-width: 75ch;
+  background: #0b0b0b;
+  border: 1px solid #262626;
+  border-radius: 8px;
+}
+
+.essay[open] {
+  border-color: #333;
+}
+
+.essay summary {
+  padding: 0.7rem 0.9rem;
+  color: #9a9a9a;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+/* Safari still renders the default disclosure triangle without this. */
+.essay summary::-webkit-details-marker {
+  display: none;
+}
+
+.essay summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 0.5rem;
+  color: #ff6600;
+  transition: transform 0.15s ease;
+}
+
+.essay[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.essay summary:hover {
+  color: #e5e5e5;
+}
+
+.essay summary:focus-visible {
+  outline: 2px solid #ff6600;
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+.essay-body {
+  padding: 0 0.9rem 1rem;
+  color: #8a8a8a;
+  font-size: 0.87rem;
+  line-height: 1.6;
+}
+
+.essay-body h2 {
+  margin: 1.1rem 0 0.5rem;
+  color: #e5e5e5;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+
+.essay-body p {
+  margin: 0 0 0.7rem;
+}
+
+.essay-body ol {
+  margin: 0 0 0.7rem;
+  padding-left: 1.2rem;
+}
+
+.essay-body li {
+  margin-bottom: 0.6rem;
+  padding-left: 0.2rem;
+}
+
+.essay-body li::marker {
+  color: #ff6600;
+  font-weight: 600;
+}
+
+.essay-body strong {
+  color: #cfcfcf;
+}
+
+.essay-body code {
+  padding: 0.05rem 0.3rem;
+  background: #161616;
+  border-radius: 4px;
+  color: #ff8c3a;
+  font-size: 0.85em;
+}
+
+/* The counterargument, set apart so the section does not read as one-sided. */
+.essay-body .fair {
+  padding: 0.6rem 0.8rem;
+  background: rgba(255, 102, 0, 0.05);
+  border-left: 2px solid rgba(255, 102, 0, 0.4);
+  border-radius: 0 4px 4px 0;
+  color: #7d7d7d;
+  font-size: 0.84rem;
+}
+
 .controls {
   display: flex;
   flex-wrap: wrap;

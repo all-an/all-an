@@ -12,8 +12,29 @@ This is **not** a market-cap ranking. Monero is #1 because the list is ordered b
 guarantees*, and that ordering is the whole point of the demo. A market-cap table is a commodity;
 an opinionated one has a thesis worth defending.
 
-Rank 1–12 are privacy coins, ordered by how strong and how *default* their privacy is. Rank 13+ are
-majors with little or no protocol-level privacy, ordered roughly by relevance.
+Three tiers, in order of what the thesis says matters: privacy first, then whether you can actually
+spend the thing — does it settle now, and does it cost anything to move.
+
+| Rank | Tier | Ordered by |
+|---|---|---|
+| 1–12 | Privacy coins | How strong and how *default* the privacy is |
+| 13–16 | Feeless / instant | Zero fee first, then time to finality |
+| 17–54 | Transparent majors | Time to finality, ties broken on fee |
+
+Tiers 2 and 3 arrived in `V6` and `V7`. Before them, everything below the privacy coins sat in one
+block ordered "roughly by relevance", which is market cap with a thumb on it — the exact thing the
+first paragraph disclaims. The ordering rule now sorts on the two columns it names, so a reader can
+check it by eye.
+
+**What this costs Bitcoin.** It finishes 54th of 54, last on the list it used to head at 13: about
+an hour to practical finality at roughly $1.50, against a feeless coin that settles in under a
+second. That is the thesis working rather than a bug. Bitcoin still leads on relevance and on
+security budget; this table does not rank on either, and a ranking that quietly protected its most
+famous entry would not be worth publishing.
+
+Note that the privacy tier is *not* speed-sorted — Monero is #1 at 1200s while Nano settles in
+under one. That is the hierarchy doing its job: privacy outranks speed, so a slow private coin
+still beats a fast transparent one. Speed only decides positions *within* the tiers below it.
 
 ---
 
