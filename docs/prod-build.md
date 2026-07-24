@@ -67,10 +67,10 @@ run as a non-root `spring` user.
 `SpaConfig` maps `/**` to `classpath:/static/` with one custom rule:
 
 - the path is a real file → serve it (`main-<hash>.js`, `styles.css`, …)
-- the path starts with `api/` → return `null` so `GreetingController` handles it
+- the path starts with `api/` → return `null` so the crypto controller handles it
 - anything else → return `index.html`
 
-The third rule is what makes deep links work. Angular's router owns routes like `/greetings`, but on
+The third rule is what makes deep links work. Angular's router owns routes like `/crypto`, but on
 a hard refresh the browser asks the *server* for that path. Without the fallback it would be a 404;
 with it, `index.html` loads and Angular routes on the client.
 
@@ -83,7 +83,7 @@ docker compose build app     # or: docker build -t all-an-app:local .
 docker compose up -d         # starts all-an-db + all-an-app
 ```
 
-Then <http://localhost:8080> serves the UI, and `/api/greetings` the API — same port, same origin,
+Then <http://localhost:8080> serves the UI, and `/api/cryptocurrencies` the API — same port, same origin,
 no CORS and no proxy.
 
 ## Push to Docker Hub

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    Laptop, drawn as solid shapes rather than strokes: at 16px a 1px stroke disappears, so the
+    silhouette has to carry the shape. #ff6600 is the site accent, and it holds up against both a
+    light and a dark browser tab, which a near-black or near-white icon would not.
+  -->
+  <rect x="5" y="5" width="22" height="15" rx="2.5" fill="#ff6600"/>
+  <rect x="7.5" y="7.5" width="17" height="10" rx="1" fill="#0b0b0b"/>
+  <rect x="2" y="21.5" width="28" height="4" rx="2" fill="#ff6600"/>
+</svg>

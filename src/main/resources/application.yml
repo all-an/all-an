@@ -17,14 +17,20 @@ spring:
 
   flyway:
     enabled: true
-    # Existing databases already have a Hibernate-created greetings table and no schema history.
+    # Existing databases predate Flyway: they were built by Hibernate and have no schema history.
     # baseline-on-migrate marks them at V1 and applies V2+ on top, so no data is lost.
     baseline-on-migrate: true
     baseline-version: 1
 
 server:
   port: ${PORT:8080}
+  # Render terminates TLS at its proxy, so without this every request looks like it came from the
+  # proxy: one IP for the whole internet, and the messages daily limit would throttle everyone at
+  # once. "framework" installs ForwardedHeaderFilter, which makes getRemoteAddr() report the
+  # client address from X-Forwarded-For. Only trustworthy because the proxy sets that header
+  # itself - running this app with a port exposed directly to the internet would let anyone spoof it.
+  forward-headers-strategy: framework
 
 logging:
   level:
-    com.allan.helloworld: INFO
+    com.allan.app: INFO

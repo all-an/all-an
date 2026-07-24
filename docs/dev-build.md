@@ -37,13 +37,13 @@ Docker database:
 url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/all-an-db}
 ```
 
-The `dev` profile activates `CorsConfig`, which allows `http://localhost:4200`. Hibernate creates
-the `greetings` table on first boot (`ddl-auto: update`).
+The `dev` profile activates `CorsConfig`, which allows `http://localhost:4200`. Flyway runs the
+migrations on first boot; Hibernate is set to `ddl-auto: validate` and only checks the result.
 
 Verify:
 
 ```bash
-curl localhost:8080/api/greetings     # -> []
+curl localhost:8080/api/cryptocurrencies    # -> [...]
 ```
 
 ## 3. Start Angular
@@ -58,7 +58,7 @@ Open <http://localhost:4200>. Edits to `src/app/*` reload instantly.
 
 ## How `/api` reaches Spring Boot
 
-`GreetingService` calls the **relative** URL `/api/greetings` — never a hardcoded
+`CryptoService` calls the **relative** URL `/api/cryptocurrencies` — never a hardcoded
 `http://localhost:8080`. That single detail is what lets the same code work in both modes.
 
 In development that relative URL would hit the Angular dev server on `:4200`, so `proxy.conf.json`
@@ -99,7 +99,7 @@ There was an unexpected error (type=Not Found, status=404).
 That is expected, and it is not a bug. The Angular bundle is copied into
 `src/main/resources/static/` **by the Dockerfile**, during its build stages. A local
 `mvn spring-boot:run` never runs those stages, so `static/` is empty, `SpaConfig` finds no
-`index.html` to fall back to, and every non-`/api` URL 404s. (`/api/greetings` still works — only
+`index.html` to fall back to, and every non-`/api` URL 404s. (`/api/cryptocurrencies` still works — only
 the UI is missing.)
 
 Use the script to do locally what Docker does at build time:

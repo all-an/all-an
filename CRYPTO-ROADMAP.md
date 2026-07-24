@@ -227,7 +227,7 @@ check, because a determined user can edit the bundle in DevTools but cannot edit
 
 ---
 
-## 5. Java — `com.allan.helloworld.bestcryptocurrencies`
+## 5. Java — `com.allan.app.bestcryptocurrencies`
 
 Separated classes, one responsibility each:
 
@@ -271,11 +271,11 @@ frontend/src/app/
 │   ├── crypto-table/        presentational: takes rows via input(), emits sort
 │   ├── privacy-badge/       presentational: colours MANDATORY vs OPTIONAL vs NONE
 │   └── crypto.service.ts    HTTP
-└── greetings/           the existing Hello World CRUD, moved behind /greetings
+└── about-me/            stack and professional background, behind /about
 ```
 
-Routes: `/` → front page, `/crypto` → dashboard, `/greetings` → existing CRUD. `App` becomes a shell
-with `<router-outlet>`.
+Routes: `/` → front page, `/crypto` → dashboard, `/about` → about me. `App` becomes a shell
+with `<router-outlet>` and the About me button.
 
 ### Which Angular feature does what
 
