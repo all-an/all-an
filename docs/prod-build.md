@@ -1,131 +1,108 @@
-# Prod build — how the dist is created and served
+# Prod build — how it is built and deployed
 
-In production there is **one container**. Angular is compiled to a static bundle, that bundle is
-baked into the Spring Boot jar, and Spring Boot serves both the API and the UI from a single origin.
-
-```
-frontend/ ──ng build──▶ dist/frontend/browser/ ──copy──▶ src/main/resources/static/
-                                                              │
-                                                     mvn package
-                                                              ▼
-                                                    app.jar (UI + API)
-```
-
-## The three Docker stages
-
-`docker build .` runs `Dockerfile`, which is deliberately split so each stage caches independently.
-
-### Stage 1 — build the dist (`node:24-alpine`)
-
-```dockerfile
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci
-COPY frontend/ ./
-RUN npm run build
-```
-
-`package.json` is copied **before** the source so `npm ci` re-runs only when dependencies change,
-not on every source edit.
-
-`npm run build` produces:
+One Render **Node** web service. No Docker image, no registry, no cross-architecture build: Render
+checks out the repository, runs the build, and starts the compiled server.
 
 ```
-frontend/dist/frontend/browser/
-├── index.html
-├── main-<hash>.js
-├── styles-<hash>.css
-└── favicon.ico
+npm ci && npm run build
+        │
+        ├── dist/all-an/browser/   the client bundle, hashed
+        └── dist/all-an/server/    server.mjs — SSR + the API in one process
+                │
+        node dist/all-an/server/server.mjs
 ```
 
-The `browser/` subfolder is Angular's application-builder layout — the path that matters in the next
-stage. `outputPath` isn't set in `angular.json`, so this is the default derived from the project
-name (`frontend`).
+## What `ng build` produces
 
-### Stage 2 — bake it into the jar (`maven:3.9-eclipse-temurin-21`)
+The Angular application builder compiles two graphs from one source tree:
 
-```dockerfile
-COPY pom.xml ./
-RUN mvn -B dependency:go-offline
-COPY src ./src
-COPY --from=frontend /frontend/dist/frontend/browser/ ./src/main/resources/static/
-RUN mvn -B clean package -DskipTests
-```
+- **`browser/`** — what the visitor downloads. Reached from `src/main.ts`.
+- **`server/server.mjs`** — the Express app. Reached from `src/server.ts`, which pulls in
+  `src/api/**` and so bundles the whole API alongside the renderer.
 
-The key line is the `COPY --from=frontend`: **Angular's dist becomes Spring Boot's static content.**
-Anything under `src/main/resources/static/` lands on the classpath, so `mvn package` seals the whole
-UI inside `app.jar`.
+Nothing under `src/api/` is reachable from `src/main.ts`, and that is what keeps server code — SQL,
+password hashing, session lookups — out of the browser bundle. The separation is maintained by
+imports alone, so it is worth keeping in mind: an Angular component importing from `src/api/` would
+drag it across.
 
-That directory is generated, never committed — it's in `.gitignore`.
+`pg` is listed in `externalDependencies` in `angular.json`. esbuild leaves it alone rather than
+trying to bundle a driver with optional native pieces, and Render's `node_modules` supplies it at
+runtime.
 
-### Stage 3 — runtime (`eclipse-temurin:21-jre-alpine`)
+## What the server does at boot
 
-Only the jar is carried over. The final image has no Node, no Maven, no source — a JRE and one file,
-run as a non-root `spring` user.
+`src/server.ts`, in order:
 
-## How Spring Boot serves the bundle
+1. **Migrate**, then create the admin if the environment asks for one, then sweep dead sessions.
+2. **Only then listen.** A request must never arrive against a half-migrated schema, and a deploy
+   that cannot migrate should fail rather than serve. It exits non-zero instead, the health check
+   never passes, and Render keeps the previous version serving.
+3. `/healthz` → `/api/*` → static files → the Angular renderer, in that order. The API is mounted
+   ahead of the renderer, which is why no "if the path starts with `api/`, don't serve index.html"
+   rule is needed anywhere — the hand-rolled `SpaConfig` of the Spring version is simply gone.
 
-`SpaConfig` maps `/**` to `classpath:/static/` with one custom rule:
+`db/migration/*.sql` is read from disk at runtime and is deliberately **not** part of the bundle or
+the static assets — those files are served to nobody.
 
-- the path is a real file → serve it (`main-<hash>.js`, `styles.css`, …)
-- the path starts with `api/` → return `null` so the crypto controller handles it
-- anything else → return `index.html`
+## Deploying
 
-The third rule is what makes deep links work. Angular's router owns routes like `/crypto`, but on
-a hard refresh the browser asks the *server* for that path. Without the fallback it would be a 404;
-with it, `index.html` loads and Angular routes on the client.
+The repository has a `render.yaml`, so:
 
-Ordering matters: the `api/` check must come before the fallback, or the API would return HTML.
+1. **New → Blueprint** in Render, pointed at this repository.
+2. It creates `all-an-database` and the `all-an` web service, wired together.
+3. Fill in the variables marked `sync: false` when prompted.
 
-## Build and run it locally
+Or by hand: **New → Web Service**, runtime **Node**, build `npm ci && npm run build`, start
+`node dist/all-an/server/server.mjs`, health check `/healthz`.
 
-```bash
-docker compose build app     # or: docker build -t all-an-app:local .
-docker compose up -d         # starts all-an-db + all-an-app
-```
+## Configuration
 
-Then <http://localhost:8080> serves the UI, and `/api/cryptocurrencies` the API — same port, same origin,
-no CORS and no proxy.
-
-## Push to Docker Hub
-
-```bash
-docker login
-docker build -t <user>/all-an-app:latest .
-docker push <user>/all-an-app:latest
-```
-
-For Render, build for its architecture — an image built on an Apple Silicon Mac will not boot there:
-
-```bash
-docker buildx build --platform linux/amd64 -t <user>/all-an-app:latest --push .
-```
-
-## Deploy on Render
-
-1. **New Web Service** → *Deploy an existing image* → `docker.io/<user>/all-an-app:latest`
-2. Create a Render Postgres instance.
-3. Set on the web service:
-
-| Variable | Value |
-|---|---|
-| `SPRING_DATASOURCE_URL` | `jdbc:postgresql://<host>:<port>/<db>` |
-| `SPRING_DATASOURCE_USERNAME` | from Render |
-| `SPRING_DATASOURCE_PASSWORD` | from Render |
-
-`PORT` is injected by Render automatically and `application.yml` already reads it
-(`server.port: ${PORT:8080}`), so it needs no entry.
-
-**The one thing that trips people up:** Render shows the connection string as
-`postgres://user:pass@host/db`. JDBC will not parse that. Rewrite it to
-`jdbc:postgresql://host:port/db` and put the credentials in the two separate variables.
-
-## Configuration summary
-
-| Variable | Default | Used for |
+| Variable | Needed | What it does |
 |---|---|---|
-| `SPRING_DATASOURCE_URL` | `jdbc:postgresql://localhost:5432/all-an-db` | Local dev points at Docker Postgres |
-| `SPRING_DATASOURCE_USERNAME` | `allan` | |
-| `SPRING_DATASOURCE_PASSWORD` | `allan` | |
-| `PORT` | `8080` | Render overrides this |
+| `DATABASE_URL` | yes | Render injects it from the database. `pg` takes it as-is |
+| `PORT` | injected | Render sets it; `server.ts` falls back to 8080 |
+| `ALLOWED_HOSTS` | yes | Hostnames the renderer will answer for |
+| `TRUST_PROXY_HEADERS` | yes | `true` behind Render's proxy |
+| `SESSION_COOKIE_SECURE` | yes | `true` in production |
+| `SITE_URL` | for email | Used for links inside share emails |
+| `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | optional | Creates the moderator at boot |
+| `RESEND_API_KEY` / `MAIL_FROM` | optional | Sending share notifications |
 
-Because every value has a default, the image runs unmodified in all three environments.
+### Three that are easy to get wrong
+
+**`ALLOWED_HOSTS` must include the real hostname.** Angular checks the `Host` header to prevent
+SSRF. An unrecognised host does not throw — it silently falls back to client-side rendering. The
+symptom is "SSR mysteriously stopped working" after a domain change, with nothing in the log to say
+why.
+
+**`TRUST_PROXY_HEADERS=true` is required behind Render.** Without it every request appears to come
+from the proxy: one IP for the entire internet, so the first person to send a contact message
+exhausts the daily limit for everybody, and the login backoff locks out the world at once. It must
+be `false` anywhere the app is reachable directly, because the header can then be set by anyone.
+
+**`SESSION_COOKIE_SECURE=true` in production, `false` locally.** A `Secure` cookie is dropped over
+plain http, so getting this backwards means nobody can stay signed in — in exactly one of the two
+environments.
+
+## Database
+
+Render's *internal* connection string is a single-label hostname on their private network.
+`pool.ts` recognises that and disables TLS, since there is no certificate to verify and the network
+is already isolated. Anything else — including Render's external hostname — gets TLS with
+`rejectUnauthorized: false`, because the server presents a self-signed certificate. Prefer the
+internal URL: it is the one that is actually protected.
+
+Unlike the Spring version, there is nothing to rewrite. Render's `postgres://user:pass@host/db` is
+exactly what `pg` expects; the `jdbc:postgresql://` translation step, and the three separate
+`SPRING_DATASOURCE_*` variables, went with the JVM.
+
+## Email
+
+Share notifications go through Resend's HTTP API — one `fetch`, no dependency. HTTP rather than
+SMTP because Render blocks outbound SMTP ports on free instances, so a nodemailer setup would
+simply time out there.
+
+With `RESEND_API_KEY` or `MAIL_FROM` unset, sending is skipped and logged. That is deliberate:
+sharing is the user's action and the email is a courtesy on top of it, so a missing key — or a
+provider having a bad afternoon — must not turn a successful share into an error. The share is in
+the recipient's list either way.

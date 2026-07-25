@@ -1,0 +1,70 @@
+<main class="auth">
+  <section class="panel">
+    <h1>Create an account</h1>
+    <p class="lede">To write your own quizzes and keep your results.</p>
+
+    @if (formError()) {
+      <p class="form-error" role="alert">{{ formError() }}</p>
+    }
+
+    <form (ngSubmit)="submit()">
+      <label>
+        <span class="label-text">Username</span>
+        <input
+          name="username"
+          autocomplete="username"
+          autocapitalize="none"
+          spellcheck="false"
+          required
+          [ngModel]="username()"
+          (ngModelChange)="username.set($event)" />
+        @if (fieldErrors()['username']; as error) {
+          <span class="field-error">{{ error }}</span>
+        } @else {
+          <span class="field-error hint">Letters, numbers, _ and - only.</span>
+        }
+      </label>
+
+      <label>
+        <span class="label-text">Email</span>
+        <input
+          type="email"
+          name="email"
+          autocomplete="email"
+          autocapitalize="none"
+          spellcheck="false"
+          required
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)" />
+        @if (fieldErrors()['email']; as error) {
+          <span class="field-error">{{ error }}</span>
+        } @else {
+          <span class="field-error hint">Where friends' shared quizzes get sent.</span>
+        }
+      </label>
+
+      <label>
+        <span class="label-text">Password</span>
+        <input
+          type="password"
+          name="password"
+          autocomplete="new-password"
+          required
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)" />
+        @if (fieldErrors()['password']; as error) {
+          <span class="field-error">{{ error }}</span>
+        } @else {
+          <!-- Length is the only rule, so say so rather than implying hidden ones. -->
+          <span class="field-error hint">At least 8 characters. A phrase beats a password.</span>
+        }
+      </label>
+
+      <button type="submit" [disabled]="status() === 'sending'">
+        {{ status() === 'sending' ? 'Creating…' : 'Create account' }}
+      </button>
+    </form>
+
+    <p class="alt">Already have one? <a routerLink="/login">Sign in</a></p>
+  </section>
+</main>

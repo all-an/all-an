@@ -1,0 +1,68 @@
+# Render blueprint. Creates the database and the web service together, so a fresh deployment is
+# one commit rather than a sequence of console clicks.
+#
+# There is no Docker image anywhere in this file. `runtime: node` builds from source on Render:
+# npm ci, ng build, then start the compiled SSR server. No registry, no cross-architecture build.
+
+databases:
+  - name: all-an-database
+    # The Postgres database name. Render will not accept the hyphens the service name uses.
+    databaseName: all_an_database
+    user: all_an
+    plan: free
+
+services:
+  - type: web
+    name: all-an
+    runtime: node
+    plan: free
+    region: oregon
+
+    buildCommand: npm ci && npm run build
+    # PORT is injected by Render; src/server.ts reads it and falls back to 8080.
+    startCommand: node dist/all-an/server/server.mjs
+
+    # Migrations run before the server listens, so an instance that cannot migrate never reports
+    # healthy - and Render keeps the previous deploy serving instead of replacing it with a broken
+    # one. The check hits the database rather than just returning 200.
+    healthCheckPath: /healthz
+
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: all-an-database
+          # The internal connection string: it stays on Render's private network, so it needs no
+          # TLS, and pool.ts recognises the single-label hostname and disables SSL for it.
+          property: connectionString
+
+      - key: NODE_VERSION
+        value: "22"
+
+      # Behind Render's proxy, so X-Forwarded-* is trustworthy and the per-IP throttles see the
+      # real client rather than one address for the whole internet.
+      - key: TRUST_PROXY_HEADERS
+        value: "true"
+
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+
+      # Keep in step with the service's hostname and any custom domain. An unlisted host does not
+      # fail loudly: Angular quietly falls back to client-side rendering.
+      - key: ALLOWED_HOSTS
+        value: all-an.onrender.com
+
+      - key: SITE_URL
+        value: https://all-an.onrender.com
+
+      # Set in the dashboard, not here. sync: false means Render prompts for them on first deploy
+      # and never stores them in the repository.
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: MAIL_FROM
+        sync: false

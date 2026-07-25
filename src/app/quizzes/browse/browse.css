@@ -1,0 +1,26 @@
+.filter-label {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5a5a5a;
+}
+
+.quiz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.quiz-row .actions {
+  margin-top: 0;
+}
+
+.description {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #9a9a9a;
+}

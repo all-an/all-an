@@ -1,0 +1,64 @@
+<main class="page">
+  <div class="page-inner">
+    @if (loading()) {
+      <p class="empty-state">Loading…</p>
+    } @else if (attempt(); as result) {
+      <header class="page-head">
+        <div>
+          <h1>{{ result.quizTitle }}</h1>
+          <p class="lede">
+            {{ result.answered }} of {{ result.total }} answered
+            @if (result.finishedAt === null) {
+              · still in progress
+            }
+          </p>
+        </div>
+        <a class="btn" routerLink="/results">All results</a>
+      </header>
+
+      <section class="card score">
+        <p class="score-value">{{ result.correct }} / {{ result.total }}</p>
+        <p class="score-percent">{{ percent() }}%</p>
+      </section>
+
+      @for (question of result.questions; track question.position) {
+        <article
+          class="card answer-row"
+          [class.right]="question.isCorrect === true"
+          [class.wrong]="question.isCorrect === false">
+          <p class="card-title">{{ question.position }}. {{ question.prompt }}</p>
+
+          <dl class="answer-detail">
+            <dt>You said</dt>
+            <dd>
+              @if (question.timedOut) {
+                <em>ran out of time</em>
+              } @else if (question.yourAnswer) {
+                {{ question.yourAnswer }}
+              } @else if (question.isCorrect === null) {
+                <em>not answered</em>
+              } @else {
+                <em>nothing</em>
+              }
+            </dd>
+
+            <dt>Answer</dt>
+            <dd>{{ question.correctAnswer ?? '—' }}</dd>
+
+            <dt>Time</dt>
+            <dd>{{ seconds(question.elapsedMs) }}</dd>
+          </dl>
+        </article>
+      }
+
+      <div class="actions">
+        @if (result.quizId !== null) {
+          <a class="btn primary" [routerLink]="['/quizzes', result.quizId, 'take']">Take it again</a>
+        }
+        <a class="btn" routerLink="/quizzes/browse">Browse more</a>
+      </div>
+    } @else {
+      <p class="empty-state">No such attempt.</p>
+    }
+  </div>
+</main>

@@ -1,0 +1,95 @@
+<main class="page">
+  <div class="runner">
+    @if (phase() === 'error') {
+      <p class="notice" role="alert">{{ errorText() }}</p>
+      <button type="button" class="btn" (click)="quit()">See results</button>
+    } @else if (question(); as q) {
+      <div class="progress">
+        <span>Question {{ q.position }} of {{ q.total }}</span>
+        @if (phase() === 'asking') {
+          <span class="clock" [class.urgent]="remainingSeconds() <= 10">
+            {{ remainingSeconds() }}s
+          </span>
+        }
+      </div>
+
+      <div class="timer-track" role="presentation">
+        <div class="timer-bar" [style.width.%]="phase() === 'asking' ? remainingPercent() : 0"></div>
+      </div>
+
+      <h1 class="prompt">{{ q.prompt }}</h1>
+
+      @if (phase() === 'feedback' && feedback(); as result) {
+        <section class="verdict" [class.right]="result.correct" [class.wrong]="!result.correct">
+          <h2>
+            @if (result.correct) {
+              Correct
+            } @else if (result.timedOut) {
+              Out of time
+            } @else {
+              Not quite
+            }
+          </h2>
+          @if (!result.correct) {
+            <p>The answer was <strong>{{ result.correctAnswer }}</strong>.</p>
+          }
+          @if (result.explanation) {
+            <p>{{ result.explanation }}</p>
+          }
+        </section>
+
+        <div class="actions">
+          <button type="button" class="btn primary" (click)="next()">
+            {{ result.finished ? 'See results' : 'Next question' }}
+          </button>
+          @if (archivedThis()) {
+            <span class="archived-note">Learned — you won't be asked this again.</span>
+          } @else {
+            <button type="button" class="btn" (click)="archiveCurrent()">
+              I've learned this
+            </button>
+          }
+        </div>
+      } @else {
+        @if (q.kind === 'MULTIPLE_CHOICE') {
+          @for (option of q.options; track option.id) {
+            <button
+              type="button"
+              class="choice"
+              [class.selected]="chosen() === option.id"
+              [disabled]="phase() !== 'asking'"
+              (click)="chosen.set(option.id)">
+              {{ option.body }}
+            </button>
+          }
+        } @else {
+          <form (ngSubmit)="submit()">
+            <input
+              class="typed-answer"
+              name="answer"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              placeholder="Type your answer"
+              [ngModel]="typed()"
+              (ngModelChange)="typed.set($event)"
+              [disabled]="phase() !== 'asking'" />
+          </form>
+        }
+
+        <div class="actions">
+          <button
+            type="button"
+            class="btn primary"
+            (click)="submit()"
+            [disabled]="phase() !== 'asking'">
+            Answer
+          </button>
+          <button type="button" class="btn" (click)="quit()">Give up</button>
+        </div>
+      }
+    } @else {
+      <p class="empty-state">Loading…</p>
+    }
+  </div>
+</main>

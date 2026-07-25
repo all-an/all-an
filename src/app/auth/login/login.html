@@ -1,0 +1,47 @@
+<main class="auth">
+  <section class="panel">
+    <h1>Sign in</h1>
+    <p class="lede">Your quizzes and your results are waiting.</p>
+
+    @if (formError()) {
+      <p class="form-error" role="alert">{{ formError() }}</p>
+    }
+
+    <form (ngSubmit)="submit()">
+      <label>
+        <span class="label-text">Username</span>
+        <input
+          name="username"
+          autocomplete="username"
+          autocapitalize="none"
+          spellcheck="false"
+          required
+          [ngModel]="username()"
+          (ngModelChange)="username.set($event)" />
+        @if (fieldErrors()['username']; as error) {
+          <span class="field-error">{{ error }}</span>
+        }
+      </label>
+
+      <label>
+        <span class="label-text">Password</span>
+        <input
+          type="password"
+          name="password"
+          autocomplete="current-password"
+          required
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)" />
+        @if (fieldErrors()['password']; as error) {
+          <span class="field-error">{{ error }}</span>
+        }
+      </label>
+
+      <button type="submit" [disabled]="status() === 'sending'">
+        {{ status() === 'sending' ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="alt">No account yet? <a routerLink="/register">Create one</a></p>
+  </section>
+</main>

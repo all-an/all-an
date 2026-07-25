@@ -1,185 +1,141 @@
-# all-an — build & run
+# all-an
 
-Spring Boot 3.5 (Java 21) + Angular 21 + Postgres 16.
+TypeScript end to end: Angular 21 with server-side rendering, an Express API in the same process,
+and Postgres. Deployed to Render as a plain Node service — no Docker anywhere in the deploy path.
 
-The Angular bundle is compiled into `src/main/resources/static/` and served by Spring Boot, so a
-single jar ships both the UI and the API on one origin.
+Write timed quizzes on any subject, share them with friends, and see how you did.
 
 ```
-frontend/ ──ng build──▶ dist/frontend/browser/ ──copy──▶ src/main/resources/static/
-                                                              │
-                                                     mvn package
-                                                              ▼
-                                                    app.jar (UI + API)
+                      one Node process
+┌──────────────────────────────────────────────────────┐
+│  Express                                             │
+│    /healthz  →  /api/*  →  static  →  Angular SSR    │
+└──────────────────────────────────────────────────────┘
+                          │
+                     Postgres
 ```
 
-## Prerequisites
+## Quick start
 
-| Tool | Version |
+```bash
+cp .env.example .env
+npm install
+npm start                       # http://localhost:4200
+```
+
+You need Node 22+ and a Postgres database called `all-an-database`. Migrations apply themselves on
+the first request, so there is no separate setup step.
+
+### Postgres in a container
+
+The deployment uses no Docker at all — this is purely a local convenience, so you do not have to
+install Postgres to work on the app. If you already have it, `createdb all-an-database` is enough
+and you can skip this.
+
+```bash
+docker run -d --name all-an-db \
+  -e POSTGRES_USER=allan \
+  -e POSTGRES_PASSWORD=allan \
+  -e POSTGRES_DB=all-an-database \
+  -p 5432:5432 \
+  postgres:17-alpine
+```
+
+Those three values are exactly what `DATABASE_URL` in `.env.example` expects, so nothing needs
+changing after the copy above.
+
+Day to day:
+
+```bash
+docker start all-an-db          # after a reboot
+docker stop all-an-db
+docker logs all-an-db           # when connections are being refused
+docker exec -it all-an-db psql -U allan -d all-an-database   # a psql prompt
+```
+
+Without a volume the data lives in the container's own filesystem: `docker stop` and `start` keep
+it, `docker rm` throws it away. That is usually what you want here, since the migrations rebuild
+the schema and the seed quizzes from nothing. To start over deliberately:
+
+```bash
+docker rm -f all-an-db          # then run the docker run above again
+```
+
+Or, keeping the container, drop just the database:
+
+```bash
+docker exec all-an-db psql -U allan -d postgres \
+  -c 'DROP DATABASE "all-an-database";' \
+  -c 'CREATE DATABASE "all-an-database" OWNER allan;'
+```
+
+If you want the data to outlive the container, add `-v all-an-db-data:/var/lib/postgresql/data` to
+the `docker run`.
+
+`docs/dev-build.md` has the rest — migrations, the production build, and where things live.
+
+## What it does
+
+**Quizzes.** A quiz is filed under a curated *study field* (Languages, Mathematics, History &
+geography, …) and a free-text *subject* of your choosing. Its questions are multiple choice or
+type-the-answer, each with its own time limit.
+
+**Taking one.** Questions arrive one at a time against a countdown. Marking and timing are decided
+by the server — the answer key never reaches the browser before you have answered, and running out
+of time scores the question wrong even if what you typed was right. Typed answers ignore case,
+stray spaces and a trailing full stop, because someone who writes `Bought.` knows the answer.
+
+**Sharing.** Publish a quiz to the shared pool, or send it to a friend. Friend requests have to be
+accepted before anything can be sent. A shared quiz is one your friend can take; a shared *question*
+is one they can copy into a quiz of their own. Both notify by email when mail is configured.
+
+**Results.** Every attempt is kept, with your answer, the right answer and how long you took.
+
+## Layout
+
+```
+db/migration/     schema, in order — read at runtime, not bundled
+src/
+├── app/          Angular: front page, auth, quizzes, runner, results, friends
+├── api/          Express: auth, quizzes, attempts, friends, shares, messages
+├── server.ts     the Express app — API mounted ahead of the renderer
+├── main.ts       browser entry
+└── main.server.ts SSR entry
+render.yaml       the Render blueprint: web service + all-an-database
+```
+
+## Commands
+
+| | |
 |---|---|
-| JDK | 21 |
-| Maven | 3.9+ (or the bundled wrapper) |
-| Node | 24 |
-| Docker | for Postgres, and for the production image |
+| `npm start` | Dev server on `:4200`, API included |
+| `npm run build` | Production build into `dist/all-an/` |
+| `npm run serve:ssr` | Run that build, exactly as Render does |
+| `npm test` | Vitest |
 
-## Quick start (development)
+## Documentation
 
-Two processes, so Angular keeps hot reload: Angular on `:4200`, Spring Boot on `:8080`.
+- [`docs/dev-build.md`](docs/dev-build.md) — running it locally, adding migrations
+- [`docs/prod-build.md`](docs/prod-build.md) — what gets built, deploying, configuration
+- [`docs/quizzes.md`](docs/quizzes.md) — the domain: visibility, timing, marking, sharing
 
-```bash
-docker compose up -d db                              # Postgres on :5432
+## A few decisions worth knowing
 
-mvn spring-boot:run -Dspring-boot.run.profiles=dev    # terminal 1
+**Nothing is prerendered.** The nav is on every page and depends on who is signed in, so a
+prerendered page would ship the signed-out version and flip after hydration — on the front page,
+the most common entry point. Rendering per request costs one indexed session lookup.
 
-cd frontend && npm install && npm start               # terminal 2
-```
+**The API is mounted inside the SSR server.** One process, one origin, no CORS. During rendering
+the app calls its own API over loopback with the visitor's cookie forwarded, so a signed-in page is
+correct on first paint.
 
-Open <http://localhost:4200>.
+**Passwords use `scrypt` from `node:crypto`.** Not bcrypt or argon2: both are native modules, and a
+pure-stdlib hash keeps `npm ci` on Render free of a compile step — which is the point of a deploy
+with no image to bake toolchains into.
 
-No environment variables are needed — the defaults in `application.yml` already point at the
-Compose database. The `dev` profile activates `CorsConfig`, which allows `http://localhost:4200`.
+**Sessions are opaque and stored hashed.** The cookie holds 32 random bytes; the database holds
+their SHA-256. A leaked dump grants nobody a login, and deleting a row signs that browser out
+immediately.
 
-Wait for the database to report healthy before starting the app:
-
-```bash
-docker ps --filter name=all-an-db     # want: Up (healthy)
-```
-
-### How `/api` reaches Spring Boot
-
-The Angular services call **relative** URLs (`/api/cryptocurrencies`), never a hardcoded host. In
-development that would hit the dev server on `:4200`, so `frontend/proxy.conf.json` forwards `/api`
-to `:8080`; it is wired into `angular.json` under `serve.options.proxyConfig`, so plain `npm start`
-picks it up. In production the origin is the same and the relative URL resolves with no proxy and
-no CORS.
-
-## Serving the UI from :8080 locally
-
-If you run only `mvn spring-boot:run` and open <http://localhost:8080>, you get a Whitelabel 404.
-That is expected, not a bug: the bundle is copied into `src/main/resources/static/` **by the
-Dockerfile**, during its build stages. A local `mvn spring-boot:run` never runs those stages, so
-`static/` is empty, `SpaConfig` finds no `index.html` to fall back to, and every non-`/api` URL
-404s. (`/api/cryptocurrencies` still works — only the UI is missing.)
-
-Do locally what Docker does at build time:
-
-```bash
-./build-frontend-dist.sh
-mvn spring-boot:run          # http://localhost:8080 now serves the Angular app
-```
-
-**Restart Spring Boot after running the script.** Resources are copied to the classpath at startup,
-so a running app will not pick up the new files.
-
-`src/main/resources/static/` is generated and gitignored — never commit it. To get back to a clean
-tree: `rm -rf src/main/resources/static`.
-
-| | `ng serve` on :4200 | `build-frontend-dist.sh` + :8080 |
-|---|---|---|
-| Hot reload | yes | no — rebuild and restart each change |
-| Origins | two (proxy handles `/api`) | one, like production |
-| Good for | day-to-day frontend work | verifying the real single-origin setup |
-
-## Production build
-
-`docker build .` runs three stages, split so each caches independently:
-
-1. **`node:24-alpine`** — `npm ci`, then `npm run build` → `frontend/dist/frontend/browser/`
-2. **`maven:3.9-eclipse-temurin-21`** — copies that dist into `src/main/resources/static/`, then
-   `mvn package` seals the UI inside the jar
-3. **`eclipse-temurin:21-jre-alpine`** — carries over only the jar, run as a non-root `spring` user
-
-Build and run the whole stack:
-
-```bash
-docker compose build app     # or: docker build -t all-an-app:local .
-docker compose up -d         # starts all-an-db + all-an-app
-```
-
-<http://localhost:8080> then serves the UI, and `/api/cryptocurrencies` the API — same port, same origin.
-
-For Render, build for its architecture; an image built on an Apple Silicon Mac will not boot there:
-
-```bash
-docker buildx build --platform linux/amd64 -t <user>/all-an-app:latest --push .
-```
-
-## Database schema
-
-Flyway owns the schema (`src/main/resources/db/migration/`, currently `V1`–`V7`) and migrations run
-at startup. Hibernate is set to `ddl-auto: validate`, so drift between the entities and the
-migrations fails the boot instead of silently altering tables. `baseline-on-migrate` is enabled so
-existing databases that predate Flyway are marked at `V1` and get `V2+` applied on top.
-
-To change the schema, add a new `V<n>__*.sql` — never edit an applied migration.
-
-## Configuration
-
-Every value has a default, so the image runs unmodified in all three environments.
-
-| Variable | Default | Notes |
-|---|---|---|
-| `SPRING_DATASOURCE_URL` | `jdbc:postgresql://localhost:5432/all-an-db` | |
-| `SPRING_DATASOURCE_USERNAME` | `allan` | |
-| `SPRING_DATASOURCE_PASSWORD` | `allan` | |
-| `PORT` | `8080` | Render injects this |
-
-On Render, note that the connection string is shown as `postgres://user:pass@host/db`. JDBC will not
-parse that — rewrite it to `jdbc:postgresql://host:port/db` and put the credentials in the two
-separate variables.
-
-## API
-
-| Method | Path |
-|---|---|
-| `GET` | `/api/cryptocurrencies` |
-| `GET` | `/api/cryptocurrencies/{symbol}` |
-| `PUT` | `/api/cryptocurrencies/{symbol}/price` |
-
-Actuator is on the classpath, so `/actuator/health` is available.
-
-### How the SPA and the API coexist
-
-`SpaConfig` maps `/**` to `classpath:/static/` with one custom rule:
-
-- the path is a real file → serve it (`main-<hash>.js`, `styles-<hash>.css`, …)
-- the path starts with `api/` → return `null` so the controllers handle it
-- anything else → return `index.html`
-
-The third rule is what makes deep links work: Angular's router owns routes like `/crypto`, but on
-a hard refresh the browser asks the *server* for that path. The `api/` check must come first, or the
-API would return HTML.
-
-## Tests
-
-```bash
-mvn test                       # backend, H2 in-memory
-cd frontend && npm test        # frontend
-```
-
-## Stopping
-
-```bash
-docker compose stop db          # keeps data
-docker compose down -v          # deletes the volume and all rows
-```
-
-## Troubleshooting
-
-**"Could not reach the API" in the UI** — Spring Boot isn't up on `:8080`.
-
-**Whitelabel 404 at :8080** — the Angular bundle was never copied in. Run `./build-frontend-dist.sh`
-and restart.
-
-**`Connection refused` on startup** — Postgres isn't ready; `docker ps` should show `(healthy)`.
-
-**Port 5432 already in use** — a local Postgres is running. Stop it, or remap in
-`docker-compose.yml` to `"5433:5432"` and set
-`SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/all-an-db`.
-
-**Schema validation failure on boot** — an entity and the migrations disagree. Add a migration to
-match the entity rather than relaxing `ddl-auto`.
-
----
-
-More detail: [docs/dev-build.md](docs/dev-build.md) · [docs/prod-build.md](docs/prod-build.md)
+Rewritten from a Spring Boot + Angular application; the Java version is in the history, up to
+commit `d082140`.

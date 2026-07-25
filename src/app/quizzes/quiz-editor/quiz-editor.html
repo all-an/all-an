@@ -1,0 +1,279 @@
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>{{ isNew() ? 'New quiz' : 'Edit quiz' }}</h1>
+        <p class="lede">Questions can be multiple choice or typed, each with its own time limit.</p>
+      </div>
+      <a class="btn" routerLink="/quizzes">Back</a>
+    </header>
+
+    @if (notice()) {
+      <p class="notice" role="status">{{ notice() }}</p>
+    }
+
+    <section class="card">
+      <label class="field">
+        <span class="field-label">Title</span>
+        <input type="text" [ngModel]="title()" (ngModelChange)="title.set($event)" name="title" />
+        @if (fieldErrors()['title']; as error) {
+          <span class="field-error">{{ error }}</span>
+        }
+      </label>
+
+      <label class="field">
+        <span class="field-label">Study field</span>
+        <select [ngModel]="studyFieldId()" (ngModelChange)="studyFieldId.set($event)" name="field">
+          @for (studyField of fields(); track studyField.id) {
+            <option [value]="studyField.id">{{ studyField.name }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Subject</span>
+        <input
+          type="text"
+          list="known-subjects"
+          placeholder="English grammar, World capitals, …"
+          [ngModel]="subject()"
+          (ngModelChange)="subject.set($event)"
+          name="subject" />
+        <datalist id="known-subjects">
+          @for (name of knownSubjects(); track name) {
+            <option [value]="name"></option>
+          }
+        </datalist>
+        <span class="field-hint">Anything you like, inside the study field above.</span>
+        @if (fieldErrors()['subject']; as error) {
+          <span class="field-error">{{ error }}</span>
+        }
+      </label>
+
+      <label class="field">
+        <span class="field-label">Description</span>
+        <textarea
+          [ngModel]="description()"
+          (ngModelChange)="description.set($event)"
+          name="description"></textarea>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Default time limit (seconds)</span>
+        <input
+          type="number"
+          min="5"
+          max="600"
+          [ngModel]="defaultTimeLimit()"
+          (ngModelChange)="defaultTimeLimit.set($event)"
+          name="limit" />
+        <span class="field-hint">What a new question starts with. Each can override it.</span>
+      </label>
+
+      <label class="checkbox">
+        <input
+          type="checkbox"
+          [ngModel]="shuffle()"
+          (ngModelChange)="shuffle.set($event)"
+          name="shuffle" />
+        Shuffle the question order each time
+      </label>
+
+      <div class="actions">
+        <button type="button" class="btn primary" (click)="saveQuiz()" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : 'Save' }}
+        </button>
+        @if (!isNew()) {
+          <button type="button" class="btn" (click)="togglePublish()">
+            {{ visibility() === 'PUBLIC' ? 'Unpublish' : 'Publish to the pool' }}
+          </button>
+          @if (friends().length) {
+            <button type="button" class="btn" (click)="openQuizShare()">Share with friends</button>
+          }
+        }
+      </div>
+    </section>
+
+    @if (isNew()) {
+      <p class="empty-state">Save the quiz, then add its questions.</p>
+    } @else {
+      <header class="page-head questions-head">
+        <h2>Questions ({{ questions().length }})</h2>
+        <button type="button" class="btn primary" (click)="newQuestion()">Add question</button>
+      </header>
+
+      @if (questionFormOpen()) {
+        <section class="card question-form">
+          <div class="chips">
+            <button
+              type="button"
+              class="chip"
+              [class.selected]="qKind() === 'MULTIPLE_CHOICE'"
+              (click)="setKind('MULTIPLE_CHOICE')">
+              Multiple choice
+            </button>
+            <button
+              type="button"
+              class="chip"
+              [class.selected]="qKind() === 'TYPED'"
+              (click)="setKind('TYPED')">
+              Type the answer
+            </button>
+          </div>
+
+          <label class="field">
+            <span class="field-label">Question</span>
+            <textarea
+              [ngModel]="qPrompt()"
+              (ngModelChange)="qPrompt.set($event)"
+              name="prompt"></textarea>
+            @if (fieldErrors()['prompt']; as error) {
+              <span class="field-error">{{ error }}</span>
+            }
+          </label>
+
+          <span class="field-label">
+            {{ qKind() === 'TYPED' ? 'Accepted answers' : 'Choices' }}
+          </span>
+          @if (qKind() === 'TYPED') {
+            <span class="field-hint answers-hint">
+              Case, surrounding spaces and a trailing full stop are ignored when marking. Add a row
+              for each spelling you will accept.
+            </span>
+          }
+
+          @for (option of qOptions(); track $index) {
+            <div class="option-row">
+              @if (qKind() === 'MULTIPLE_CHOICE') {
+                <input
+                  type="radio"
+                  name="correct"
+                  [checked]="option.isCorrect"
+                  (change)="setCorrect($index)"
+                  [attr.aria-label]="'Mark choice ' + ($index + 1) + ' as correct'" />
+              }
+              <input
+                type="text"
+                class="option-body"
+                [ngModel]="option.body"
+                (ngModelChange)="setOptionBody($index, $event)"
+                [name]="'option' + $index" />
+              <button
+                type="button"
+                class="btn danger"
+                (click)="removeOption($index)"
+                aria-label="Remove this answer">
+                ×
+              </button>
+            </div>
+          }
+          @if (fieldErrors()['options']; as error) {
+            <span class="field-error">{{ error }}</span>
+          }
+
+          <button type="button" class="btn add-option" (click)="addOption()">Add another</button>
+
+          <label class="field">
+            <span class="field-label">Time limit (seconds)</span>
+            <input
+              type="number"
+              min="5"
+              max="600"
+              [ngModel]="qTimeLimit()"
+              (ngModelChange)="qTimeLimit.set($event)"
+              name="qlimit" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Explanation (optional)</span>
+            <textarea
+              [ngModel]="qExplanation()"
+              (ngModelChange)="qExplanation.set($event)"
+              name="explanation"></textarea>
+            <span class="field-hint">Shown after the answer is given, never before.</span>
+          </label>
+
+          <div class="actions">
+            <button type="button" class="btn primary" (click)="saveQuestion()" [disabled]="saving()">
+              Save question
+            </button>
+            <button type="button" class="btn" (click)="questionFormOpen.set(false)">Cancel</button>
+          </div>
+        </section>
+      }
+
+      @if (questions().length === 0 && !questionFormOpen()) {
+        <p class="empty-state">No questions yet.</p>
+      }
+
+      @for (question of questions(); track question.id) {
+        <article class="card" [class.archived]="question.archived">
+          <p class="card-title">
+            {{ question.position }}. {{ question.prompt }}
+            @if (question.archived) {
+              <span class="badge">Archived</span>
+            }
+          </p>
+          <p class="card-meta">
+            {{ question.kind === 'TYPED' ? 'Typed' : 'Multiple choice' }} ·
+            {{ question.timeLimitSeconds }}s ·
+            answer: {{ correctAnswerOf(question) }}
+          </p>
+
+          <div class="actions">
+            <button type="button" class="btn" (click)="editQuestion(question)">Edit</button>
+            <button type="button" class="btn" (click)="move(question, -1)" [disabled]="$first">
+              ↑
+            </button>
+            <button type="button" class="btn" (click)="move(question, 1)" [disabled]="$last">
+              ↓
+            </button>
+            <button type="button" class="btn" (click)="toggleQuestionArchive(question)">
+              {{ question.archived ? 'Unarchive' : 'Archive' }}
+            </button>
+            @if (friends().length) {
+              <button type="button" class="btn" (click)="openQuestionShare(question)">Share</button>
+            }
+            <button type="button" class="btn danger" (click)="removeQuestion(question)">
+              Delete
+            </button>
+          </div>
+        </article>
+      }
+    }
+
+    @if (sharingQuiz() || sharingQuestionId() !== null) {
+      <section class="card share-panel">
+        <h2 class="card-title">
+          {{ sharingQuiz() ? 'Share this quiz' : 'Share this question' }}
+        </h2>
+        <p class="card-meta">
+          They will get it in their Shared list, and an email if the site is configured to send one.
+        </p>
+
+        <div class="chips">
+          @for (friend of friends(); track friend.id) {
+            <button
+              type="button"
+              class="chip"
+              [class.selected]="selectedFriends().includes(friend.id)"
+              (click)="toggleFriend(friend.id)">
+              {{ friend.username }}
+            </button>
+          }
+        </div>
+
+        <div class="actions">
+          <button
+            type="button"
+            class="btn primary"
+            (click)="confirmShare()"
+            [disabled]="selectedFriends().length === 0 || saving()">
+            Share
+          </button>
+          <button type="button" class="btn" (click)="closeShare()">Cancel</button>
+        </div>
+      </section>
+    }
+  </div>
+</main>

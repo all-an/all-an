@@ -1,0 +1,78 @@
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>Friends</h1>
+        <p class="lede">Share a quiz or a single question with people you have added.</p>
+      </div>
+      <a class="btn" routerLink="/shared">Shared with me</a>
+    </header>
+
+    @if (notice()) {
+      <p class="notice" role="status">{{ notice() }}</p>
+    }
+    @if (error()) {
+      <p class="notice" role="alert">{{ error() }}</p>
+    }
+
+    <form class="add-friend" (ngSubmit)="add()">
+      <input
+        name="username"
+        placeholder="Their username"
+        autocapitalize="none"
+        spellcheck="false"
+        [ngModel]="username()"
+        (ngModelChange)="username.set($event)" />
+      <button type="submit" class="btn primary" [disabled]="sending()">Send request</button>
+    </form>
+
+    @if (loading()) {
+      <p class="empty-state">Loading…</p>
+    } @else {
+      @if (incoming().length) {
+        <h2>Asking to be your friend</h2>
+        @for (request of incoming(); track request.friendshipId) {
+          <article class="card person-row">
+            <p class="card-title">{{ request.username }}</p>
+            <div class="actions">
+              <button type="button" class="btn primary" (click)="accept(request)">Accept</button>
+              <button type="button" class="btn danger" (click)="decline(request)">Decline</button>
+            </div>
+          </article>
+        }
+      }
+
+      @if (outgoing().length) {
+        <h2>Waiting on them</h2>
+        @for (request of outgoing(); track request.friendshipId) {
+          <article class="card person-row">
+            <div>
+              <p class="card-title">{{ request.username }}</p>
+              <p class="card-meta">Request sent</p>
+            </div>
+            <div class="actions">
+              <button type="button" class="btn danger" (click)="decline(request)">Withdraw</button>
+            </div>
+          </article>
+        }
+      }
+
+      <h2>Your friends</h2>
+      @if (friends().length === 0) {
+        <div class="empty-state">
+          <p>No friends yet.</p>
+          <p>Add someone by their username above, and they will get a request to accept.</p>
+        </div>
+      } @else {
+        @for (friend of friends(); track friend.id) {
+          <article class="card person-row">
+            <p class="card-title">{{ friend.username }}</p>
+            <div class="actions">
+              <button type="button" class="btn danger" (click)="unfriend(friend)">Remove</button>
+            </div>
+          </article>
+        }
+      }
+    }
+  </div>
+</main>

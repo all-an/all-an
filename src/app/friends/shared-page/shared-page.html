@@ -1,0 +1,95 @@
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>Shared with me</h1>
+        <p class="lede">Quizzes to take, and questions you can copy into your own.</p>
+      </div>
+      <a class="btn" routerLink="/friends">Friends</a>
+    </header>
+
+    @if (notice()) {
+      <p class="notice" role="status">{{ notice() }}</p>
+    }
+    @if (error()) {
+      <p class="notice" role="alert">{{ error() }}</p>
+    }
+
+    @if (loading()) {
+      <p class="empty-state">Loading…</p>
+    } @else {
+      <h2>Quizzes</h2>
+      @if (quizShares().length === 0) {
+        <p class="empty-state">Nobody has shared a quiz with you yet.</p>
+      } @else {
+        @for (share of quizShares(); track share.shareId) {
+          <article class="card share-row">
+            <div>
+              <p class="card-title">{{ share.title }}</p>
+              <p class="card-meta">
+                from {{ share.sharedBy }} · {{ share.studyField }} · {{ share.subject }} ·
+                {{ share.questionCount }} question{{ share.questionCount === 1 ? '' : 's' }}
+              </p>
+            </div>
+            <div class="actions">
+              <a class="btn primary" [routerLink]="['/quizzes', share.quizId, 'take']">Take it</a>
+              <button type="button" class="btn" (click)="dismissQuiz(share)">Dismiss</button>
+            </div>
+          </article>
+        }
+      }
+
+      <h2>Questions</h2>
+      @if (questionShares().length === 0) {
+        <p class="empty-state">Nobody has shared a question with you yet.</p>
+      } @else {
+        @for (share of questionShares(); track share.shareId) {
+          <article class="card">
+            <div class="share-row">
+              <div>
+                <p class="card-title">{{ share.prompt }}</p>
+                <p class="card-meta">
+                  from {{ share.sharedBy }} ·
+                  {{ share.kind === 'TYPED' ? 'Typed' : 'Multiple choice' }} ·
+                  {{ share.timeLimitSeconds }}s
+                  @if (share.copied) {
+                    · <span class="copied-note">already copied</span>
+                  }
+                </p>
+              </div>
+              <div class="actions">
+                @if (ownQuizzes().length) {
+                  <button type="button" class="btn primary" (click)="openCopy(share)">
+                    Copy into…
+                  </button>
+                }
+                <button type="button" class="btn" (click)="dismissQuestion(share)">Dismiss</button>
+              </div>
+            </div>
+
+            @if (copyingShareId() === share.shareId) {
+              <div class="copy-picker">
+                <select
+                  name="target"
+                  [ngModel]="copyTarget()"
+                  (ngModelChange)="copyTarget.set($event)">
+                  @for (quiz of ownQuizzes(); track quiz.id) {
+                    <option [value]="quiz.id">{{ quiz.title }}</option>
+                  }
+                </select>
+                <button type="button" class="btn primary" (click)="copy()">Copy</button>
+                <button type="button" class="btn" (click)="copyingShareId.set(null)">Cancel</button>
+              </div>
+            }
+          </article>
+        }
+      }
+
+      @if (ownQuizzes().length === 0 && questionShares().length > 0) {
+        <p class="empty-state">
+          Create a quiz first, and you will be able to copy shared questions into it.
+        </p>
+      }
+    }
+  </div>
+</main>

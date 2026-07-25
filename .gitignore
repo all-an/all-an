@@ -1,21 +1,43 @@
-# Java / Maven
-target/
-*.jar
+# Build output
+/dist
+/tmp
+/out-tsc
 
-# Angular / Node
-frontend/node_modules/
-frontend/dist/
-frontend/.angular/
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
 
-# Angular bundle copied in at build time
-src/main/resources/static/
+# Angular
+/.angular/cache
 
-# IDE
+# Local configuration - DATABASE_URL and the admin bootstrap credentials live here
+.env
+.env.local
+
+# IDEs and editors
 .idea/
 .vs/
 *.iml
+.project
+.classpath
+.settings/
+.history/*
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+
+# Test output
+/coverage
+__screenshots__/
 
 # OS
 .DS_Store
+Thumbs.db
 
 draft.md
