@@ -1,0 +1,27 @@
+.setting {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Keeps the explanation readable rather than letting it run the full width of the card. */
+.setting-text {
+  flex: 1 1 22rem;
+}
+
+.setting-text .card-meta {
+  max-width: 44ch;
+  line-height: 1.5;
+}
+
+/* The switch sits with the text it belongs to, so the shared bottom margin would misalign it. */
+.setting-switch {
+  margin-bottom: 0;
+}
+
+.unsaved {
+  align-self: center;
+  margin-top: 0;
+}

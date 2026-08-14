@@ -36,8 +36,10 @@ answer key before they started, and there would be no point taking it.
 Seeded quizzes have `owner_id IS NULL`. They are public, and nobody — administrators included — can
 edit or delete them through the API: they are part of the deployment, not user data.
 
-An administrator exists for one job: removing a quiz somebody published to the shared pool. They
-cannot edit it, and a private quiz stays invisible to them.
+An administrator has two jobs. One is removing a quiz somebody published to the shared pool: they
+cannot edit it, and a private quiz stays invisible to them. The other is the site settings at
+`/admin` — currently the one switch that closes registration. Neither lets them read or change
+anybody's own quizzes.
 
 ## Questions
 

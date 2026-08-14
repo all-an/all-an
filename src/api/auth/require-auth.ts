@@ -31,10 +31,12 @@ export const requireAuth: RequestHandler = async (
 };
 
 /**
- * Layers the role check on top. Mount after requireAuth.
+ * Layers the role check on top. Mount after requireAuth, which is what puts req.user there - on its
+ * own this rejects every request, signed in or not.
  *
- * The only thing this gates is removing a quiz from the shared public pool - moderation, not
- * administration. There is deliberately no admin UI beyond that.
+ * It gates the site settings, and nothing else. The other thing an administrator may do - remove a
+ * published quiz from the shared pool - is a role check inside the quiz service rather than a route
+ * of its own, because it is the same route any owner uses.
  */
 export const requireAdmin: RequestHandler = (req: Request, _res: Response, next: NextFunction) => {
   if (req.user?.role !== 'ADMIN') {

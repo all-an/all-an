@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { clientIp } from '../http/client-ip.js';
 import { Conflict, Unauthorized } from '../http/errors.js';
 import { parse } from '../http/validate.js';
+import { assertRegistrationOpen } from '../settings/service.js';
 import { hashPassword, verifyPassword } from './password.js';
 import { findByEmail, findByUsername, insertUser, type UserRow } from './repo.js';
 import { authedUser, requireAuth } from './require-auth.js';
@@ -77,6 +78,10 @@ authRoutes.post('/register', async (req, res) => {
   const { username, email, password } = parse(registerSchema, req.body);
   const ip = clientIp(req);
 
+  // Before the throttle, so somebody arriving at a closed site is told it is closed rather than
+  // told to wait - and so a burst of hopeful attempts against a closed site cannot exhaust the
+  // per-address signup budget of whoever tries again after it reopens.
+  await assertRegistrationOpen();
   await assertSignupAllowed(ip);
 
   if (await findByUsername(username)) {

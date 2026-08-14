@@ -91,13 +91,17 @@ is one they can copy into a quiz of their own. Both notify by email when mail is
 
 **Results.** Every attempt is kept, with your answer, the right answer and how long you took.
 
+**Site settings.** An administrator gets an `/admin` page holding switches that take effect without
+a deploy. There is one so far: closing registration, which stops new accounts while leaving every
+existing one able to sign in.
+
 ## Layout
 
 ```
 db/migration/     schema, in order — read at runtime, not bundled
 src/
-├── app/          Angular: front page, auth, quizzes, runner, results, friends
-├── api/          Express: auth, quizzes, attempts, friends, shares, messages
+├── app/          Angular: front page, auth, quizzes, runner, results, friends, admin
+├── api/          Express: auth, quizzes, attempts, friends, shares, messages, settings
 ├── server.ts     the Express app — API mounted ahead of the renderer
 ├── main.ts       browser entry
 └── main.server.ts SSR entry

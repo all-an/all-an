@@ -42,6 +42,12 @@
       </button>
     </form>
 
-    <p class="alt">No account yet? <a routerLink="/register">Create one</a></p>
+    <!-- Under the button, in the same slot the "create one" link occupies when the site is open:
+         somebody who cannot sign in because they have no account looks here either way. -->
+    @if (registrationOpen()) {
+      <p class="alt">No account yet? <a routerLink="/register">Create one</a></p>
+    } @else {
+      <app-registration-closed />
+    }
   </section>
 </main>

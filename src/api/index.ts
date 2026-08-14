@@ -10,6 +10,7 @@ import { attemptRoutes } from './attempts/routes.js';
 import { friendRoutes } from './friends/routes.js';
 import { messageRoutes } from './message/routes.js';
 import { questionRoutes, quizRoutes } from './quizzes/routes.js';
+import { settingRoutes } from './settings/routes.js';
 import { shareActionRoutes, shareRoutes } from './shares/routes.js';
 
 let started: Promise<void> | undefined;
@@ -67,6 +68,7 @@ export function createApiRouter(): Router {
   api.use('/quizzes', quizRoutes);
   api.use('/questions', questionRoutes);
   api.use('/messages', messageRoutes);
+  api.use('/settings', settingRoutes);
 
   // An unmatched /api path is a 404 in JSON. Without this it would fall through to the Angular
   // handler and a fetch expecting JSON would receive a page of HTML with a 200 on it.

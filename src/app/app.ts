@@ -19,6 +19,9 @@ import { AuthService } from './auth/auth.service.js';
         <a routerLink="/quizzes/browse" routerLinkActive="is-active">Browse</a>
         <a routerLink="/results" routerLinkActive="is-active">Results</a>
         <a routerLink="/friends" routerLinkActive="is-active">Friends</a>
+        @if (auth.isAdmin()) {
+          <a routerLink="/admin" routerLinkActive="is-active">Admin</a>
+        }
         <button type="button" (click)="signOut()">Sign out</button>
       } @else {
         <a routerLink="/quizzes/browse" routerLinkActive="is-active">Browse</a>

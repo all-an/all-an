@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { adminGuard } from './auth/admin.guard.js';
 import { authGuard } from './auth/auth.guard.js';
 
 /**
@@ -80,6 +81,13 @@ export const routes: Routes = [
     path: 'shared',
     canActivate: [authGuard],
     loadComponent: () => import('./friends/shared-page/shared-page').then((m) => m.SharedPage)
+  },
+
+  // --- administration ---
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./admin/admin-page').then((m) => m.AdminPage)
   },
 
   // --- static pages ---

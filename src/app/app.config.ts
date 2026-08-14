@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { apiBaseInterceptor } from './auth/api-base.interceptor.js';
 import { AuthService } from './auth/auth.service.js';
+import { SettingsService } from './settings/settings.service.js';
 import { routes } from './app.routes.js';
 
 export const appConfig: ApplicationConfig = {
@@ -32,6 +33,19 @@ export const appConfig: ApplicationConfig = {
      * answer is already correct in the HTML; the transfer cache then carries it to the browser
      * instead of the browser asking again.
      */
-    provideAppInitializer(() => firstValueFrom(inject(AuthService).hydrate()))
+    provideAppInitializer(() => firstValueFrom(inject(AuthService).hydrate())),
+
+    /**
+     * And the site settings, for the same reason.
+     *
+     * The sign-in page offers a "create one" link only while registration is open. Left to the page
+     * to fetch, that link renders on the default - open - and disappears when the answer arrives a
+     * moment later, which is a visible flicker on the two pages that are client-rendered and so
+     * have no server pass to settle it first.
+     *
+     * Initializers run concurrently, so this costs no more wall time than the hydrate above, and on
+     * a server-rendered page the transfer cache means the browser does not repeat either request.
+     */
+    provideAppInitializer(() => firstValueFrom(inject(SettingsService).load()))
   ]
 };

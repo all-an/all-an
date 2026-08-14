@@ -1,8 +1,6 @@
+import { CONTACT_EMAIL } from '../../shared/contact.js';
 import { TooManyRequests } from '../http/errors.js';
 import { hasPostedSince, insertMessage, type MessageRow } from './repo.js';
-
-/** Shown in the 429 body so the sender always has a way through. */
-export const CONTACT_EMAIL = 'allan8tech@gmail.com';
 
 export interface CreateMessage {
   name?: string | undefined;
