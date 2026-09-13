@@ -107,9 +107,17 @@ export class QuizEditor {
   // --- saving the quiz itself ---
 
   protected saveQuiz(): void {
-    const studyFieldId = this.studyFieldId();
+    if (this.saving()) {
+      return;
+    }
 
-    if (studyFieldId === null || this.saving()) {
+    // The select can hand back a string ("3") depending on how the option value is bound; the API
+    // wants a real number. Coerce here so a stray string never reaches it.
+    const raw = this.studyFieldId();
+    const studyFieldId = raw === null ? NaN : Number(raw);
+
+    if (!Number.isInteger(studyFieldId)) {
+      this.fieldErrors.set({ studyFieldId: 'Pick a study field from the list.' });
       return;
     }
 
@@ -148,7 +156,16 @@ export class QuizEditor {
     this.saving.set(false);
 
     if (error.status === 400 && error.error?.fields) {
-      this.fieldErrors.set(error.error.fields as Record<string, string>);
+      const fields = error.error.fields as Record<string, string>;
+      this.fieldErrors.set(fields);
+
+      // Surface the specific messages in the notice too. Nested paths like "options.0.body" have
+      // no error slot in the template, so without this a validation failure just snaps the button
+      // back to "Save" with nothing on screen and looks like a dead button.
+      const messages = [...new Set(Object.values(fields))];
+      this.notice.set(
+        messages.length ? messages.join(' ') : (error.error?.message ?? 'Please check the form.')
+      );
       return;
     }
 
@@ -256,12 +273,13 @@ export class QuizEditor {
 
     const limit = this.qTimeLimit();
 
-    if (limit !== null) {
-      input.timeLimitSeconds = limit;
+    if (limit !== null && limit !== undefined && `${limit}`.trim() !== '') {
+      input.timeLimitSeconds = Number(limit);
     }
 
     this.saving.set(true);
     this.fieldErrors.set({});
+    this.notice.set('');
 
     const editing = this.editingQuestionId();
     const request = editing

@@ -42,7 +42,7 @@ const questionSchema = z.object({
   options: z
     .array(
       z.object({
-        body: z.string().trim().max(300, 'an answer must be at most 300 characters'),
+        body: z.string().trim().max(1000, 'an answer must be at most 1000 characters'),
         isCorrect: z.boolean().default(false)
       })
     )

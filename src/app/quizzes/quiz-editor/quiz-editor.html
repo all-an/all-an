@@ -25,9 +25,12 @@
         <span class="field-label">Study field</span>
         <select [ngModel]="studyFieldId()" (ngModelChange)="studyFieldId.set($event)" name="field">
           @for (studyField of fields(); track studyField.id) {
-            <option [value]="studyField.id">{{ studyField.name }}</option>
+            <option [ngValue]="studyField.id">{{ studyField.name }}</option>
           }
         </select>
+        @if (fieldErrors()['studyFieldId']; as error) {
+          <span class="field-error">{{ error }}</span>
+        }
       </label>
 
       <label class="field">
