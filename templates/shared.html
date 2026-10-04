@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Shared with me · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/page.css">
+<link rel="stylesheet" href="/static/css/shared.css">
+{% endblock %}
+
+{% block content %}
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>Shared with me</h1>
+        <p class="lede">Quizzes to take, and questions you can copy into your own.</p>
+      </div>
+      <a class="btn" href="/friends">Friends</a>
+    </header>
+
+    <p class="notice" role="status" data-notice hidden></p>
+    <p class="notice" role="alert" data-error hidden></p>
+
+    <h2>Quizzes</h2>
+    {% if shared.quizzes.is_empty() %}
+      <p class="empty-state">Nobody has shared a quiz with you yet.</p>
+    {% else %}
+      {% for share in shared.quizzes %}
+        <article class="card share-row">
+          <div>
+            <p class="card-title">{{ share.title }}</p>
+            <p class="card-meta">
+              from {{ share.shared_by }} · {{ share.study_field }} · {{ share.subject }} ·
+              {{ share.question_count }} question{% if share.question_count != 1 %}s{% endif %}
+            </p>
+          </div>
+          <div class="actions">
+            <a class="btn primary" href="/quizzes/{{ share.quiz_id }}/take">Take it</a>
+            <button type="button" class="btn" data-dismiss-quiz="{{ share.share_id }}">Dismiss</button>
+          </div>
+        </article>
+      {% endfor %}
+    {% endif %}
+
+    <h2>Questions</h2>
+    {% if shared.questions.is_empty() %}
+      <p class="empty-state">Nobody has shared a question with you yet.</p>
+    {% else %}
+      {% for share in shared.questions %}
+        <article class="card" data-question-share="{{ share.share_id }}">
+          <div class="share-row">
+            <div>
+              <p class="card-title">{{ share.prompt }}</p>
+              <p class="card-meta">
+                from {{ share.shared_by }} ·
+                {% if share.kind == "TYPED" %}Typed{% else %}Multiple choice{% endif %} ·
+                {{ share.time_limit_seconds }}s
+                {% if share.copied %}· <span class="copied-note">already copied</span>{% endif %}
+              </p>
+            </div>
+            <div class="actions">
+              {% if !own_quizzes.is_empty() %}
+                <button type="button" class="btn primary" data-open-copy="{{ share.share_id }}">Copy into…</button>
+              {% endif %}
+              <button type="button" class="btn" data-dismiss-question="{{ share.share_id }}">Dismiss</button>
+            </div>
+          </div>
+
+          <div class="copy-picker" data-copy-picker hidden>
+            <select name="target">
+              {% for quiz in own_quizzes %}
+                <option value="{{ quiz.id }}">{{ quiz.title }}</option>
+              {% endfor %}
+            </select>
+            <button type="button" class="btn primary" data-copy="{{ share.share_id }}">Copy</button>
+            <button type="button" class="btn" data-cancel-copy>Cancel</button>
+          </div>
+        </article>
+      {% endfor %}
+    {% endif %}
+
+    {% if own_quizzes.is_empty() && !shared.questions.is_empty() %}
+      <p class="empty-state">
+        Create a quiz first, and you will be able to copy shared questions into it.
+      </p>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}<script type="module" src="/static/js/shared.js"></script>{% endblock %}

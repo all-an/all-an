@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/page.css">
+<link rel="stylesheet" href="/static/css/runner.css">
+{% endblock %}
+
+{% block content %}
+<main class="page">
+  <div class="runner" data-runner data-attempt-id="{{ attempt_id }}">
+    <p class="empty-state">Loading…</p>
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}<script type="module" src="/static/js/runner.js"></script>{% endblock %}

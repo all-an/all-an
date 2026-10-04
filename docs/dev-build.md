@@ -1,20 +1,19 @@
 # Dev build — running all-an locally
 
-One process serves everything: Angular renders on the server, and the API lives in the same Express
-app. There is no second service to start and no proxy to configure.
+One process serves everything: the pages are rendered by Rust on the server, and the API lives in
+the same binary. There is no second service to start and no proxy to configure.
 
 ```
-src/
-├── app/      Angular — components, routes, services
-├── api/      Express — the /api routes, server-only
-├── main.ts        browser entry
-├── main.server.ts SSR entry
-└── server.ts      the Express app: /healthz, /api, static files, then Angular
+Cargo.toml
+src/         Rust — startup, the /api routes, the pages, the domain modules
+templates/   Askama page templates
+static/      CSS and JavaScript the pages load, served under /static
+db/migration SQL, compiled into the binary
 ```
 
 ## What you need
 
-- **Node 22 or newer.** Angular 21 will not run on older versions.
+- **A recent stable Rust toolchain** — [rustup.rs](https://rustup.rs). The crate uses edition 2024.
 - **Postgres**, with a database called `all-an-database`.
 
 ## Postgres
@@ -40,51 +39,50 @@ docker run -d --name all-an-db \
 cp .env.example .env
 ```
 
-The defaults point at the local database above. `.env` is gitignored. Every variable is documented
-in `.env.example`; only `DATABASE_URL` is required.
+The defaults point at the local database above. `.env` is gitignored and loaded at startup. Every
+variable is documented in `.env.example`; only `DATABASE_URL` is required.
 
 ## Run it
 
 ```bash
-npm install
-npm start
+cargo run
 ```
 
-<http://localhost:4200> serves the UI, and `/api` the API — same port, same origin, no CORS.
+<http://localhost:4200> serves the pages, and `/api` the API — same port, same origin, no CORS.
 
-`npm start` sets `PORT=4200` before starting the dev server. That is not decoration: during
-server-side rendering the app calls its own API over loopback, and it has to know which port to
-call. Start the dev server another way and SSR will try 8080 and quietly render every page
-signed-out.
+**Templates are compiled in, and `static/` is not.** Edit a CSS or JavaScript file and reload the
+browser. Edit a template or Rust file and `cargo run` again. The server reads `static/` relative to
+the directory it is started from, so run it from the repository root.
 
-**Migrations run by themselves.** The API's first request applies anything pending, so a fresh
-database is ready without a separate step. In production the same code runs before the server
-starts listening instead.
+**Migrations run before the server listens.** A fresh database is ready without a separate step,
+and a migration that fails stops the process rather than serving a half-built schema.
 
-## The production build, locally
+## The release build, locally
 
 ```bash
-npm run build
-npm run serve:ssr
+cargo build --release
+./target/release/all-an
 ```
 
-That is exactly what Render runs, on <http://localhost:8080>. Worth doing before a deploy: the
-production build type-checks templates more strictly than the dev server does.
+That is what Render runs. Worth doing before a deploy only if you changed dependencies; the dev
+build checks the same things.
 
 ## Tests
 
 ```bash
-npm test
+cargo test
+cargo clippy
 ```
 
-Vitest, covering the places where a bug would be silent rather than loud — answer marking, password
-hashing, the timeout rule, and the message daily limit.
+Unit tests, covering the places where a bug would be silent rather than loud — answer marking,
+password hashing (including a hash written by the old Node server), the timeout rule, and the
+message daily limit. They need no database.
 
 ## Adding a migration
 
-Add `db/migration/V<n>__<name>.sql` and restart. The runner applies whatever `schema_history` has
-not seen, each file in its own transaction, holding a Postgres advisory lock so two instances
-deploying at once cannot both apply it.
+Add `db/migration/V<n>__<name>.sql` and rebuild — the files are embedded at compile time. On the next
+start the runner applies whatever `schema_history` has not seen, each file in its own transaction,
+holding a Postgres advisory lock so two instances deploying at once cannot both apply it.
 
 **Applied migrations are immutable.** The runner records a checksum and refuses to start if a file
 that already ran has since been edited, because at that point the database and the repository
@@ -101,11 +99,13 @@ psql -d postgres -c 'DROP DATABASE "all-an-database";' -c 'CREATE DATABASE "all-
 
 | Path | What |
 |---|---|
-| `db/migration/` | Schema, in order. Read at runtime, deliberately outside the bundle |
-| `src/api/db/` | The pool and the migration runner |
-| `src/api/http/` | Validation, the error mapper, the client-IP helper |
-| `src/api/auth/` | Passwords, sessions, the throttles |
-| `src/api/quizzes/` | Quizzes, questions, study fields |
-| `src/api/attempts/` | Taking a quiz: timing and marking |
-| `src/api/friends/`, `src/api/shares/` | Friends, and sharing quizzes and questions |
-| `src/app/` | The Angular app |
+| `db/migration/` | Schema, in order. Embedded in the binary |
+| `src/db.rs` | The pool and the migration runner |
+| `src/api.rs` | Every `/api` route and its request shapes |
+| `src/pages.rs` | Every page, and the data each renders with |
+| `src/auth.rs`, `src/password.rs`, `src/throttle.rs` | Sessions and extractors, scrypt, the limits |
+| `src/quizzes.rs` | Quizzes, questions, study fields |
+| `src/attempts.rs`, `src/grading.rs` | Taking a quiz: timing and marking |
+| `src/friends.rs`, `src/shares.rs` | Friends, and sharing quizzes and questions |
+| `templates/` | Askama templates; `base.html` is the layout |
+| `static/js/` | One module per page; `api.js` is the shared client |

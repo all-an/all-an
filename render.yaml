@@ -1,8 +1,8 @@
 # Render blueprint. Creates the database and the web service together, so a fresh deployment is
 # one commit rather than a sequence of console clicks.
 #
-# There is no Docker image anywhere in this file. `runtime: node` builds from source on Render:
-# npm ci, ng build, then start the compiled SSR server. No registry, no cross-architecture build.
+# There is no Docker image anywhere in this file. `runtime: rust` builds from source on Render:
+# cargo build --release, then start the compiled binary. No registry, no cross-architecture build.
 
 databases:
   - name: all-an-database
@@ -14,13 +14,14 @@ databases:
 services:
   - type: web
     name: all-an
-    runtime: node
+    runtime: rust
     plan: free
     region: oregon
 
-    buildCommand: npm ci && npm run build
-    # PORT is injected by Render; src/server.ts reads it and falls back to 8080.
-    startCommand: node dist/all-an/server/server.mjs
+    buildCommand: cargo build --release
+    # PORT is injected by Render; src/config.rs reads it and falls back to 8080. Started from the
+    # repository root, where static/ lives.
+    startCommand: ./target/release/all-an
 
     # Migrations run before the server listens, so an instance that cannot migrate never reports
     # healthy - and Render keeps the previous deploy serving instead of replacing it with a broken
@@ -32,11 +33,8 @@ services:
         fromDatabase:
           name: all-an-database
           # The internal connection string: it stays on Render's private network, so it needs no
-          # TLS, and pool.ts recognises the single-label hostname and disables SSL for it.
+          # TLS, and src/db.rs recognises the single-label hostname and disables SSL for it.
           property: connectionString
-
-      - key: NODE_VERSION
-        value: "22"
 
       # Behind Render's proxy, so X-Forwarded-* is trustworthy and the per-IP throttles see the
       # real client rather than one address for the whole internet.
@@ -45,11 +43,6 @@ services:
 
       - key: SESSION_COOKIE_SECURE
         value: "true"
-
-      # Keep in step with the service's hostname and any custom domain. An unlisted host does not
-      # fail loudly: Angular quietly falls back to client-side rendering.
-      - key: ALLOWED_HOSTS
-        value: all-an.onrender.com
 
       - key: SITE_URL
         value: https://all-an.onrender.com

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Results · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/page.css">
+<link rel="stylesheet" href="/static/css/history.css">
+{% endblock %}
+
+{% block content %}
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>Results</h1>
+        <p class="lede">Every quiz you have taken, most recent first.</p>
+      </div>
+      <a class="btn" href="/quizzes/browse">Browse quizzes</a>
+    </header>
+
+    {% if items.is_empty() %}
+      <div class="empty-state">
+        <p>You have not taken a quiz yet.</p>
+      </div>
+    {% else %}
+      {% for attempt in items %}
+        <div class="card attempt-row">
+          <a class="attempt-main" href="/results/{{ attempt.id }}">
+            <div>
+              <p class="card-title">{{ attempt.quiz_title }}</p>
+              <p class="card-meta">
+                <time datetime="{{ attempt.started_at }}" data-date>{{ attempt.started_at }}</time>
+                {% if attempt.finished_at.is_none() %}· unfinished{% endif %}
+              </p>
+            </div>
+            <span class="attempt-score">{{ attempt.correct }} / {{ attempt.total }}</span>
+          </a>
+          <button
+            type="button"
+            class="btn danger delete-attempt"
+            data-delete-attempt="{{ attempt.id }}"
+            data-title="{{ attempt.quiz_title }}"
+            data-score="{{ attempt.correct }} / {{ attempt.total }}"
+            aria-label="Delete this result for {{ attempt.quiz_title }}">
+            Delete
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</main>
+
+<div class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="delete-title" data-modal hidden>
+  <div class="modal-card">
+    <h2 id="delete-title" class="modal-title">Delete this result?</h2>
+    <p class="modal-body">
+      Your run of <strong data-modal-title></strong> — scored <span data-modal-score></span> —
+      will be removed from your history. This cannot be undone.
+    </p>
+    <div class="modal-actions">
+      <button type="button" class="btn" data-modal-cancel>Keep it</button>
+      <button type="button" class="btn danger" data-modal-confirm>Delete result</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}<script type="module" src="/static/js/history.js"></script>{% endblock %}

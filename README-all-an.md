@@ -1,30 +1,33 @@
 # all-an
 
-TypeScript end to end: Angular 21 with server-side rendering, an Express API in the same process,
-and Postgres. Deployed to Render as a plain Node service — no Docker anywhere in the deploy path.
+Rust on the server, plain JavaScript in the browser, Postgres underneath. One binary serves the
+pages and the API; no Node anywhere, and no Docker in the deploy path.
 
 Write timed quizzes on any subject, share them with friends, and see how you did.
 
 ```
-                      one Node process
-┌──────────────────────────────────────────────────────┐
-│  Express                                             │
-│    /healthz  →  /api/*  →  static  →  Angular SSR    │
-└──────────────────────────────────────────────────────┘
-                          │
-                     Postgres
+                       one Rust binary (axum)
+┌──────────────────────────────────────────────────────────┐
+│  /healthz   /api/*   /static/*   pages (Askama templates) │
+└──────────────────────────────────────────────────────────┘
+                           │
+                      Postgres (sqlx)
 ```
+
+Every page is rendered on the server, so the first response already has the right nav and the
+right data. JavaScript (`static/js`, ES modules, no build step) only adds behaviour: forms,
+buttons, the quiz clock, the editor.
 
 ## Quick start
 
 ```bash
 cp .env.example .env
-npm install
-npm start                       # http://localhost:4200
+cargo run                       # http://localhost:4200
 ```
 
-You need Node 22+ and a Postgres database called `all-an-database`. Migrations apply themselves on
-the first request, so there is no separate setup step.
+You need a recent stable Rust toolchain ([rustup.rs](https://rustup.rs)) and a Postgres database
+called `all-an-database`. Migrations apply themselves at startup, before the server listens, so
+there is no separate setup step.
 
 ### Postgres in a container
 
@@ -72,7 +75,7 @@ docker exec all-an-db psql -U allan -d postgres \
 If you want the data to outlive the container, add `-v all-an-db-data:/var/lib/postgresql/data` to
 the `docker run`.
 
-`docs/dev-build.md` has the rest — migrations, the production build, and where things live.
+`docs/dev-build.md` has the rest — migrations, the release build, and where things live.
 
 ## What it does
 
@@ -98,13 +101,24 @@ existing one able to sign in.
 ## Layout
 
 ```
-db/migration/     schema, in order — read at runtime, not bundled
+Cargo.toml
+db/migration/     schema, in order — compiled into the binary
+templates/        Askama page templates (base layout + one per page)
+static/
+├── css/          one stylesheet per page, plus the shared look in page.css
+└── js/           one module per page; api.js is the shared client
 src/
-├── app/          Angular: front page, auth, quizzes, runner, results, friends, admin
-├── api/          Express: auth, quizzes, attempts, friends, shares, messages, settings
-├── server.ts     the Express app — API mounted ahead of the renderer
-├── main.ts       browser entry
-└── main.server.ts SSR entry
+├── main.rs       startup: config, pool, migrations, router, listener
+├── api.rs        every /api route
+├── pages.rs      every HTML page and the data it renders with
+├── auth.rs       sessions, request extractors, client IP
+├── password.rs   scrypt hashing
+├── quizzes.rs  attempts.rs  friends.rs  shares.rs  messages.rs  settings.rs  users.rs
+├── grading.rs    how typed and multiple-choice answers are marked (pure, tested)
+├── throttle.rs   signup and login-failure limits
+├── db.rs         connection pool and the migrator
+├── mail.rs       Resend client
+└── error.rs  validate.rs  config.rs  state.rs
 render.yaml       the Render blueprint: web service + all-an-database
 ```
 
@@ -112,10 +126,10 @@ render.yaml       the Render blueprint: web service + all-an-database
 
 | | |
 |---|---|
-| `npm start` | Dev server on `:4200`, API included |
-| `npm run build` | Production build into `dist/all-an/` |
-| `npm run serve:ssr` | Run that build, exactly as Render does |
-| `npm test` | Vitest |
+| `cargo run` | Run on `:4200` (from `.env`), API and pages included |
+| `cargo build --release` | Optimised binary at `target/release/all-an` |
+| `cargo test` | Unit tests |
+| `cargo clippy` | Lints |
 
 ## Documentation
 
@@ -125,21 +139,30 @@ render.yaml       the Render blueprint: web service + all-an-database
 
 ## A few decisions worth knowing
 
-**Nothing is prerendered.** The nav is on every page and depends on who is signed in, so a
-prerendered page would ship the signed-out version and flip after hydration — on the front page,
-the most common entry point. Rendering per request costs one indexed session lookup.
+**Pages are rendered per request, never prerendered.** The nav is on every page and depends on who
+is signed in, so a prerendered page would ship the signed-out version and flip afterwards — on the
+front page, the most common entry point. Rendering per request costs one indexed session lookup.
 
-**The API is mounted inside the SSR server.** One process, one origin, no CORS. During rendering
-the app calls its own API over loopback with the visitor's cookie forwarded, so a signed-in page is
-correct on first paint.
+**Pages and API share one process and one origin.** No CORS, and the page handlers call the same
+service functions the API does rather than making HTTP calls to themselves.
 
-**Passwords use `scrypt` from `node:crypto`.** Not bcrypt or argon2: both are native modules, and a
-pure-stdlib hash keeps `npm ci` on Render free of a compile step — which is the point of a deploy
-with no image to bake toolchains into.
+**Checked at compile time.** Askama compiles templates into the binary, so a template that
+references a field that does not exist fails the build rather than the page.
+
+**Passwords use `scrypt`.** Stored as `scrypt$N$r$p$salt$hash`, a format that predates the Rust
+rewrite: accounts created by the Node version sign in unchanged, and a regression test verifies a
+hash written by Node's `crypto.scrypt`. The cost parameters are read back out of the stored string,
+and refused above a ceiling, so raising the cost later never locks anyone out and a forged hash
+cannot ask for gigabytes.
 
 **Sessions are opaque and stored hashed.** The cookie holds 32 random bytes; the database holds
 their SHA-256. A leaked dump grants nobody a login, and deleting a row signs that browser out
 immediately.
 
-Rewritten from a Spring Boot + Angular application; the Java version is in the history, up to
-commit `d082140`.
+**Migrations are the existing Flyway-style files.** `db/migration/V<n>__name.sql`, applied in order
+inside transactions under a Postgres advisory lock, recorded in `schema_history` with a SHA-256
+checksum. An applied migration that has since changed refuses to start. The table and checksum
+scheme are the ones the Node version used, so an existing database is picked up as it is.
+
+Rewritten from Spring Boot + Angular, then Angular SSR + Express, then Rust; the earlier versions
+are in the history.

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{% if quiz_id.is_some() %}Edit quiz{% else %}New quiz{% endif %} · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/page.css">
+<link rel="stylesheet" href="/static/css/quiz-editor.css">
+{% endblock %}
+
+{% block content %}
+<main class="page">
+  <div class="page-inner" data-editor>
+    <p class="empty-state">Loading…</p>
+  </div>
+</main>
+
+<!-- Everything the editor starts from, rendered by the server so the first paint needs no requests. -->
+<script type="application/json" id="editor-data">{{ data_json|safe }}</script>
+{% endblock %}
+
+{% block scripts %}<script type="module" src="/static/js/quiz-editor.js"></script>{% endblock %}

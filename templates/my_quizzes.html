@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}My quizzes · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/page.css">
+<link rel="stylesheet" href="/static/css/my-quizzes.css">
+{% endblock %}
+
+{% block content %}
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>My quizzes</h1>
+        <p class="lede">Write a quiz on anything, time each question, then take it.</p>
+      </div>
+      <a class="btn primary" href="/quizzes/new">New quiz</a>
+    </header>
+
+    <p class="notice" role="alert" data-error hidden></p>
+
+    <div class="chips">
+      {% for chip in view_chips %}
+        <a class="chip{% if chip.selected %} selected{% endif %}" href="{{ chip.href }}">{{ chip.label }}</a>
+      {% endfor %}
+    </div>
+
+    {% if !field_chips.is_empty() %}
+      <p class="filter-label">Study field</p>
+      <div class="chips">
+        {% for chip in field_chips %}
+          <a class="chip{% if chip.selected %} selected{% endif %}" href="{{ chip.href }}">{{ chip.label }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if !subject_chips.is_empty() %}
+      <p class="filter-label">Subject</p>
+      <div class="chips">
+        {% for chip in subject_chips %}
+          <a class="chip{% if chip.selected %} selected{% endif %}" href="{{ chip.href }}">{{ chip.label }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if items.is_empty() %}
+      {% if archived %}
+        <div class="empty-state">
+          <p>No archived quizzes.</p>
+          <p>Archive a quiz once you have learned it and it will move here.</p>
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <p>Nothing here yet.</p>
+          <p>
+            Write your first quiz, or
+            <a class="btn" href="/quizzes/browse">browse what other people have published</a>
+          </p>
+        </div>
+      {% endif %}
+    {% else %}
+      {% for quiz in items %}
+        <article class="card quiz-row">
+          <div>
+            <h2 class="card-title">{{ quiz.title }}</h2>
+            <p class="card-meta">
+              {{ quiz.study_field.name }} · {{ quiz.subject }} ·
+              {{ quiz.question_count }} question{% if quiz.question_count != 1 %}s{% endif %}
+              {% if quiz.visibility == "PUBLIC" %}
+                <span class="badge public">Published</span>
+              {% else %}
+                <span class="badge private">Private</span>
+              {% endif %}
+            </p>
+          </div>
+
+          <div class="actions">
+            {% if quiz.question_count > 0 %}
+              <a class="btn primary" href="/quizzes/{{ quiz.id }}/take">Take</a>
+            {% endif %}
+            <a class="btn" href="/quizzes/{{ quiz.id }}/edit">Edit</a>
+            <button type="button" class="btn" data-publish="{{ quiz.id }}" data-visibility="{{ quiz.visibility }}">
+              {% if quiz.visibility == "PUBLIC" %}Unpublish{% else %}Publish{% endif %}
+            </button>
+            <button type="button" class="btn" data-archive="{{ quiz.id }}" data-archived="{{ quiz.archived }}">
+              {% if quiz.archived %}Unarchive{% else %}Archive{% endif %}
+            </button>
+            <button type="button" class="btn danger" data-delete="{{ quiz.id }}" data-title="{{ quiz.title }}">Delete</button>
+          </div>
+        </article>
+      {% endfor %}
+    {% endif %}
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}<script type="module" src="/static/js/quiz-list.js"></script>{% endblock %}
