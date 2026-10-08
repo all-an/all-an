@@ -54,6 +54,13 @@ def create_app(config: Config | None = None) -> Flask:
     app.register_blueprint(attempts_api.api)
     app.register_blueprint(attempts_pages.pages)
 
+    from . import friends_web, shares_web, site
+
+    for blueprint in (
+        friends_web.api, friends_web.pages, shares_web.api, shares_web.pages, site.api, site.pages,
+    ):
+        app.register_blueprint(blueprint)
+
     if config.run_startup_tasks:
         users.bootstrap_admin(config)
         sweep_expired()
@@ -61,12 +68,6 @@ def create_app(config: Config | None = None) -> Flask:
     @app.context_processor
     def inject_user():
         return {"user": current_user()}
-
-    @app.get("/")
-    def front():
-        from flask import render_template
-
-        return render_template("front.html")
 
     @app.get("/healthz")
     def healthz():

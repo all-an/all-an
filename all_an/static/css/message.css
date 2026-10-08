@@ -220,3 +220,12 @@ button:disabled {
     transform: none;
   }
 }
+
+/* Send stays dimmed until there is something to send. The textarea has a one-space placeholder, so
+   :placeholder-shown is true exactly while it is empty - no script needed to track it. */
+form:has(textarea:placeholder-shown) button[type='submit'] {
+  background: #2a2a2a;
+  color: #6a6a6a;
+  cursor: not-allowed;
+  pointer-events: none;
+}

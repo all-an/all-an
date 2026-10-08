@@ -1,0 +1,15 @@
+{# The daily limit is the one "error" a normal person will hit, so it gets the warmest copy on the
+   page and the email address as an immediate way through. #}
+<div class="panel limited" role="alert">
+  <span class="glyph" aria-hidden="true">✉</span>
+  <h2>Thanks for writing again!</h2>
+  <p>
+    Your message for today already came through — I keep it to one a day per address so I
+    can give everyone a proper reply.
+  </p>
+  <p class="fallback">
+    If there's more you'd like to share, or it can't wait until tomorrow, my inbox is always open:
+  </p>
+  <a class="email" href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+  <a class="cta" href="/">Back to the front page →</a>
+</div>

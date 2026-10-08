@@ -3,28 +3,11 @@
 `viewer` is the signed-in user's row (id, username, email, role) or None.
 """
 
-from datetime import UTC, datetime
-
 from .. import db, shares
 from ..errors import ApiError
+from ..util import iso, to_int  # noqa: F401  (re-exported: other modules import them from here)
 from ..validate import Fields
 from . import repo
-
-
-def iso(moment: datetime) -> str:
-    """The format JavaScript's toISOString() produces, which is what clients already parse."""
-    return moment.astimezone(UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
-
-
-def to_int(value) -> int | None:
-    """An int from an int or a numeric string (form fields arrive as strings); anything else None."""
-    if isinstance(value, bool):
-        return None
-    if isinstance(value, int):
-        return value
-    if isinstance(value, str) and value.strip().lstrip("-").isdigit():
-        return int(value.strip())
-    return None
 
 
 # --- shapes ------------------------------------------------------------------------------------

@@ -7,16 +7,20 @@ from ..web import is_htmx, sign_in_url
 from .sessions import current_user
 
 
-def _to_sign_in():
-    target = request.full_path.rstrip("?") if request.method == "GET" else request.referrer or "/"
-    url = sign_in_url(target)
-
+def _redirect(url: str):
+    """HTMX would follow a 303 and swap the destination page into the element that asked, so for
+    HTMX the instruction to navigate goes in a header instead."""
     if is_htmx():
         response = make_response("", 204)
         response.headers["HX-Redirect"] = url
         return response
 
     return redirect(url, 303)
+
+
+def _to_sign_in():
+    target = request.full_path.rstrip("?") if request.method == "GET" else request.referrer or "/"
+    return _redirect(sign_in_url(target))
 
 
 def login_required(view):
@@ -49,7 +53,7 @@ def admin_required(view):
         if user["role"] != "ADMIN":
             if wants_json():
                 raise ApiError.forbidden("That needs an administrator.")
-            return redirect("/", 303)
+            return _redirect("/")
 
         return view(*args, **kwargs)
 

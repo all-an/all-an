@@ -30,6 +30,10 @@
                 hx-post="/questions/{{ question.id }}/{{ 'unarchive' if question.archived else 'archive' }}">
           {{ "Unarchive" if question.archived else "Archive" }}
         </button>
+        {% if friends %}
+          <button type="button" class="btn" hx-get="/questions/{{ question.id }}/share-panel"
+                  hx-target="#share-panel" hx-swap="outerHTML">Share</button>
+        {% endif %}
         <button type="button" class="btn danger" hx-post="/questions/{{ question.id }}/delete"
                 hx-confirm="Delete this question?">Delete</button>
       </div>

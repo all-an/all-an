@@ -1,0 +1,21 @@
+<form hx-post="/message" hx-target="this" hx-swap="outerHTML" hx-disabled-elt="find button[type=submit]">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+  {% if error %}<p class="state error" role="alert">{{ error }}</p>{% endif %}
+
+  <label for="name">Name <span class="optional">optional</span></label>
+  <input id="name" name="name" type="text" maxlength="80" autocomplete="name" value="{{ values.get('name', '') }}">
+  {% if fields.name %}<span class="field-error">{{ fields.name }}</span>{% endif %}
+
+  <label for="email">Email <span class="optional">optional, for a reply</span></label>
+  <input id="email" name="email" type="email" maxlength="254" autocomplete="email" value="{{ values.get('email', '') }}">
+  {% if fields.email %}<span class="field-error">{{ fields.email }}</span>{% endif %}
+
+  <label for="body">Message</label>
+  {# The single-space placeholder is what lets CSS tell "empty" from "has text" (see message.css). #}
+  <textarea id="body" name="body" rows="7" maxlength="5000" required placeholder=" ">{{ values.get('body', '') }}</textarea>
+  {% if fields.body %}<span class="field-error">{{ fields.body }}</span>{% endif %}
+  <span class="counter">5000 characters at most</span>
+
+  <button type="submit"><span class="idle">Send message</span><span class="busy">Sending...</span></button>
+</form>

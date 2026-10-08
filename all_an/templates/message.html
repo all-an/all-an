@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Message me · all-an{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/message.css') }}">{% endblock %}
+{% block content %}
+<main class="message">
+  <div class="inner">
+    <a class="back" href="/">← Back</a>
+
+    <h1>Message me</h1>
+    <p class="lede">
+      Good to hear from you — write whatever's on your mind and I'll read every word. Leave an email
+      if you'd like a reply. It's one message a day per address, so each one gets proper attention.
+    </p>
+
+    {# Replaced by the form with errors, the thank-you, or the daily-limit note. #}
+    {% include "partials/message_form.html" %}
+  </div>
+</main>
+{% endblock %}

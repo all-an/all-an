@@ -170,7 +170,7 @@ which removes the app-host/DB-host clock-skew risk the Rust version had. The cou
 (the browser's own dialog) instead of the custom modal the Rust/Angular versions had; behaviour is
 the same, the styling is not.
 
-### Phase 6 — Friends, sharing, messages, admin (1–2 days)
+### Phase 6 — Friends, sharing, messages, admin (1–2 days) ✅
 - Friends: add by username, accept/decline/withdraw, unfriend — HTMX swaps of the lists.
 - Shares: share quiz/question to friends (friends only; ids not belonging to friends are dropped),
   inbox page, copy-into-quiz picker, dismiss. Email through Resend over HTTP; failures are logged
@@ -181,6 +181,12 @@ the same, the styling is not.
 - About page, nav (hides the link to the current page), 404 → redirect to `/`.
 
 **Done when:** every page in the Rust app has a Flask equivalent.
+
+**Outcome:** done. Two small differences from the Rust pages, both because the replacement is pure
+HTML/CSS rather than script: the contact form shows "5000 characters at most" instead of a live
+counter (the Send button still dims while the box is empty, via `:placeholder-shown`), and the
+"Copy into…" picker on the Shared page is a native `<details>` element. Unknown page URLs still
+redirect to the front page; the API and HTMX requests get a real 404.
 
 ### Phase 7 — JSON API parity and tests (1–2 days)
 - Re-expose `/api/*` with the same shapes (camelCase JSON) if Phase 0 decided to keep it.

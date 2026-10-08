@@ -1,0 +1,56 @@
+<div id="friends-body" hx-target="#friends-body" hx-swap="outerHTML">
+  {% if notice %}<p class="notice" role="status">{{ notice }}</p>{% endif %}
+  {% if error %}<p class="notice" role="alert">{{ error }}</p>{% endif %}
+
+  <form class="add-friend" hx-post="/friends/requests" hx-disabled-elt="find button">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input name="username" placeholder="Their username" autocapitalize="none" spellcheck="false" value="{{ username }}">
+    <button type="submit" class="btn primary">Send request</button>
+  </form>
+
+  {% if incoming %}
+    <h2>Asking to be your friend</h2>
+    {% for request in incoming %}
+      <article class="card person-row">
+        <p class="card-title">{{ request.username }}</p>
+        <div class="actions">
+          <button type="button" class="btn primary" hx-post="/friends/requests/{{ request.friendshipId }}/accept">Accept</button>
+          <button type="button" class="btn danger" hx-post="/friends/requests/{{ request.friendshipId }}/remove">Decline</button>
+        </div>
+      </article>
+    {% endfor %}
+  {% endif %}
+
+  {% if outgoing %}
+    <h2>Waiting on them</h2>
+    {% for request in outgoing %}
+      <article class="card person-row">
+        <div>
+          <p class="card-title">{{ request.username }}</p>
+          <p class="card-meta">Request sent</p>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn danger" hx-post="/friends/requests/{{ request.friendshipId }}/remove">Withdraw</button>
+        </div>
+      </article>
+    {% endfor %}
+  {% endif %}
+
+  <h2>Your friends</h2>
+  {% if not friends %}
+    <div class="empty-state">
+      <p>No friends yet.</p>
+      <p>Add someone by their username above, and they will get a request to accept.</p>
+    </div>
+  {% else %}
+    {% for friend in friends %}
+      <article class="card person-row">
+        <p class="card-title">{{ friend.username }}</p>
+        <div class="actions">
+          <button type="button" class="btn danger" hx-post="/friends/{{ friend.friendshipId }}/remove"
+                  hx-confirm='Remove {{ friend.username }} from your friends?'>Remove</button>
+        </div>
+      </article>
+    {% endfor %}
+  {% endif %}
+</div>

@@ -6,7 +6,7 @@ is logged with its traceback and the client gets a bare 500 - a stack trace in a
 a gift to whoever is probing.
 """
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, redirect, request
 
 
 class ApiError(Exception):
@@ -78,7 +78,12 @@ def register_error_handlers(app: Flask) -> None:
 
     @app.errorhandler(ApiError)
     def api_error(error: ApiError):
-        response = show(error.status, error.message, error.body())
+        # The API keeps the generic message plus a `fields` map. A person looking at a page wants
+        # the reasons themselves: "choose at least one friend", not "That request was not valid."
+        fields = error.details.get("fields")
+        shown = " ".join(dict.fromkeys(fields.values())) if fields else error.message
+
+        response = show(error.status, shown, error.body())
 
         # Tell the client how long to wait, in the header it expects as well as in the body.
         if error.status == 429 and "retryAfterSeconds" in error.details:
@@ -91,6 +96,11 @@ def register_error_handlers(app: Flask) -> None:
 
     @app.errorhandler(HTTPException)
     def http_error(error: HTTPException):
+        # An address that is not a page at all goes to the front page, as the router's catch-all
+        # always did. The API and HTMX requests still get a real 404 they can act on.
+        if error.code == 404 and not wants_json() and not request.headers.get("HX-Request"):
+            return redirect("/", 303)
+
         message = "Not found." if error.code == 404 else (error.description or "Error")
         return show(error.code or 500, message, {"message": message})
 

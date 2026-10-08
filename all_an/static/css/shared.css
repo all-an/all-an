@@ -45,3 +45,23 @@ h2 {
   font-size: 0.8rem;
   color: #7bd88f;
 }
+
+.copy {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #1a1a1a;
+}
+
+.copy summary {
+  display: inline-block;
+  list-style: none;
+}
+
+.copy summary::-webkit-details-marker {
+  display: none;
+}
+
+.copy .copy-picker {
+  border-top: 0;
+  padding-top: 0;
+}

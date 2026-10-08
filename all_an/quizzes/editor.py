@@ -15,6 +15,7 @@ with the server's validation rules.
 
 from flask import Blueprint, abort, make_response, render_template, request
 
+from .. import friends as friends_service
 from ..auth.guards import login_required
 from ..auth.sessions import current_user
 from ..errors import ApiError
@@ -63,6 +64,7 @@ def _details_context(quiz: dict | None, values: dict | None = None, fields: dict
         "fields": fields or {},
         "study_fields": service.list_study_fields(),
         "known_subjects": service.list_subjects(user, True),
+        "friends": friends_service.list_friends(user),
     }
 
 
@@ -78,7 +80,11 @@ def _owned_quiz(quiz_id: int) -> dict:
 
 
 def _questions_html(quiz: dict) -> str:
-    return render_template("partials/editor_questions.html", quiz=quiz, form=None)
+    return render_template(
+        "partials/editor_questions.html",
+        quiz=quiz,
+        friends=friends_service.list_friends(current_user()),
+    )
 
 
 def _questions_response(quiz: dict, notice: str | None = None):

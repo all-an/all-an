@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Friends · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/friends.css') }}">
+{% endblock %}
+{% block content %}
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>Friends</h1>
+        <p class="lede">Share a quiz or a single question with people you have added.</p>
+      </div>
+      <a class="btn" href="/shared">Shared with me</a>
+    </header>
+
+    {{ body | safe }}
+  </div>
+</main>
+{% endblock %}
