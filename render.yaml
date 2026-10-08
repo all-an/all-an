@@ -1,8 +1,8 @@
 # Render blueprint. Creates the database and the web service together, so a fresh deployment is
 # one commit rather than a sequence of console clicks.
 #
-# There is no Docker image anywhere in this file. `runtime: rust` builds from source on Render:
-# cargo build --release, then start the compiled binary. No registry, no cross-architecture build.
+# There is no Docker image anywhere in this file. `runtime: python` builds from source on Render:
+# pip install, then start gunicorn. No registry, no cross-architecture build.
 
 databases:
   - name: all-an-database
@@ -14,29 +14,32 @@ databases:
 services:
   - type: web
     name: all-an
-    runtime: rust
+    runtime: python
     plan: free
     region: oregon
 
-    buildCommand: cargo build --release
-    # PORT is injected by Render; src/config.rs reads it and falls back to 8080. Started from the
-    # repository root, where static/ lives.
-    startCommand: ./target/release/all-an
+    buildCommand: pip install -r requirements.txt
+    # PORT is injected by Render and gunicorn binds to it on its own; workers and threads come from
+    # gunicorn.conf.py. Migrations run as each worker starts, before it serves a request.
+    startCommand: gunicorn all_an.wsgi:app
 
-    # Migrations run before the server listens, so an instance that cannot migrate never reports
-    # healthy - and Render keeps the previous deploy serving instead of replacing it with a broken
-    # one. The check hits the database rather than just returning 200.
+    # The check hits the database rather than just returning 200, so an instance that cannot reach
+    # Postgres never reports healthy - and Render keeps the previous deploy serving instead of
+    # replacing it with a broken one.
     healthCheckPath: /healthz
 
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.5"
+
       - key: DATABASE_URL
         fromDatabase:
           name: all-an-database
           # The internal connection string: it stays on Render's private network, so it needs no
-          # TLS, and src/db.rs recognises the single-label hostname and disables SSL for it.
+          # TLS, and db.py recognises the single-label hostname and disables SSL for it.
           property: connectionString
 
-      # Behind Render's proxy, so X-Forwarded-* is trustworthy and the per-IP throttles see the
+      # Behind Render's proxy, so X-Forwarded-For is trustworthy and the per-IP throttles see the
       # real client rather than one address for the whole internet.
       - key: TRUST_PROXY_HEADERS
         value: "true"

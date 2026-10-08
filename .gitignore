@@ -1,5 +1,4 @@
 # Build output
-/target
 /tmp
 
 # Local configuration - DATABASE_URL and the admin bootstrap credentials live here

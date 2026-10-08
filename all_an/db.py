@@ -40,6 +40,9 @@ def init_pool(database_url: str, max_size: int = 5) -> ConnectionPool:
         max_size=max_size,
         timeout=10,
         max_idle=30,
+        # Managed Postgres closes connections that sit idle; a connection that has gone stale is
+        # replaced here rather than failing the request that happened to be handed it.
+        check=ConnectionPool.check_connection,
         kwargs={"sslmode": ssl_mode(database_url), "row_factory": dict_row},
         open=True,
     )

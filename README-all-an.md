@@ -1,33 +1,35 @@
 # all-an
 
-Rust on the server, plain JavaScript in the browser, Postgres underneath. One binary serves the
-pages and the API; no Node anywhere, and no Docker in the deploy path.
+Python, Flask, Jinja2 and HTMX on PostgreSQL. One gunicorn process serves the pages and the API;
+no Node anywhere, no build step, and no Docker in the deploy path.
 
 Write timed quizzes on any subject, share them with friends, and see how you did.
 
 ```
-                       one Rust binary (axum)
-┌──────────────────────────────────────────────────────────┐
-│  /healthz   /api/*   /static/*   pages (Askama templates) │
-└──────────────────────────────────────────────────────────┘
-                           │
-                      Postgres (sqlx)
+                    gunicorn  →  Flask (all_an)
+┌──────────────────────────────────────────────────────────────┐
+│  /healthz   /api/*   /static/*   pages (Jinja2 + HTMX)       │
+└──────────────────────────────────────────────────────────────┘
+                              │
+                     PostgreSQL (psycopg)
 ```
 
 Every page is rendered on the server, so the first response already has the right nav and the
-right data. JavaScript (`static/js`, ES modules, no build step) only adds behaviour: forms,
-buttons, the quiz clock, the editor.
+right data. HTMX swaps in just the part of the page an action changes — a filter, a button, a form
+with its errors — so there is almost no JavaScript to write: about 45 lines for the quiz
+countdown, and a few for local dates. Everything else is attributes in the templates.
 
 ## Quick start
 
 ```bash
 cp .env.example .env
-cargo run                       # http://localhost:4200
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-dev.txt
+.venv/bin/gunicorn all_an.wsgi:app --reload --bind 127.0.0.1:4200    # http://localhost:4200
 ```
 
-You need a recent stable Rust toolchain ([rustup.rs](https://rustup.rs)) and a Postgres database
-called `all-an-database`. Migrations apply themselves at startup, before the server listens, so
-there is no separate setup step.
+You need Python 3.12 or newer and a Postgres database called `all-an-database`. Migrations apply
+themselves as the app starts, before it serves a request, so there is no separate setup step.
 
 ### Postgres in a container
 
@@ -75,7 +77,7 @@ docker exec all-an-db psql -U allan -d postgres \
 If you want the data to outlive the container, add `-v all-an-db-data:/var/lib/postgresql/data` to
 the `docker run`.
 
-`docs/dev-build.md` has the rest — migrations, the release build, and where things live.
+`docs/dev-build.md` has the rest — tests, migrations, and where things live.
 
 ## What it does
 
@@ -101,68 +103,76 @@ existing one able to sign in.
 ## Layout
 
 ```
-Cargo.toml
-db/migration/     schema, in order — compiled into the binary
-templates/        Askama page templates (base layout + one per page)
-static/
-├── css/          one stylesheet per page, plus the shared look in page.css
-└── js/           one module per page; api.js is the shared client
-src/
-├── main.rs       startup: config, pool, migrations, router, listener
-├── api.rs        every /api route
-├── pages.rs      every HTML page and the data it renders with
-├── auth.rs       sessions, request extractors, client IP
-├── password.rs   scrypt hashing
-├── quizzes.rs  attempts.rs  friends.rs  shares.rs  messages.rs  settings.rs  users.rs
-├── grading.rs    how typed and multiple-choice answers are marked (pure, tested)
-├── throttle.rs   signup and login-failure limits
-├── db.rs         connection pool and the migrator
-├── mail.rs       Resend client
-└── error.rs  validate.rs  config.rs  state.rs
+requirements.txt  requirements-dev.txt
+gunicorn.conf.py  workers and threads; the start command is just  gunicorn all_an.wsgi:app
 render.yaml       the Render blueprint: web service + all-an-database
+db/migration/     schema, in order — read by the migrator at startup
+all_an/
+├── __init__.py   create_app(): config, pool, migrations, blueprints, error handlers
+├── wsgi.py       app = create_app()
+├── db.py         connection pool and query helpers (plain SQL, no ORM)
+├── migrate.py    the schema_history migrator
+├── auth/         passwords (scrypt), sessions, throttles, login_required, routes
+├── quizzes/      repo.py (SQL), service.py (rules), api.py, pages.py, editor.py
+├── attempts/     service.py (the server-side clock), api.py, pages.py
+├── friends.py  shares.py  messages.py  settings.py  users.py  grading.py  mail.py
+├── friends_web.py  shares_web.py  site.py      their routes
+├── security.py   CSRF and the client's address
+├── templates/    base.html, pages, and partials/ — the fragments HTMX swaps
+└── static/       css (one file per page), htmx.min.js, runner.js, app.js
+tests/            unit, route, browser (e2e) and contract tests
 ```
 
 ## Commands
 
 | | |
 |---|---|
-| `cargo run` | Run on `:4200` (from `.env`), API and pages included |
-| `cargo build --release` | Optimised binary at `target/release/all-an` |
-| `cargo test` | Unit tests |
-| `cargo clippy` | Lints |
+| `gunicorn all_an.wsgi:app --reload` | Run it (reloads on code changes) |
+| `pytest` | Everything: unit, route and browser tests |
+| `pytest -m "not e2e"` | Skip the browser tests (about 70 s → 25 s) |
+| `pytest tests/e2e` | Only the browser tests, in headless Chromium |
+| `playwright install chromium` | One-time, for the browser tests |
 
 ## Documentation
 
-- [`docs/dev-build.md`](docs/dev-build.md) — running it locally, adding migrations
-- [`docs/prod-build.md`](docs/prod-build.md) — what gets built, deploying, configuration
+- [`docs/dev-build.md`](docs/dev-build.md) — running it locally, tests, adding migrations
+- [`docs/prod-build.md`](docs/prod-build.md) — deploying, configuration
 - [`docs/quizzes.md`](docs/quizzes.md) — the domain: visibility, timing, marking, sharing
+- [`ROADMAP.md`](ROADMAP.md) — how the rewrite was planned and what each phase found
 
 ## A few decisions worth knowing
 
-**Pages are rendered per request, never prerendered.** The nav is on every page and depends on who
-is signed in, so a prerendered page would ship the signed-out version and flip afterwards — on the
-front page, the most common entry point. Rendering per request costs one indexed session lookup.
+**Plain SQL, no ORM.** The schema is fixed and shared with the earlier versions, so an ORM would
+only re-describe tables that are not going to change. Queries live next to the rules that use them,
+in `repo.py` and `service.py`.
 
-**Pages and API share one process and one origin.** No CORS, and the page handlers call the same
-service functions the API does rather than making HTTP calls to themselves.
+**HTMX swaps regions, and the server owns the rules.** Switching a question's type, adding a
+choice, filtering a list — each posts the form's current values and gets the region back redrawn.
+There is no client-side copy of the validation rules to drift from the real ones.
 
-**Checked at compile time.** Askama compiles templates into the binary, so a template that
-references a field that does not exist fails the build rather than the page.
+**CSRF is a double-submit token.** The earlier versions leaned on `SameSite=Lax` and JSON-only
+POSTs. HTML forms are a different thing a hostile page can submit, so every mutating request must
+echo a token from a cookie only our own pages can read (`all_an/security.py`). HTMX adds the header
+to every request itself.
 
-**Passwords use `scrypt`.** Stored as `scrypt$N$r$p$salt$hash`, a format that predates the Rust
-rewrite: accounts created by the Node version sign in unchanged, and a regression test verifies a
-hash written by Node's `crypto.scrypt`. The cost parameters are read back out of the stored string,
-and refused above a ceiling, so raising the cost later never locks anyone out and a forged hash
-cannot ask for gigabytes.
+**The server owns the clock.** The countdown in the browser is cosmetic. The time that counts is
+measured from when the server first served the question — and both ends of that are read from the
+database's clock, so a skew between hosts cannot change who times out.
+
+**Passwords use `scrypt`.** Stored as `scrypt$N$r$p$salt$hash`, a format that predates this
+version: accounts created by the Node and Rust versions sign in unchanged (tests verify a hash
+written by Node's `crypto.scrypt`, and one written here verifies in Node). The cost is read back
+out of the stored string and refused above a ceiling, so raising it later locks no one out and a
+forged hash cannot ask for gigabytes.
 
 **Sessions are opaque and stored hashed.** The cookie holds 32 random bytes; the database holds
 their SHA-256. A leaked dump grants nobody a login, and deleting a row signs that browser out
-immediately.
+immediately. It is the same table as before, so people stay signed in across a cutover.
 
 **Migrations are the existing Flyway-style files.** `db/migration/V<n>__name.sql`, applied in order
 inside transactions under a Postgres advisory lock, recorded in `schema_history` with a SHA-256
 checksum. An applied migration that has since changed refuses to start. The table and checksum
-scheme are the ones the Node version used, so an existing database is picked up as it is.
+scheme are the ones the earlier versions used, so an existing database is picked up as it is.
 
-Rewritten from Spring Boot + Angular, then Angular SSR + Express, then Rust; the earlier versions
-are in the history.
+Rewritten from Spring Boot + Angular, then Angular SSR + Express, then Rust, now Flask; the earlier
+versions are in the history.

@@ -1,36 +1,31 @@
-# Prod build — how it is built and deployed
+# Prod build — how it is deployed
 
-One Render web service running a single Rust binary. No Docker image, no registry, no
-cross-architecture build: Render checks out the repository, compiles it, and starts the result.
+One Render web service running gunicorn. No Docker image, no registry, no cross-architecture
+build: Render checks out the repository, installs the requirements, and starts the app.
 
 ```
-cargo build --release
+pip install -r requirements.txt
         │
-        └── target/release/all-an     pages + API + migrations in one process
-                │
-        ./target/release/all-an       run from the repository root, next to static/
+gunicorn all_an.wsgi:app          workers and threads from gunicorn.conf.py
 ```
 
-## What the build produces
+Nothing is compiled or bundled. The templates and static files are read from the repository as they
+are.
 
-One executable. Askama compiles the templates into it and `include_dir` embeds `db/migration/`, so
-the only thing it reads from disk at runtime is **`static/`** — the CSS and JavaScript — relative to
-the working directory. Render starts the service from the repository root, which is where that
-directory is.
+## What the app does at boot
 
-Server code — SQL, password hashing, session lookups — is not in anything the browser downloads:
-the browser gets HTML and the files under `static/`, and nothing else exists to leak.
+`all_an/__init__.py`, in order, for each gunicorn worker:
 
-## What the server does at boot
+1. **Open the database pool**, then **migrate**, then create the admin if the environment asks for
+   one, then sweep dead sessions.
+2. **Only then serve.** A request must never arrive against a half-migrated schema, and a deploy
+   that cannot migrate should fail rather than serve. The worker exits, the health check never
+   passes, and Render keeps the previous version serving.
+3. Several workers start at once, so each tries the migration; a Postgres advisory lock makes the
+   second a no-op. `/healthz` checks the database too.
 
-`src/main.rs`, in order:
-
-1. **Migrate**, then create the admin if the environment asks for one, then sweep dead sessions.
-2. **Only then listen.** A request must never arrive against a half-migrated schema, and a deploy
-   that cannot migrate should fail rather than serve. It exits non-zero instead, the health check
-   never passes, and Render keeps the previous version serving.
-3. Routes: `/healthz`, `/api/*`, `/static/*`, then the pages. An unmatched `/api` path is a JSON 404;
-   an unmatched page redirects to the front page.
+Routes: `/healthz`, `/api/*`, `/static/*`, then the pages. An unmatched `/api` path is a JSON 404; an
+unmatched page redirects to the front page.
 
 ## Deploying
 
@@ -40,25 +35,23 @@ The repository has a `render.yaml`, so:
 2. It creates `all-an-database` and the `all-an` web service, wired together.
 3. Fill in the variables marked `sync: false` when prompted.
 
-Or by hand: **New → Web Service**, runtime **Rust**, build `cargo build --release`, start
-`./target/release/all-an`, health check `/healthz`. The first build compiles every dependency and
-takes several minutes; later builds reuse Render's cache.
+Or by hand: **New → Web Service**, runtime **Python**, build `pip install -r requirements.txt`,
+start `gunicorn all_an.wsgi:app`, health check `/healthz`, and set `PYTHON_VERSION`.
 
 ## Configuration
 
 | Variable | Needed | What it does |
 |---|---|---|
 | `DATABASE_URL` | yes | Render injects it from the database |
-| `PORT` | injected | Render sets it; the server falls back to 8080 |
+| `PORT` | injected | Render sets it; gunicorn binds `0.0.0.0:$PORT` on its own |
+| `PYTHON_VERSION` | yes | Pinned in `render.yaml` |
 | `TRUST_PROXY_HEADERS` | yes | `true` behind Render's proxy |
 | `SESSION_COOKIE_SECURE` | yes | `true` in production |
 | `SITE_URL` | for email | Used for links inside share emails |
 | `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | optional | Creates the moderator at boot |
 | `RESEND_API_KEY` / `MAIL_FROM` | optional | Sending share notifications |
-| `RUST_LOG` | optional | Log filter, e.g. `debug`; defaults to `info` |
-
-`ALLOWED_HOSTS` is gone: it existed because Angular's renderer needed a host allow-list. Nothing
-here builds absolute URLs from the `Host` header, so there is nothing to allow-list.
+| `WEB_CONCURRENCY` | optional | gunicorn workers (default 2) |
+| `GUNICORN_THREADS` | optional | Threads per worker (default 4) |
 
 ### Two that are easy to get wrong
 
@@ -76,14 +69,19 @@ environments.
 ## Database
 
 Render's *internal* connection string is a single-label hostname on their private network.
-`src/db.rs` recognises that, like `localhost`, and disables TLS, since there is no certificate to
+`all_an/db.py` recognises that, like `localhost`, and disables TLS, since there is no certificate to
 verify and the network is already isolated. Anything else — including Render's external hostname —
 gets TLS that is required but not certificate-verified, because the server presents a certificate
 that does not chain to a public CA. Prefer the internal URL: it is the one that is actually
 protected.
 
-An existing database from the Node version needs nothing: the same `schema_history` table and
-checksums are used, and existing password hashes keep verifying.
+Each worker has its own pool of up to 5 connections, so the database sees
+`workers × 5` — 10 by default. Stale connections (managed Postgres drops idle ones) are checked and
+replaced before they are handed out.
+
+**Cutting over from an earlier version needs nothing done to the data.** The same tables, the same
+`schema_history` checksums, the same password hashes and session ids are used, so people stay signed
+in and nothing is re-migrated.
 
 ## Email
 

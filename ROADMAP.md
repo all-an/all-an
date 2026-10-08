@@ -208,7 +208,7 @@ which field, where Rust returned only the generic message. A visual check (pixel
 public pages in headless Chromium) found the front page, sign-in, register and both browse views
 identical; the About and Message pages differ only where their text was rewritten.
 
-### Phase 8 — Render deployment and cutover (1 day)
+### Phase 8 — Render deployment and cutover (1 day) — repo side ✅, deploy pending
 - `render.yaml`:
   ```yaml
   runtime: python
@@ -226,6 +226,19 @@ identical; the About and Message pages differ only where their text was rewritte
 
 **Done when:** production runs the Flask app on the existing database, users stay signed in, and
 rollback to the Rust build has been rehearsed once.
+
+**Status:** everything that lives in the repository is done on this branch — `gunicorn.conf.py`
+(so the start command is literally `gunicorn all_an.wsgi:app`), `render.yaml`, a stale-connection
+check on the pool, the Rust sources removed, and the README and `docs/` rewritten. Verified
+locally: gunicorn binds to `$PORT` by itself, two workers migrate concurrently without clashing,
+and the app boots against a copy of the real database with "9 migrations, 0 newly applied".
+
+**Still to do, by a person, on Render:** deploy this branch to a separate preview service pointed
+at a *copy* of the production database; confirm sign-in works with an existing account; then
+cut over by deploying `main`, keeping the last Rust deploy available for rollback. Two things to
+check there that could not be checked here: the build runs on `PYTHON_VERSION` 3.13.5 (developed and
+tested on 3.14; nothing 3.14-specific is used, but 3.13 itself was not run), and the first deploy's
+log shows the migrator reporting 0 newly applied.
 
 ## Risks and how to handle them
 
