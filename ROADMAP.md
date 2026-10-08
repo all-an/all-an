@@ -112,7 +112,7 @@ applied", and pointing it at an empty database builds the full schema and seed q
 hash created by Flask verifies in the Rust app (check both directions before the cutover); the
 throttles reproduce the existing messages and limits.
 
-### Phase 3 — Quizzes: lists, filters, archive (2 days)
+### Phase 3 — Quizzes: lists, filters, archive (2 days) ✅
 - Port `quizzes.rs` queries and rules: `readable` / `writable` / `authored`, visibility,
   per-user archives, study fields, subjects.
 - Pages: front, **browse** (`/quizzes/browse[/<slug>]`), **my quizzes** (`/quizzes`).

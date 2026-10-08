@@ -40,6 +40,11 @@ def create_app(config: Config | None = None) -> Flask:
     app.register_blueprint(auth_routes.pages)
     app.register_blueprint(auth_routes.api)
 
+    from .quizzes import api as quizzes_api, pages as quizzes_pages
+
+    app.register_blueprint(quizzes_api.api)
+    app.register_blueprint(quizzes_pages.pages)
+
     if config.run_startup_tasks:
         users.bootstrap_admin(config)
         sweep_expired()

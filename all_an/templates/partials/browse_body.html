@@ -1,0 +1,51 @@
+{% from "partials/quiz_filters.html" import chips %}
+<div id="browse-body">
+  {% if user %}{{ chips(view_chips, "browse-body") }}{% endif %}
+
+  <p class="filter-label">Study field</p>
+  {{ chips(field_chips, "browse-body") }}
+
+  {% if subject_chips | length > 1 %}
+    <p class="filter-label">Subject</p>
+    {{ chips(subject_chips, "browse-body") }}
+  {% endif %}
+
+  {% if not items %}
+    {% if archived %}
+      <div class="empty-state">
+        <p>You have not archived any quizzes.</p>
+        <p>Archive a quiz once you have learned it and it will move here.</p>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <p>Nothing published here yet.</p>
+        <p>Write one and publish it, and it will show up in this list.</p>
+      </div>
+    {% endif %}
+  {% else %}
+    {% for quiz in items %}
+      <article class="card quiz-row">
+        <div>
+          <h2 class="card-title">{{ quiz.title }}</h2>
+          <p class="card-meta">
+            {{ quiz.studyField.name }} · {{ quiz.subject }} ·
+            {{ quiz.questionCount }} question{{ "" if quiz.questionCount == 1 else "s" }}
+          </p>
+          {% if quiz.description %}<p class="description">{{ quiz.description }}</p>{% endif %}
+        </div>
+
+        <div class="actions">
+          <a class="btn primary" href="/quizzes/{{ quiz.id }}/take" hx-boost="false">Take it</a>
+          {% if user %}
+            <button type="button" class="btn"
+                    hx-post="/quizzes/browse/{{ 'unarchive' if quiz.archived else 'archive' }}/{{ quiz.id }}"
+                    hx-vals='{{ {"field": field or "", "subject": subject or "", "archived": "1" if archived else ""} | tojson }}'
+                    hx-target="#browse-body" hx-swap="outerHTML">
+              {{ "Unarchive" if quiz.archived else "Archive" }}
+            </button>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  {% endif %}
+</div>

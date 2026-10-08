@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Browse quizzes · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/browse.css') }}">
+{% endblock %}
+{% block content %}
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>Browse quizzes</h1>
+        <p class="lede">Everything people have published, whatever the subject.</p>
+      </div>
+      <a class="btn" href="/quizzes">My quizzes</a>
+    </header>
+
+    {% include "partials/browse_body.html" %}
+  </div>
+</main>
+{% endblock %}

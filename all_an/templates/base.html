@@ -5,8 +5,9 @@
   <meta charset="utf-8">
   <title>{% block title %}all-an{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- By default HTMX discards 4xx responses. A 422 here is a form with its errors in it: swap it in. -->
-  <meta name="htmx-config" content='{"responseHandling":[{"code":"204","swap":false},{"code":"[23]..","swap":true},{"code":"422","swap":true},{"code":"[45]..","swap":false,"error":true}]}'>
+  <!-- By default HTMX discards 4xx/5xx responses. Ours always carry something to show: a 422 is a
+       form with its errors in it, and any other error names its own target (HX-Retarget). -->
+  <meta name="htmx-config" content='{"responseHandling":[{"code":"204","swap":false},{"code":"[23]..","swap":true},{"code":"422","swap":true},{"code":"[45]..","swap":true,"error":true}]}'>
   <!-- SVG first: browsers that support it take it and ignore the .ico fallback below. -->
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">

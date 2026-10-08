@@ -1,0 +1,9 @@
+{# A row of filter chips. Real links, so they work without JavaScript; with it, the same click swaps
+   just the body region and updates the address bar. `target` is the region's id. #}
+{% macro chips(items, target) %}
+  <div class="chips" hx-boost="true" hx-target="#{{ target }}" hx-select="#{{ target }}" hx-swap="outerHTML" hx-push-url="true">
+    {% for chip in items %}
+      <a class="chip{% if chip.selected %} selected{% endif %}{% if chip.empty %} empty{% endif %}" href="{{ chip.href }}">{{ chip.label }}</a>
+    {% endfor %}
+  </div>
+{% endmacro %}
