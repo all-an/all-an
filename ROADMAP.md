@@ -124,7 +124,7 @@ throttles reproduce the existing messages and limits.
 **Done when:** browse and my-quizzes match the Rust app's output for the same data, including
 empty states and the 50-item cap.
 
-### Phase 4 — Quiz editor (2–3 days) — the riskiest page
+### Phase 4 — Quiz editor (2–3 days) — the riskiest page ✅
 The Rust editor is ~600 lines of client-side JS. With HTMX it becomes a set of server-rendered
 fragments:
 - Details form → `hx-post`/`hx-put`, validation errors returned as the re-rendered form with
@@ -139,10 +139,15 @@ fragments:
 
 **Done when:** every editor action works without a full page reload and without hand-written JS,
 and the validation messages match the Rust app.
+
+**Outcome:** done with no hand-written JS and no fallback needed. The page is three independently
+swapped regions (`#details`, `#questions`, `#question-form`) plus an out-of-band `#editor-notice`;
+type switches and add/remove-choice rows post the form's current values and get it back redrawn.
+The *share* buttons are deferred to Phase 6 with the sharing service they depend on.
 **Fallback:** if reorder or option-row handling gets awkward in pure HTMX, allow ≤30 lines of
 vanilla JS or Alpine-free `hx-on` handlers, not a framework.
 
-### Phase 5 — Taking a quiz (2 days)
+### Phase 5 — Taking a quiz (2 days) ✅
 - Port `attempts.rs` and `grading.py`: snapshot questions on start, server-side clock
   (`served_at` stamped once), 2-second grace, shuffle, archived questions skipped, deleted
   questions recorded as skipped.
@@ -158,6 +163,12 @@ vanilla JS or Alpine-free `hx-on` handlers, not a framework.
 
 **Done when:** a full attempt grades identically to the Rust app, a late answer is marked
 timed-out, and reloading mid-question does not reset the clock.
+
+**Outcome:** done. Elapsed time is measured entirely on the database clock (`served_at` vs `NOW()`),
+which removes the app-host/DB-host clock-skew risk the Rust version had. The countdown script is
+~45 lines (`static/js/runner.js`). **Deviation:** deleting a result confirms with `hx-confirm`
+(the browser's own dialog) instead of the custom modal the Rust/Angular versions had; behaviour is
+the same, the styling is not.
 
 ### Phase 6 — Friends, sharing, messages, admin (1–2 days)
 - Friends: add by username, accept/decline/withdraw, unfriend — HTMX swaps of the lists.
