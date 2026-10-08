@@ -63,7 +63,7 @@ tests/
 
 ## Phases
 
-### Phase 0 — Scaffolding (½ day)
+### Phase 0 — Scaffolding (½ day) ✅
 - `requirements.txt`: `Flask`, `gunicorn`, `psycopg[binary,pool]`, `python-dotenv`, `requests`
   (Resend), `pytest`.
 - `all_an/__init__.py` with `create_app()`, `wsgi.py`, `config.py` (same environment variables as
@@ -75,7 +75,7 @@ tests/
 **Done when:** `gunicorn all_an.wsgi:app` starts locally against the dev database and `/healthz`
 returns `{"status": "ok"}`.
 
-### Phase 1 — Database layer and migrator (1 day)
+### Phase 1 — Database layer and migrator (1 day) ✅
 - `db.py`: `psycopg_pool.ConnectionPool` (max 10), SSL rule copied from the Rust version:
   `localhost`, `127.0.0.1` and single-label hostnames → no TLS; anything else → `sslmode=require`.
 - `migrate.py`: port of `src/db.rs`.
