@@ -45,6 +45,10 @@ def create_app(config: Config | None = None) -> Flask:
     app.register_blueprint(quizzes_api.api)
     app.register_blueprint(quizzes_pages.pages)
 
+    from .quizzes import editor as quizzes_editor
+
+    app.register_blueprint(quizzes_editor.editor)
+
     if config.run_startup_tasks:
         users.bootstrap_admin(config)
         sweep_expired()
