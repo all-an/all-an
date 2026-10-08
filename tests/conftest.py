@@ -84,3 +84,96 @@ def pool(request):
         yield created
     finally:
         db.close_pool()
+
+
+# --- the app -----------------------------------------------------------------------------------
+
+
+class Browser:
+    """A Flask test client that behaves like a browser with respect to CSRF: it keeps cookies and
+    echoes the csrf cookie back in the header on anything that is not a GET."""
+
+    def __init__(self, app, remote_addr: str = "10.0.0.1"):
+        self.client = app.test_client()
+        self.remote_addr = remote_addr
+
+    def _csrf(self) -> str:
+        cookie = self.client.get_cookie("csrf")
+        if cookie is None:
+            self.client.get("/healthz")
+            cookie = self.client.get_cookie("csrf")
+        return cookie.value
+
+    def request(self, method: str, url: str, *, csrf: bool = True, **kwargs):
+        headers = dict(kwargs.pop("headers", {}))
+        if method not in ("GET", "HEAD") and csrf:
+            headers.setdefault("X-CSRF-Token", self._csrf())
+        kwargs.setdefault("environ_overrides", {"REMOTE_ADDR": self.remote_addr})
+        return self.client.open(url, method=method, headers=headers, **kwargs)
+
+    def get(self, url, **kw):
+        return self.request("GET", url, **kw)
+
+    def post(self, url, **kw):
+        return self.request("POST", url, **kw)
+
+    def put(self, url, **kw):
+        return self.request("PUT", url, **kw)
+
+    def patch(self, url, **kw):
+        return self.request("PATCH", url, **kw)
+
+    def delete(self, url, **kw):
+        return self.request("DELETE", url, **kw)
+
+
+@pytest.fixture
+def app(empty_database):
+    from all_an import create_app, db
+    from all_an.config import Config
+    from all_an.migrate import migrate
+
+    config = Config(
+        database_url=empty_database,
+        run_startup_tasks=False,
+        site_url="http://localhost",
+    )
+    created = create_app(config)
+    migrate(db.pool())
+    created.config["TESTING"] = True
+    created.config["PROPAGATE_EXCEPTIONS"] = False
+
+    try:
+        yield created
+    finally:
+        db.close_pool()
+
+
+@pytest.fixture
+def browser(app):
+    return Browser(app)
+
+
+@pytest.fixture
+def make_browser(app):
+    return lambda ip="10.0.0.1": Browser(app, ip)
+
+
+@pytest.fixture
+def make_user(app):
+    """Inserts a user directly (registration may be closed, or throttled) and returns its row."""
+    from all_an import users
+    from all_an.auth.passwords import hash_password
+
+    def make(username="alice", password="a long enough phrase", role="USER", email=None):
+        row = users.insert(username, email or f"{username}@example.com", hash_password(password), role)
+        row["password"] = password
+        return row
+
+    return make
+
+
+def sign_in(browser, username="alice", password="a long enough phrase"):
+    response = browser.post("/api/auth/login", json={"username": username, "password": password})
+    assert response.status_code == 200, response.get_data(as_text=True)
+    return response

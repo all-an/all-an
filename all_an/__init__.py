@@ -5,6 +5,8 @@ from flask import Flask, jsonify
 
 from . import db
 from .config import Config
+from .errors import register_error_handlers
+from .security import init_security
 from .migrate import migrate
 
 
@@ -27,6 +29,30 @@ def create_app(config: Config | None = None) -> Flask:
         # booting, so the health check never passes and Render keeps the previous deploy serving.
         # Every gunicorn worker runs this; the advisory lock makes the second a no-op.
         migrate(pool)
+
+    register_error_handlers(app)
+    init_security(app)
+
+    from . import users
+    from .auth import routes as auth_routes
+    from .auth.sessions import current_user, sweep_expired
+
+    app.register_blueprint(auth_routes.pages)
+    app.register_blueprint(auth_routes.api)
+
+    if config.run_startup_tasks:
+        users.bootstrap_admin(config)
+        sweep_expired()
+
+    @app.context_processor
+    def inject_user():
+        return {"user": current_user()}
+
+    @app.get("/")
+    def front():
+        from flask import render_template
+
+        return render_template("front.html")
 
     @app.get("/healthz")
     def healthz():

@@ -1,0 +1,20 @@
+<form hx-post="/login" hx-target="this" hx-swap="outerHTML" hx-disabled-elt="find button[type=submit]" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <input type="hidden" name="next" value="{{ next }}">
+
+  {% if form_error %}<p class="form-error" role="alert">{{ form_error }}</p>{% endif %}
+
+  <label>
+    <span class="label-text">Username</span>
+    <input name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required value="{{ values.get('username', '') }}">
+    {% if fields.username %}<span class="field-error">{{ fields.username }}</span>{% endif %}
+  </label>
+
+  <label>
+    <span class="label-text">Password</span>
+    <input type="password" name="password" autocomplete="current-password" required>
+    {% if fields.password %}<span class="field-error">{{ fields.password }}</span>{% endif %}
+  </label>
+
+  <button type="submit"><span class="idle">Sign in</span><span class="busy">Signing in…</span></button>
+</form>

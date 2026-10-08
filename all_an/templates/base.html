@@ -1,0 +1,50 @@
+{%- set active = active | default("") -%}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}all-an{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- By default HTMX discards 4xx responses. A 422 here is a form with its errors in it: swap it in. -->
+  <meta name="htmx-config" content='{"responseHandling":[{"code":"204","swap":false},{"code":"[23]..","swap":true},{"code":"422","swap":true},{"code":"[45]..","swap":false,"error":true}]}'>
+  <!-- SVG first: browsers that support it take it and ignore the .ico fallback below. -->
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  {% block head %}{% endblock %}
+  <script src="{{ url_for('static', filename='js/htmx.min.js') }}" defer></script>
+</head>
+<body hx-headers='{{ {"X-CSRF-Token": csrf_token} | tojson }}' hx-boost="false">
+  <nav class="shell-nav">
+    {% if user %}
+      <a href="/quizzes"{% if active == "quizzes" %} class="is-active"{% endif %}>My quizzes</a>
+      <a href="/quizzes/browse"{% if active == "browse" %} class="is-active"{% endif %}>Browse</a>
+      <a href="/results"{% if active == "results" %} class="is-active"{% endif %}>Results</a>
+      <a href="/friends"{% if active == "friends" %} class="is-active"{% endif %}>Friends</a>
+      {% if user.role == "ADMIN" %}
+        <a href="/admin"{% if active == "admin" %} class="is-active"{% endif %}>Admin</a>
+      {% endif %}
+      <button type="button" hx-post="/logout">Sign out</button>
+    {% else %}
+      <a href="/quizzes/browse"{% if active == "browse" %} class="is-active"{% endif %}>Browse</a>
+      <a href="/login"{% if active == "login" %} class="is-active"{% endif %}>Sign in</a>
+    {% endif %}
+    <a href="/about"{% if active == "about" %} class="is-active"{% endif %}>About me</a>
+    <a class="primary{% if active == 'message' %} is-active{% endif %}" href="/message">Message me</a>
+  </nav>
+
+  <!-- Where unexpected errors from HTMX requests land (see errors.py). -->
+  <div id="page-error" aria-live="polite"></div>
+
+  {% block content %}{% endblock %}
+
+  <script>
+    // A request that never got an answer has no server message to show.
+    document.body.addEventListener('htmx:sendError', function () {
+      document.getElementById('page-error').innerHTML =
+        '<p class="flash-error" role="alert">Could not reach the server. Check your connection and try again.</p>';
+    });
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

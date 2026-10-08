@@ -91,7 +91,7 @@ returns `{"status": "ok"}`.
 **Done when:** pointing the new app at the current dev database reports "9 migrations, 0 newly
 applied", and pointing it at an empty database builds the full schema and seed quizzes.
 
-### Phase 2 — Auth, sessions, throttles (1–2 days)
+### Phase 2 — Auth, sessions, throttles (1–2 days) ✅
 - **Passwords:** `hashlib.scrypt` with `n=16384, r=8, p=1, dklen=64, maxmem=64 MiB`. Format
   `scrypt$N$r$p$salt$hash` with unpadded base64url, **identical** to today. Read parameters back
   from the stored string and refuse `N` above 2^16. Constant-time compare with `hmac.compare_digest`.
