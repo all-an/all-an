@@ -58,6 +58,27 @@ def wants_json() -> bool:
     return request.path.startswith("/api/")
 
 
+_shape_cache: list | None = None
+
+
+def _route_shapes(app: Flask) -> list:
+    """Every API route as a pattern with its <converters> loosened to "any one segment", so a path
+    like /api/quizzes/abc can be told apart from /api/nope: the first is a real route given an id
+    that is not a number, the second is no route at all."""
+    global _shape_cache
+
+    if _shape_cache is None:
+        import re
+
+        _shape_cache = [
+            re.compile("^" + re.sub(r"<[^>]+>", "[^/]+", rule.rule) + "$")
+            for rule in app.url_map.iter_rules()
+            if rule.rule.startswith("/api/")
+        ]
+
+    return _shape_cache
+
+
 def register_error_handlers(app: Flask) -> None:
     from flask import render_template
     from werkzeug.exceptions import HTTPException
@@ -102,6 +123,10 @@ def register_error_handlers(app: Flask) -> None:
             return redirect("/", 303)
 
         message = "Not found." if error.code == 404 else (error.description or "Error")
+
+        if error.code == 404 and wants_json() and not any(p.match(request.path) for p in _route_shapes(app)):
+            message = f"No API route for {request.method} {request.path}"
+
         return show(error.code or 500, message, {"message": message})
 
     @app.errorhandler(Exception)

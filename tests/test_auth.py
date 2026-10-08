@@ -304,6 +304,7 @@ def test_api_paths_return_json_errors_pages_return_html(browser):
     api = browser.get("/api/nope")
     page = browser.get("/nope")
 
-    assert api.status_code == 404 and api.json == {"message": "Not found."}
+    assert api.status_code == 404 and api.json == {"message": "No API route for GET /api/nope"}
+    assert browser.get("/api/quizzes/abc").json == {"message": "Not found."}  # a route, with a bad id
     assert page.status_code == 303 and page.headers["Location"] == "/"  # an unknown address is not a page
     assert browser.get("/healthz").json == {"status": "ok"}

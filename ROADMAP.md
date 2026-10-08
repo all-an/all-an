@@ -188,7 +188,7 @@ counter (the Send button still dims while the box is empty, via `:placeholder-sh
 "Copy into…" picker on the Shared page is a native `<details>` element. Unknown page URLs still
 redirect to the front page; the API and HTMX requests get a real 404.
 
-### Phase 7 — JSON API parity and tests (1–2 days)
+### Phase 7 — JSON API parity and tests (1–2 days) ✅
 - Re-expose `/api/*` with the same shapes (camelCase JSON) if Phase 0 decided to keep it.
 - `pytest` suite against a throwaway database: auth/session flow, throttles, access rules (404 for
   private quizzes, 403 for non-friends), attempt timing, reorder permutation check, share
@@ -198,6 +198,15 @@ redirect to the front page; the API and HTMX requests get a real 404.
 
 **Done when:** the test suite is green and the contract diff is empty or every difference is
 deliberate and listed.
+
+**Outcome:** `tests/contract/run.py` replays a ~110-step conversation (auth, quizzes, questions,
+attempts, friends, shares, messages, settings, admin) against any base URL and prints a normalised
+transcript. Run against the Rust app and the Flask app on the same database, the two transcripts
+(~1,700 lines) differ in exactly two places, both deliberate: when a request body is malformed
+(`quizId` not a number, `registrationEnabled` not a boolean) Flask adds a `fields` map saying
+which field, where Rust returned only the generic message. A visual check (pixel diff of the
+public pages in headless Chromium) found the front page, sign-in, register and both browse views
+identical; the About and Message pages differ only where their text was rewritten.
 
 ### Phase 8 — Render deployment and cutover (1 day)
 - `render.yaml`:
