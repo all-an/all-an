@@ -1,3 +1,6 @@
+import pytest
+
+pytestmark = pytest.mark.real_scrypt
 from all_an.auth.passwords import hash_password, verify_password
 
 # Written by Node's crypto.scrypt, exactly as the original server did. If this stops verifying,

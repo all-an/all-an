@@ -14,7 +14,7 @@ def test_migration_files_are_found_in_order():
     assert len(versions) == len(set(versions))
 
 
-@pytest.mark.parametrize("pool", ["empty_database"], indirect=True)
+@pytest.mark.parametrize("pool", ["unmigrated_database"], indirect=True)
 def test_builds_the_schema_from_nothing_and_seeds_it(pool):
     applied = migrate(pool)
 
@@ -26,14 +26,14 @@ def test_builds_the_schema_from_nothing_and_seeds_it(pool):
     ] == "true"
 
 
-@pytest.mark.parametrize("pool", ["empty_database"], indirect=True)
+@pytest.mark.parametrize("pool", ["unmigrated_database"], indirect=True)
 def test_running_twice_applies_nothing_the_second_time(pool):
     migrate(pool)
 
     assert migrate(pool) == 0
 
 
-@pytest.mark.parametrize("pool", ["empty_database"], indirect=True)
+@pytest.mark.parametrize("pool", ["unmigrated_database"], indirect=True)
 def test_refuses_to_start_when_an_applied_migration_has_changed(pool, tmp_path):
     copy = tmp_path / "migration"
     shutil.copytree(MIGRATIONS_DIR, copy)
@@ -46,7 +46,7 @@ def test_refuses_to_start_when_an_applied_migration_has_changed(pool, tmp_path):
         migrate(pool, copy)
 
 
-@pytest.mark.parametrize("pool", ["empty_database"], indirect=True)
+@pytest.mark.parametrize("pool", ["unmigrated_database"], indirect=True)
 def test_a_failing_migration_rolls_back_and_is_not_recorded(pool, tmp_path):
     copy = tmp_path / "migration"
     shutil.copytree(MIGRATIONS_DIR, copy)

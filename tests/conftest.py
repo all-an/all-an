@@ -40,9 +40,41 @@ def _drop(name: str) -> None:
         admin.execute(sql.SQL("DROP DATABASE IF EXISTS {} WITH (FORCE)").format(sql.Identifier(name)))
 
 
+@pytest.fixture(scope="session")
+def migrated_template():
+    """One database, migrated once per test run, that every test database is cloned from. Cloning a
+    template takes milliseconds; running nine migrations per test took seconds."""
+    from all_an import db
+    from all_an.migrate import migrate
+
+    name = f"all_an_template_{uuid.uuid4().hex[:10]}"
+    _create(name)
+
+    try:
+        pool = db.init_pool(url_for(name), max_size=2)
+        migrate(pool)
+        db.close_pool()  # a template cannot be cloned while anything is connected to it
+        yield name
+    finally:
+        db.close_pool()
+        _drop(name)
+
+
 @pytest.fixture
-def empty_database():
+def empty_database(migrated_template):
+    """A migrated, seeded database of the test's own."""
     name = f"all_an_test_{uuid.uuid4().hex[:10]}"
+    _create(name, template=migrated_template)
+    try:
+        yield url_for(name)
+    finally:
+        _drop(name)
+
+
+@pytest.fixture
+def unmigrated_database():
+    """A database with nothing in it - for tests of the migrator itself."""
+    name = f"all_an_blank_{uuid.uuid4().hex[:10]}"
     _create(name)
     try:
         yield url_for(name)
@@ -131,15 +163,12 @@ class Browser:
 def app(empty_database):
     from all_an import create_app, db
     from all_an.config import Config
-    from all_an.migrate import migrate
-
     config = Config(
         database_url=empty_database,
         run_startup_tasks=False,
         site_url="http://localhost",
     )
     created = create_app(config)
-    migrate(db.pool())
     created.config["TESTING"] = True
     created.config["PROPAGATE_EXCEPTIONS"] = False
 
@@ -177,3 +206,16 @@ def sign_in(browser, username="alice", password="a long enough phrase"):
     response = browser.post("/api/auth/login", json={"username": username, "password": password})
     assert response.status_code == 200, response.get_data(as_text=True)
     return response
+
+
+@pytest.fixture(autouse=True)
+def cheap_scrypt(request, monkeypatch):
+    """Hashing at production cost takes ~100 ms, and a test signs in a lot. New hashes use a small
+    N here; verification reads N from the stored hash, so Node-written hashes still verify for
+    real. Tests of the password module itself keep the real cost."""
+    if request.node.get_closest_marker("real_scrypt"):
+        return
+
+    from all_an.auth import passwords
+
+    monkeypatch.setattr(passwords, "N", 1024)
