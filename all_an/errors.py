@@ -100,7 +100,7 @@ def register_error_handlers(app: Flask) -> None:
     @app.errorhandler(ApiError)
     def api_error(error: ApiError):
         # The API keeps the generic message plus a `fields` map. A person looking at a page wants
-        # the reasons themselves: "choose at least one friend", not "That request was not valid."
+        # the reasons themselves: "title is required", not "That request was not valid."
         fields = error.details.get("fields")
         shown = " ".join(dict.fromkeys(fields.values())) if fields else error.message
 

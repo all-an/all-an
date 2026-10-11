@@ -54,11 +54,9 @@ def create_app(config: Config | None = None) -> Flask:
     app.register_blueprint(attempts_api.api)
     app.register_blueprint(attempts_pages.pages)
 
-    from . import friends_web, shares_web, site
+    from . import site, timesheet_export, timesheet_web
 
-    for blueprint in (
-        friends_web.api, friends_web.pages, shares_web.api, shares_web.pages, site.api, site.pages,
-    ):
+    for blueprint in (site.api, site.pages, timesheet_web.pages, timesheet_export.pages):
         app.register_blueprint(blueprint)
 
     if config.run_startup_tasks:

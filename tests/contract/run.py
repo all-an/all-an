@@ -213,35 +213,6 @@ def scenario(base):
     bob.call("DELETE", f"/api/attempts/{early['attemptId']}")
     bob.call("DELETE", f"/api/attempts/{early['attemptId']}", note="again")
 
-    # --- friends and shares --------------------------------------------------------------
-    alice.call("POST", "/api/friends/requests", {"username": " "}, "blank")
-    alice.call("POST", "/api/friends/requests", {"username": "nobody_here"})
-    alice.call("POST", "/api/friends/requests", {"username": "ct_alice"}, "herself")
-    alice.call("POST", "/api/friends/requests", {"username": "CT_BOB"})
-    alice.call("POST", "/api/friends/requests", {"username": "ct_bob"}, "again")
-    alice.call("GET", "/api/friends/requests")
-    request = bob.call("GET", "/api/friends/requests")[0]["friendshipId"]
-    alice.call("POST", f"/api/friends/requests/{request}/accept", note="the asker")
-    bob.call("POST", f"/api/friends/requests/{request}/accept")
-    bob.call("POST", "/api/friends/requests", {"username": "ct_alice"}, "already friends")
-    alice.call("GET", "/api/friends")
-    bob_id = alice.call("GET", "/api/friends")[0]["id"]
-
-    alice.call("POST", f"/api/quizzes/{qid}/shares", {"friendIds": []}, "nobody")
-    alice.call("POST", f"/api/quizzes/{qid}/shares", {"friendIds": [bob_id]})
-    alice.call("POST", f"/api/quizzes/{qid}/shares", {"friendIds": [bob_id]}, "again")
-    alice.call("POST", f"/api/questions/{q1}/shares", {"friendIds": [bob_id]})
-    alice.call("POST", f"/api/quizzes/{qid}/shares", {"friendIds": [alice.call("GET", "/api/auth/me")["id"]]}, "not a friend")
-    shared = bob.call("GET", "/api/shares")
-    bob_quiz = bob.call("POST", "/api/quizzes", {"title": "Bob's", "studyFieldId": 4, "subject": "Rust"})
-    bob.call("POST", f"/api/shares/questions/{shared['questions'][0]['shareId']}/copy", {"quizId": bob_quiz["id"]})
-    bob.call("GET", f"/api/quizzes/{bob_quiz['id']}", note="after copy")
-    bob.call("GET", "/api/shares", note="copied flag")
-    bob.call("DELETE", f"/api/shares/quizzes/{shared['quizzes'][0]['shareId']}")
-    bob.call("DELETE", f"/api/shares/questions/{shared['questions'][0]['shareId']}")
-    bob.call("GET", "/api/shares", note="dismissed")
-    alice.call("DELETE", f"/api/friends/{alice.call('GET', '/api/friends')[0]['friendshipId']}")
-
     # --- messages, settings, admin, delete ---------------------------------------------------
     visitor.call("POST", "/api/messages", {"name": "x" * 81, "email": "nope", "body": "  "}, "invalid")
     visitor.call("POST", "/api/messages", {"name": " Ada ", "email": "", "body": " hello "})

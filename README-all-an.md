@@ -3,7 +3,7 @@
 Python, Flask, Jinja2 and HTMX on PostgreSQL. One gunicorn process serves the pages and the API;
 no Node anywhere, no build step, and no Docker in the deploy path.
 
-Write timed quizzes on any subject, share them with friends, and see how you did.
+Write timed quizzes on any subject, publish them to the shared pool, and see how you did.
 
 ```
                     gunicorn  →  Flask (all_an)
@@ -30,6 +30,19 @@ python3 -m venv .venv
 
 You need Python 3.12 or newer and a Postgres database called `all-an-database`. Migrations apply
 themselves as the app starts, before it serves a request, so there is no separate setup step.
+
+### The virtual environment
+
+The commands above call `.venv/bin/...` directly, so activating is optional. Activate it when you
+want plain `python`, `pip`, `pytest` and `gunicorn` to resolve to the project's copies:
+
+```bash
+source .venv/bin/activate       # macOS / Linux — the prompt now starts with (.venv)
+deactivate                      # leave it; works the same from any directory
+```
+
+On Windows (PowerShell) it is `.venv\Scripts\Activate.ps1`; `deactivate` is the same. Activation
+only affects the current terminal, so a new terminal starts without it.
 
 ### Postgres in a container
 
@@ -90,9 +103,12 @@ by the server — the answer key never reaches the browser before you have answe
 of time scores the question wrong even if what you typed was right. Typed answers ignore case,
 stray spaces and a trailing full stop, because someone who writes `Bought.` knows the answer.
 
-**Sharing.** Publish a quiz to the shared pool, or send it to a friend. Friend requests have to be
-accepted before anything can be sent. A shared quiz is one your friend can take; a shared *question*
-is one they can copy into a quiz of their own. Both notify by email when mail is configured.
+**Publishing.** Publish a quiz to the shared pool so anyone can take it, or unpublish it to keep
+it private again.
+
+**Timesheet.** A phone-friendly log of the hours you work: one line per day by month and year,
+with the daily minimum, an overtime balance, an on-site target review and CSV export. See
+[`docs/timesheet.md`](docs/timesheet.md).
 
 **Results.** Every attempt is kept, with your answer, the right answer and how long you took.
 
@@ -115,8 +131,9 @@ all_an/
 ├── auth/         passwords (scrypt), sessions, throttles, login_required, routes
 ├── quizzes/      repo.py (SQL), service.py (rules), api.py, pages.py, editor.py
 ├── attempts/     service.py (the server-side clock), api.py, pages.py
-├── friends.py  shares.py  messages.py  settings.py  users.py  grading.py  mail.py
-├── friends_web.py  shares_web.py  site.py      their routes
+├── timesheet.py  timesheet_stats.py  timesheet_web.py  timesheet_export.py
+├── messages.py  settings.py  users.py  grading.py
+├── site.py       about, the contact form and the admin settings page
 ├── security.py   CSRF and the client's address
 ├── templates/    base.html, pages, and partials/ — the fragments HTMX swaps
 └── static/       css (one file per page), htmx.min.js, runner.js, app.js
@@ -137,7 +154,8 @@ tests/            unit, route, browser (e2e) and contract tests
 
 - [`docs/dev-build.md`](docs/dev-build.md) — running it locally, tests, adding migrations
 - [`docs/prod-build.md`](docs/prod-build.md) — deploying, configuration
-- [`docs/quizzes.md`](docs/quizzes.md) — the domain: visibility, timing, marking, sharing
+- [`docs/timesheet.md`](docs/timesheet.md) — the timesheet: screens, rules, dashboard, export
+- [`docs/quizzes.md`](docs/quizzes.md) — the domain: visibility, timing, marking
 - [`ROADMAP.md`](ROADMAP.md) — how the rewrite was planned and what each phase found
 
 ## A few decisions worth knowing

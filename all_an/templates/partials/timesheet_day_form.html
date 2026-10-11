@@ -1,0 +1,5 @@
+{# The day's form as it sits on its own page: it swaps itself, and a failed save lands back here. #}
+<div id="day-form">
+  {% if notice %}<p class="notice" role="status">{{ notice }}</p>{% endif %}
+  {% include "partials/timesheet_fields.html" %}
+</div>

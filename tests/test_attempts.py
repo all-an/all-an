@@ -82,17 +82,6 @@ def test_anyone_signed_in_can_take_a_published_quiz(alice, bob):
     assert bob.post("/api/attempts", json={"quizId": quiz_id}).status_code == 201
 
 
-def test_a_shared_private_quiz_can_be_taken_by_its_recipient(alice, bob):
-    quiz_id = quiz_with(alice, mc())
-    db.execute(
-        "INSERT INTO quiz_shares (quiz_id, shared_by_id, shared_with_id) "
-        "SELECT %s, a.id, b.id FROM users a, users b WHERE a.username = 'alice' AND b.username = 'bob'",
-        (quiz_id,),
-    )
-
-    assert bob.post("/api/attempts", json={"quizId": quiz_id}).status_code == 201
-
-
 def test_archived_questions_are_left_out_and_all_archived_is_an_error(alice):
     quiz_id = quiz_with(alice, mc("keep"), mc("learned"))
     ids = {q["prompt"]: q["id"] for q in alice.get(f"/api/quizzes/{quiz_id}").json["questions"]}

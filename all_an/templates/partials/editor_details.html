@@ -57,10 +57,6 @@
               hx-target="#details" hx-swap="outerHTML">
         {{ "Unpublish" if quiz.visibility == "PUBLIC" else "Publish to the pool" }}
       </button>
-      {% if friends %}
-        <button type="button" class="btn" hx-get="/quizzes/{{ quiz.id }}/share-panel"
-                hx-target="#share-panel" hx-swap="outerHTML">Share with friends</button>
-      {% endif %}
     {% endif %}
   </div>
 </form>

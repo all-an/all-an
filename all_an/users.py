@@ -18,13 +18,6 @@ def find_by_email(email: str) -> dict | None:
     return db.query_one(f"SELECT {_COLUMNS} FROM users WHERE LOWER(email) = LOWER(%s)", (email,))
 
 
-def find_by_ids(ids: list[int]) -> list[dict]:
-    if not ids:
-        return []
-
-    return db.query(f"SELECT {_COLUMNS} FROM users WHERE id = ANY(%s)", (ids,))
-
-
 def insert(username: str, email: str, password_hash: str, role: str = "USER") -> dict:
     return db.query_one(
         f"""

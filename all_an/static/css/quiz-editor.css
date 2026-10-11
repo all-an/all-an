@@ -50,11 +50,6 @@
   margin-bottom: 1.25rem;
 }
 
-.share-panel {
-  margin-top: 1.5rem;
-  border: 1px solid rgba(255, 102, 0, 0.25);
-}
-
 /* An archived question stays in the list but reads as set aside. */
 .card.archived {
   opacity: 0.55;
@@ -75,17 +70,4 @@
 /* While the question form is open, "No questions yet." would just be noise under it. */
 #question-form:not(:empty) ~ .empty-state {
   display: none;
-}
-
-/* A friend chip that is a checkbox underneath: no JavaScript to track what is selected. */
-label.chip input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-label.chip:has(input:checked) {
-  color: #ff6600;
-  border-color: rgba(255, 102, 0, 0.4);
-  background: rgba(255, 102, 0, 0.1);
 }

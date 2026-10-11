@@ -47,9 +47,8 @@ start `gunicorn all_an.wsgi:app`, health check `/healthz`, and set `PYTHON_VERSI
 | `PYTHON_VERSION` | yes | Pinned in `render.yaml` |
 | `TRUST_PROXY_HEADERS` | yes | `true` behind Render's proxy |
 | `SESSION_COOKIE_SECURE` | yes | `true` in production |
-| `SITE_URL` | for email | Used for links inside share emails |
+| `SITE_URL` | optional | The site's own address |
 | `ADMIN_USERNAME` / `ADMIN_EMAIL` / `ADMIN_PASSWORD` | optional | Creates the moderator at boot |
-| `RESEND_API_KEY` / `MAIL_FROM` | optional | Sending share notifications |
 | `WEB_CONCURRENCY` | optional | gunicorn workers (default 2) |
 | `GUNICORN_THREADS` | optional | Threads per worker (default 4) |
 
@@ -82,14 +81,3 @@ replaced before they are handed out.
 **Cutting over from an earlier version needs nothing done to the data.** The same tables, the same
 `schema_history` checksums, the same password hashes and session ids are used, so people stay signed
 in and nothing is re-migrated.
-
-## Email
-
-Share notifications go through Resend's HTTP API — one request, no SMTP. HTTP rather than SMTP
-because Render blocks outbound SMTP ports on free instances, so an SMTP client would simply time
-out there.
-
-With `RESEND_API_KEY` or `MAIL_FROM` unset, sending is skipped and logged. That is deliberate:
-sharing is the user's action and the email is a courtesy on top of it, so a missing key — or a
-provider having a bad afternoon — must not turn a successful share into an error. The share is in
-the recipient's list either way.

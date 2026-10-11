@@ -17,22 +17,26 @@
   <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
 </head>
 <body hx-headers='{{ {"X-CSRF-Token": csrf_token} | tojson }}' hx-boost="false">
-  <nav class="shell-nav">
+  <nav class="shell-nav" id="shell-nav">
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="shell-nav-links" aria-label="Menu">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+    </button>
+    <div class="shell-nav-links" id="shell-nav-links">
     {% if user %}
       <a href="/quizzes"{% if active == "quizzes" %} class="is-active"{% endif %}>My quizzes</a>
-      <a href="/quizzes/browse"{% if active == "browse" %} class="is-active"{% endif %}>Browse</a>
+      <a href="/quizzes/browse"{% if active == "browse" %} class="is-active"{% endif %}>Browse quizzes</a>
       <a href="/results"{% if active == "results" %} class="is-active"{% endif %}>Results</a>
-      <a href="/friends"{% if active == "friends" %} class="is-active"{% endif %}>Friends</a>
+      <a href="/timesheet"{% if active == "timesheet" %} class="is-active"{% endif %}>Timesheet</a>
       {% if user.role == "ADMIN" %}
         <a href="/admin"{% if active == "admin" %} class="is-active"{% endif %}>Admin</a>
       {% endif %}
       <button type="button" hx-post="/logout">Sign out</button>
     {% else %}
-      <a href="/quizzes/browse"{% if active == "browse" %} class="is-active"{% endif %}>Browse</a>
       <a href="/login"{% if active == "login" %} class="is-active"{% endif %}>Sign in</a>
     {% endif %}
     <a href="/about"{% if active == "about" %} class="is-active"{% endif %}>About me</a>
     <a class="primary{% if active == 'message' %} is-active{% endif %}" href="/message">Message me</a>
+    </div>
   </nav>
 
   <!-- Where unexpected errors from HTMX requests land (see errors.py). -->

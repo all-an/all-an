@@ -1,0 +1,480 @@
+/*
+ * Timesheet screens. Written for a phone first: the base rules are the narrow layout, and the
+ * min-width queries at the bottom widen it. Tap targets are at least 44px and inputs are 16px so
+ * iOS does not zoom when one is focused.
+ */
+
+.ts-back {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  padding: 0.5rem 0;
+  color: #8a8a8a;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.ts-back:hover,
+.ts-back:focus-visible {
+  color: #ff6600;
+}
+
+.ts-big {
+  min-height: 2.75rem;
+  padding: 0.65rem 1.25rem;
+  font-size: 1rem;
+}
+
+/* --- add a day --- */
+
+.ts-add {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ts-add-field {
+  display: block;
+}
+
+.ts-add .ts-big,
+.ts-add-button {
+  width: 100%;
+}
+
+.ts-add-button {
+  margin-bottom: 1.25rem;
+}
+
+/* --- years and months --- */
+
+.ts-tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+.ts-tiles .card + .card {
+  margin-top: 0;
+}
+
+.ts-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 4.5rem;
+  justify-content: center;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.ts-tile:hover,
+.ts-tile:focus-visible {
+  outline: none;
+  border-color: rgba(255, 102, 0, 0.4);
+}
+
+.ts-tile-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.ts-tile .card-meta {
+  margin: 0;
+}
+
+/* --- a month --- */
+
+.ts-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.ts-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ts-stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #f5f5f5;
+}
+
+.ts-stat-label {
+  font-size: 0.75rem;
+  color: #7a7a7a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ts-row {
+  margin-bottom: 0.85rem;
+}
+
+.ts-row + .ts-row,
+.card + .ts-row,
+.ts-row + .card {
+  margin-top: 0;
+}
+
+.ts-new {
+  border: 1px solid rgba(255, 102, 0, 0.25);
+}
+
+#new-row:not(:empty) {
+  margin-bottom: 1.25rem;
+}
+
+.ts-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.ts-row-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.ts-field {
+  display: block;
+  margin-bottom: 0.9rem;
+}
+
+.ts-field input[type='date'],
+.ts-field input[type='time'],
+.ts-field select,
+.ts-field textarea {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  font-size: 1rem;
+  color: #f5f5f5;
+  background: #141414;
+  border: 1px solid #262626;
+  border-radius: 8px;
+  color-scheme: dark;
+}
+
+.ts-field textarea {
+  min-height: 4rem;
+  resize: vertical;
+}
+
+.ts-field input:focus,
+.ts-field select:focus,
+.ts-field textarea:focus {
+  outline: none;
+  border-color: #ff6600;
+}
+
+.ts-grid-2,
+.ts-grid-times {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 0.75rem;
+}
+
+/* A day that is not worked has no times to show. */
+.ts-row:has(select[name='day_type'] option:not([value='WORK']):checked) .ts-times {
+  display: none;
+}
+
+.ts-onsite {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  margin-bottom: 0.9rem;
+  font-size: 1rem;
+  color: #c8c8c8;
+}
+
+.ts-onsite input {
+  width: 1.4rem;
+  height: 1.4rem;
+  accent-color: #ff6600;
+}
+
+.ts-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.ts-chip {
+  padding: 0.25rem 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #c8c8c8;
+  background: #161616;
+  border-radius: 999px;
+}
+
+.ts-chip.total,
+.ts-chip.above {
+  color: #7bd88f;
+  background: rgba(123, 216, 143, 0.12);
+}
+
+.ts-chip.below {
+  color: #d0a05a;
+  background: rgba(208, 160, 90, 0.14);
+}
+
+.ts-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.ts-actions .btn.primary {
+  flex: 1;
+}
+
+/* --- wider screens --- */
+
+@media (min-width: 720px) {
+  .ts-add {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .ts-add-field {
+    flex: 1;
+    max-width: 16rem;
+  }
+
+  .ts-add .ts-big,
+  .ts-add-button {
+    width: auto;
+  }
+
+  .ts-tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ts-summary {
+    grid-template-columns: repeat(6, auto);
+    justify-content: space-between;
+  }
+
+  .ts-grid-times {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .ts-grid-2 {
+    max-width: 28rem;
+  }
+
+  .ts-actions .btn.primary {
+    flex: none;
+  }
+}
+
+/* --- dashboard --- */
+
+.ts-block {
+  margin-bottom: 0.85rem;
+}
+
+.ts-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.ts-block-head h2,
+.ts-section {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.ts-section {
+  margin: 2rem 0 0.85rem;
+}
+
+.ts-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ts-nav .btn {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ts-summary-inline {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.ts-line {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.ts-line + .ts-line {
+  margin-top: 0;
+}
+
+a.ts-line:hover,
+a.ts-line:focus-visible {
+  outline: none;
+  border-color: rgba(255, 102, 0, 0.4);
+}
+
+.ts-line-title {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.ts-line-figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  color: #c8c8c8;
+}
+
+.ts-balance {
+  color: #8a8a8a;
+}
+
+.ts-line .ts-chips {
+  display: flex;
+  margin: 0.6rem 0 0;
+}
+
+@media (min-width: 720px) {
+  .ts-summary-inline {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --- a month's days, one line each --- */
+
+.ts-days {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ts-days li + li {
+  margin-top: 0.5rem;
+}
+
+.ts-day {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.ts-days li + li .ts-day,
+.ts-day + .ts-day {
+  margin-top: 0;
+}
+
+.ts-day:hover,
+.ts-day:focus-visible {
+  outline: none;
+  border-color: rgba(255, 102, 0, 0.4);
+}
+
+.ts-day-date {
+  flex: 1;
+  font-weight: 600;
+}
+
+.ts-pin {
+  margin-left: 0.35rem;
+  font-size: 0.7rem;
+  color: #ff6600;
+}
+
+.ts-day-total {
+  font-variant-numeric: tabular-nums;
+  color: #f5f5f5;
+}
+
+.ts-day-off {
+  font-size: 0.85rem;
+  color: #8a8a8a;
+}
+
+.ts-chip.above {
+  color: #7bd88f;
+  background: rgba(123, 216, 143, 0.12);
+}
+
+.ts-chip.even {
+  color: #8a8a8a;
+}
+
+/* --- toolbars --- */
+
+.ts-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.ts-toolbar .ts-add-button {
+  margin-bottom: 0;
+}
+
+.ts-toolbar .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.ts-head-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (min-width: 720px) {
+  .ts-toolbar {
+    flex-direction: row;
+  }
+
+  .ts-toolbar .btn {
+    width: auto;
+  }
+}

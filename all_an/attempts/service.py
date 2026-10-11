@@ -10,7 +10,7 @@ times out.
 
 import random
 
-from .. import db, shares
+from .. import db
 from ..errors import ApiError
 from ..grading import grade_multiple_choice, grade_typed, is_timed_out
 from ..quizzes import repo as quiz_repo
@@ -116,11 +116,7 @@ def start(viewer: dict, quiz_id: int) -> tuple[int, int]:
     if quiz is None:
         raise ApiError.not_found("No such quiz.")
 
-    may_take = (
-        quiz["visibility"] == "PUBLIC"
-        or quiz["owner_id"] == viewer["id"]
-        or shares.is_quiz_shared_with(quiz_id, viewer["id"])
-    )
+    may_take = quiz["visibility"] == "PUBLIC" or quiz["owner_id"] == viewer["id"]
 
     if not may_take:
         raise ApiError.not_found("No such quiz.")

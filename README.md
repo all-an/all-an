@@ -47,8 +47,6 @@
 
 ---
 
-- ![](https://komarev.com/ghpvc/?username=all-an&style=flat-square)
-
 - [all-an website readme](README-all-an.md)
 
 <h3 align="center">Never give up</h3>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ year }} · Timesheet · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/timesheet.css') }}">
+{% endblock %}
+{% block content %}
+<main class="page">
+  <div class="page-inner">
+    <a class="ts-back" href="/timesheet">← All years</a>
+    <header class="page-head">
+      <div>
+        <h1>{{ year }}</h1>
+        <p class="lede">Months with days logged.</p>
+      </div>
+      <span class="ts-head-links">
+        <a class="btn" href="/timesheet/dashboard?date={{ year }}-{{ '%02d' % today[5:7]|int }}-01">Dashboard</a>
+        {% if months %}<a class="btn" href="/timesheet/{{ year }}/export.csv" download>Export CSV</a>{% endif %}
+      </span>
+    </header>
+
+    {% include "partials/timesheet_add_day.html" %}
+
+    {% if not months %}
+      <div class="empty-state"><p>Nothing logged in {{ year }}. Pick a date above to start.</p></div>
+    {% else %}
+      <div class="ts-tiles">
+        {% for m in months %}
+          <a class="card ts-tile" href="/timesheet/{{ year }}/{{ m.month }}">
+            <span class="ts-tile-title">{{ m.name }}</span>
+            <span class="card-meta">
+              {{ m.work_days }} worked day{{ "" if m.work_days == 1 else "s" }}
+              {% if m.days_off %}· {{ m.days_off }} off{% endif %}
+              · {{ m.total }} worked · {{ m.onsite_days }} on site
+            </span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

@@ -3,7 +3,7 @@
 `viewer` is the signed-in user's row (id, username, email, role) or None.
 """
 
-from .. import db, shares
+from .. import db
 from ..errors import ApiError
 from ..util import iso, to_int  # noqa: F401  (re-exported: other modules import them from here)
 from ..validate import Fields
@@ -32,7 +32,7 @@ def to_summary(row: dict, viewer_id: int | None) -> dict:
 
 
 def readable(quiz_id: int, viewer: dict | None) -> dict:
-    """A quiz the viewer may see: published, their own, or shared with them. Anything else is a 404
+    """A quiz the viewer may see: published or their own. Anything else is a 404
     rather than a 403, so a private quiz's existence is not confirmed to people who cannot read it."""
     row = repo.find_quiz_by_id(quiz_id)
 
@@ -42,7 +42,7 @@ def readable(quiz_id: int, viewer: dict | None) -> dict:
     if row["visibility"] == "PUBLIC":
         return row
 
-    if viewer and (row["owner_id"] == viewer["id"] or shares.is_quiz_shared_with(quiz_id, viewer["id"])):
+    if viewer and row["owner_id"] == viewer["id"]:
         return row
 
     raise ApiError.not_found("No such quiz.")

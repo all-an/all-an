@@ -1,0 +1,85 @@
+{# One day's form, used for both a saved row and the "new day" form. The date picker is held to the
+   month so a day cannot silently wander off to another page. #}
+{% set is_new = row.id is none %}
+<form class="card ts-row{% if is_new %} ts-new{% endif %}" id="{{ 'new-day' if is_new else 'row-%d' % row.id }}"
+      hx-post="{{ '/timesheet/%d/%d/rows' % (year, month) if is_new else '/timesheet/rows/%d' % row.id }}"
+      hx-target="{{ '#month-body' if is_new else '#day-form' }}" hx-swap="outerHTML" hx-disabled-elt="find button[type=submit]">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+  {% if is_new %}
+    <div class="ts-row-head"><h2 class="ts-row-title">New day</h2></div>
+  {% endif %}
+
+  <div class="ts-grid-2">
+    <label class="ts-field">
+      <span class="field-label">Date</span>
+      <input type="date" name="work_date" value="{{ row.work_date }}" min="{{ first_day }}" max="{{ last_day }}" required>
+      {% if fields.work_date %}<span class="field-error">{{ fields.work_date }}</span>{% endif %}
+    </label>
+    <label class="ts-field">
+      <span class="field-label">Type</span>
+      <select name="day_type">
+        {% for value, label in (("WORK", "Work"), ("LEAVE", "Leave"), ("HOLIDAY", "Holiday"), ("SICK", "Sick")) %}
+          <option value="{{ value }}"{% if row.day_type == value %} selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      {% if fields.day_type %}<span class="field-error">{{ fields.day_type }}</span>{% endif %}
+    </label>
+  </div>
+
+  <div class="ts-times">
+    <div class="ts-grid-times">
+      <label class="ts-field">
+        <span class="field-label">Start</span>
+        <input type="time" name="start_hour" value="{{ row.start_hour }}">
+        {% if fields.start_hour %}<span class="field-error">{{ fields.start_hour }}</span>{% endif %}
+      </label>
+      <label class="ts-field">
+        <span class="field-label">Lunch out</span>
+        <input type="time" name="start_lunch" value="{{ row.start_lunch }}">
+        {% if fields.start_lunch %}<span class="field-error">{{ fields.start_lunch }}</span>{% endif %}
+      </label>
+      <label class="ts-field">
+        <span class="field-label">Lunch back</span>
+        <input type="time" name="end_lunch" value="{{ row.end_lunch }}">
+        {% if fields.end_lunch %}<span class="field-error">{{ fields.end_lunch }}</span>{% endif %}
+      </label>
+      <label class="ts-field">
+        <span class="field-label">End</span>
+        <input type="time" name="end_work_hour" value="{{ row.end_work_hour }}">
+        {% if fields.end_work_hour %}<span class="field-error">{{ fields.end_work_hour }}</span>{% endif %}
+      </label>
+    </div>
+
+    <label class="ts-onsite">
+      <input type="checkbox" name="onsite"{% if row.onsite %} checked{% endif %}>
+      On site
+    </label>
+  </div>
+
+  {% if not is_new and row.day_type == "WORK" and row.total %}
+    <div class="ts-chips">
+      <span class="ts-chip">Worked {{ row.total }}</span>
+      <span class="ts-chip above">+{{ row.above }}</span>
+      <span class="ts-chip below">-{{ row.below }}</span>
+    </div>
+  {% endif %}
+
+  <label class="ts-field">
+    <span class="field-label">Notes</span>
+    <textarea name="notes" rows="2" maxlength="500">{{ row.notes }}</textarea>
+    {% if fields.notes %}<span class="field-error">{{ fields.notes }}</span>{% endif %}
+  </label>
+
+  <div class="ts-actions">
+    <button type="submit" class="btn primary ts-big"><span class="idle">{{ "Add" if is_new else "Save" }}</span><span class="busy">Saving…</span></button>
+    {% if is_new %}
+      <button type="button" class="btn ts-big" hx-get="/timesheet/{{ year }}/{{ month }}/new/close"
+              hx-target="#new-row" hx-swap="outerHTML">Cancel</button>
+    {% else %}
+      <button type="button" class="btn danger ts-big" hx-post="/timesheet/rows/{{ row.id }}/delete"
+              hx-target="body" hx-swap="none"
+              hx-confirm="Delete {{ row.heading }}?">Delete</button>
+    {% endif %}
+  </div>
+</form>

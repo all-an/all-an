@@ -19,8 +19,6 @@ class Config:
     trust_proxy_headers: bool = False
     session_cookie_secure: bool = False
     site_url: str = "http://localhost:8080"
-    resend_api_key: str | None = None
-    mail_from: str | None = None
     admin_username: str | None = None
     admin_email: str | None = None
     admin_password: str | None = None
@@ -44,8 +42,6 @@ class Config:
             trust_proxy_headers=os.environ.get("TRUST_PROXY_HEADERS") == "true",
             session_cookie_secure=os.environ.get("SESSION_COOKIE_SECURE") == "true",
             site_url=_env("SITE_URL") or f"http://localhost:{port}",
-            resend_api_key=_env("RESEND_API_KEY"),
-            mail_from=_env("MAIL_FROM"),
             admin_username=_env("ADMIN_USERNAME"),
             admin_email=_env("ADMIN_EMAIL"),
             admin_password=_env("ADMIN_PASSWORD"),

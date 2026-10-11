@@ -8,7 +8,7 @@ study field  →  subject  →  quiz  →  question  →  option
 ```
 
 **The quiz is the unit.** Title, classification and visibility live on it; a question belongs to
-exactly one quiz. You browse, publish, share, take and score quizzes — never a loose question.
+exactly one quiz. You browse, publish, take and score quizzes — never a loose question.
 
 **Classification has two levels for a reason.** `study_fields` is a curated table, added to by
 migration, so the browse page always has a coherent top level. `subject` underneath it is free
@@ -18,11 +18,11 @@ taxonomy would fight the breadth the feature exists for.
 
 ## Who can see what
 
-| | Owner | A friend it was shared with | Anyone else |
-|---|---|---|---|
-| Private quiz | read, edit, take | read, take | **404** |
-| Public quiz | read, edit, take | read, take | read, take |
-| The questions and their answers | yes | no | no |
+| | Owner | Anyone else |
+|---|---|---|
+| Private quiz | read, edit, take | **404** |
+| Public quiz | read, edit, take | read, take |
+| The questions and their answers | yes | no |
 
 Two rules do most of the work:
 
@@ -98,24 +98,3 @@ Nothing joins live to the quiz afterwards. That is what makes three things true:
 
 `shuffle_questions` shuffles the order at that moment. Multiple-choice options are shuffled per
 request, so the correct answer is not always where the author typed it.
-
-## Friends and sharing
-
-A friend request has to be accepted before anything can be sent. That consent step is the point:
-without it, anyone who learned a username could push quizzes — and emails — at a stranger.
-
-`friendships` stores one row per pair, in whichever direction it was asked, with a unique index on
-the *unordered* pair. Two people adding each other at the same moment end up with one relationship
-rather than two mirror images; and if they have already asked you, asking them accepts instead of
-failing.
-
-**Sharing a quiz** grants read and take access. It does not transfer or copy anything, and the
-recipient cannot edit it.
-
-**Sharing a question copies it.** The recipient picks one of their own quizzes and gets an
-independent row they own. A reference would leave a question owned by one person living inside
-another person's quiz, editable from both sides — and editing your original should not silently
-rewrite what somebody else is now using.
-
-Unfriending leaves existing shares alone. A quiz somebody sent you, that you are part way through,
-should not evaporate; they simply cannot send you anything new.

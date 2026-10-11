@@ -24,6 +24,9 @@ def test_builds_the_schema_from_nothing_and_seeds_it(pool):
     assert db.query_one("SELECT value FROM app_settings WHERE key = 'registration_enabled'")[
         "value"
     ] == "true"
+    assert {
+        r["key"]: r["value"] for r in db.query("SELECT key, value FROM timesheet_constants")
+    } == {"minimum_hours": "8", "minimum_onsite_percent": "50"}
 
 
 @pytest.mark.parametrize("pool", ["unmigrated_database"], indirect=True)

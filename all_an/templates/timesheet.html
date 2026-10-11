@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Timesheet · all-an{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/timesheet.css') }}">
+{% endblock %}
+{% block content %}
+<main class="page">
+  <div class="page-inner">
+    <header class="page-head">
+      <div>
+        <h1>Timesheet</h1>
+        <p class="lede">Your worked hours, by year.</p>
+      </div>
+      <a class="btn" href="/timesheet/dashboard">Dashboard</a>
+    </header>
+
+    {% include "partials/timesheet_add_day.html" %}
+
+    {% if not years %}
+      <div class="empty-state"><p>No days logged yet. Pick a date above and add your first one.</p></div>
+    {% else %}
+      <div class="ts-tiles">
+        {% for y in years %}
+          <a class="card ts-tile" href="/timesheet/{{ y.year }}">
+            <span class="ts-tile-title">{{ y.year }}</span>
+            <span class="card-meta">{{ y.days }} day{{ "" if y.days == 1 else "s" }} · {{ y.total }} worked</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

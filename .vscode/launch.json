@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "all-an: Flask (debug)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "flask",
+      "args": ["--app", "all_an.wsgi:app", "run", "--host", "127.0.0.1", "--port", "4200", "--no-reload"],
+      "envFile": "${workspaceFolder}/.env",
+      "jinja": true,
+      "justMyCode": true,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "all-an: current test file",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["${file}", "-x", "-s"],
+      "envFile": "${workspaceFolder}/.env",
+      "justMyCode": false,
+      "console": "integratedTerminal"
+    }
+  ]
+}

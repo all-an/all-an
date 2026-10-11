@@ -111,17 +111,6 @@ def test_published_quizzes_hide_their_questions_from_everyone_but_the_owner(alic
     assert len(alice.get(f"/api/quizzes/{quiz['id']}").json["questions"]) == 1
 
 
-def test_a_shared_private_quiz_is_readable_by_the_recipient(alice, bob, make_user):
-    quiz = new_quiz(alice)
-    bob_id = db.query_one("SELECT id FROM users WHERE username = 'bob'")["id"]
-    db.execute(
-        "INSERT INTO quiz_shares (quiz_id, shared_by_id, shared_with_id) VALUES (%s, %s, %s)",
-        (quiz["id"], db.query_one("SELECT id FROM users WHERE username = 'alice'")["id"], bob_id),
-    )
-
-    assert bob.get(f"/api/quizzes/{quiz['id']}").status_code == 200
-
-
 def test_non_numeric_ids_are_a_json_404(alice):
     response = alice.get("/api/quizzes/abc")
 

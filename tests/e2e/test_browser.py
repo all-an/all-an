@@ -223,7 +223,7 @@ def test_deleting_a_result_asks_first_and_updates_the_list(page, make_user):
     assert page.js_errors == []
 
 
-# --- Phase 6: friends, sharing, messages, admin ---------------------------------------------
+# --- Phase 6: messages, admin ---------------------------------------------
 
 
 def sign_in_as(page, username):
@@ -232,64 +232,6 @@ def sign_in_as(page, username):
     page.fill("input[name=password]", "a long enough phrase")
     page.click("button[type=submit]")
     page.wait_for_url("**/quizzes")
-
-
-def test_friend_requests_across_two_people_and_sharing_from_the_editor(page, browser_engine, make_user):
-    make_user("alice")
-    make_user("bob")
-    sign_in_as(page, "alice")
-
-    # Alice asks Bob; the form stays on the page and the list updates in place.
-    go(page, "/friends")
-    page.fill("input[name=username]", "ghost")
-    page.click("button:has-text('Send request')")
-    expect(page.locator("#friends-body .notice")).to_contain_text("No account with that username.")
-    assert page.input_value("input[name=username]") == "ghost"  # kept for correcting
-
-    page.fill("input[name=username]", "bob")
-    page.click("button:has-text('Send request')")
-    expect(page.locator("#friends-body .notice")).to_contain_text("Request sent to bob.")
-    expect(page.locator("h2:has-text('Waiting on them')")).to_be_visible()
-
-    # Bob, in his own browser session, accepts.
-    bob_page = browser_engine.new_context().new_page()
-    bob_page.set_default_timeout(8000)
-    bob_page.base_url = page.base_url
-    bob_page.on("dialog", lambda d: d.accept())
-    sign_in_as(bob_page, "bob")
-    go(bob_page, "/friends")
-    bob_page.click("button:has-text('Accept')")
-    expect(bob_page.locator("article:has-text('alice')")).to_have_count(1)
-    expect(bob_page.locator("h2:has-text('Asking to be your friend')")).to_have_count(0)
-
-    # Alice builds a quiz and shares it from the editor.
-    from all_an import users
-    alice = users.find_by_username("alice")
-    quiz_id = db.query_one(
-        "INSERT INTO quizzes (owner_id, title, study_field_id, subject) VALUES (%s, 'Shared quiz', 4, 'T') RETURNING id",
-        (alice["id"],),
-    )["id"]
-    question_id = db.query_one(
-        "INSERT INTO questions (quiz_id, position, kind, prompt, time_limit_seconds) "
-        "VALUES (%s, 1, 'TYPED', 'Share me', 30) RETURNING id",
-        (quiz_id,),
-    )["id"]
-    db.execute("INSERT INTO question_options (question_id, position, body, is_correct) VALUES (%s, 1, 'x', TRUE)", (question_id,))
-
-    go(page, f"/quizzes/{quiz_id}/edit")
-    page.click("button:has-text('Share with friends')")
-    expect(page.locator("#share-panel")).to_contain_text("Share this quiz")
-    page.click("#share-panel label.chip:has-text('bob')")
-    page.click("#share-panel button:has-text('Share')")
-    expect(page.locator("#editor-notice")).to_have_text("Shared with 1 friend.")
-    expect(page.locator("#share-panel .share-panel")).to_have_count(0)  # closed again
-
-    # Bob finds it in his inbox and dismisses it.
-    go(bob_page, "/shared")
-    expect(bob_page.locator("article:has-text('Shared quiz')")).to_have_count(1)
-    bob_page.click("article:has-text('Shared quiz') >> button:text-is('Dismiss')")
-    expect(bob_page.locator("text=Nobody has shared a quiz with you yet.")).to_be_visible()
-    assert page.js_errors == []
 
 
 def test_the_contact_form_dims_until_there_is_text_then_thanks_then_limits(page):
@@ -308,7 +250,7 @@ def test_the_contact_form_dims_until_there_is_text_then_thanks_then_limits(page)
     page.fill("textarea[name=body]", "Second")
     page.locator("form button[type=submit]").click()
     expect(page.locator(".panel.limited")).to_contain_text("Thanks for writing again!")
-    expect(page.locator("a.email")).to_have_text("allan8tech@gmail.com")
+    expect(page.locator("a.email")).to_have_text("allan6tech@gmail.com")
 
 
 def test_the_admin_switch_closes_registration_for_everyone(page, make_user, browser_engine):

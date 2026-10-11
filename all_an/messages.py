@@ -7,7 +7,7 @@ from .errors import ApiError
 from .util import iso
 from .validate import Fields, is_email
 
-CONTACT_EMAIL = "allan8tech@gmail.com"
+CONTACT_EMAIL = "allan6tech@gmail.com"
 
 
 def start_of_today_utc(now: datetime | None = None) -> datetime:

@@ -1,4 +1,4 @@
-"""The pages that are not about quizzes: the front page, about, the contact form, and the
+"""The pages that are not about quizzes: about (also the front page), the contact form, and the
 administrator's settings."""
 
 from flask import Blueprint, jsonify, redirect, render_template, request, send_from_directory, current_app
@@ -12,11 +12,6 @@ from .web import go
 
 pages = Blueprint("site_pages", __name__)
 api = Blueprint("site_api", __name__, url_prefix="/api")
-
-
-@pages.get("/")
-def front():
-    return render_template("front.html")
 
 
 @pages.get("/favicon.ico")
@@ -35,9 +30,11 @@ STACK = [
     ("Messaging", ["RabbitMQ", "Apache Kafka"]),
     ("Infrastructure", ["AWS", "Docker", "Linux"]),
     ("Practices", ["TDD", "BDD", "DDD"]),
+    ("AI Driven", ["Claude Code", "Codex", "Prompt engineering", "AI-assisted refactoring and tests"]),
 ]
 
 
+@pages.get("/")
 @pages.get("/about")
 def about():
     return render_template("about.html", active="about", stack=STACK)
