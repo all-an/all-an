@@ -22,15 +22,17 @@ You now have two services: the web service (your repo) and the Postgres database
 
 ## 2. Start command and health check
 
-Both come from `railway.json` in the repository, so there is nothing to type. In the web
-service's **Settings** you should see:
+Both live in the repository, so there is nothing to type in the dashboard:
 
-| Setting | Value |
-|---|---|
-| Custom Start Command | `gunicorn all_an.wsgi:app` |
-| Healthcheck Path | `/healthz` |
+| Setting | Where | Value |
+|---|---|---|
+| Start command | `Procfile` | `web: gunicorn all_an.wsgi:app` |
+| Healthcheck path | `railway.json` | `/healthz` |
 
-If they are empty, enter them by hand.
+The start command has to be known at **build** time: Railpack (Railway's builder) fails the build
+with "No start command detected" otherwise, because it only auto-detects `main.py`, `app.py` and a
+few framework layouts. The `Procfile` is the single source for it, and also works on other hosts.
+Do not repeat it in `railway.json` or the dashboard, so it cannot drift.
 
 `gunicorn.conf.py` already binds to the `PORT` that Railway injects and sets workers, threads and
 timeouts, so nothing else is needed on the command line.
@@ -250,6 +252,8 @@ account settings if the labels differ.
 
 | Symptom | Likely cause |
 |---|---|
+| Build fails with "No start command detected" | The `Procfile` is missing from the repository root (step 2). |
+| Workers exit with `DATABASE_URL is not set` | The variable is missing on the web service, or its reference names the wrong database service (step 3). |
 | Deploy never becomes healthy | `DATABASE_URL` is missing or does not reference the database service. |
 | Sign-in does nothing, or you are bounced back to login | `SESSION_COOKIE_SECURE` is `true` but you are on plain `http`, or it is unset behind HTTPS. |
 | Everyone shares one rate limit | `TRUST_PROXY_HEADERS` is not `true`. |
