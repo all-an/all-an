@@ -7,6 +7,8 @@ a gift to whoever is probing.
 """
 
 from flask import Flask, jsonify, redirect, request
+from psycopg import OperationalError
+from psycopg_pool import PoolTimeout
 
 
 class ApiError(Exception):
@@ -128,6 +130,18 @@ def register_error_handlers(app: Flask) -> None:
             message = f"No API route for {request.method} {request.path}"
 
         return show(error.code or 500, message, {"message": message})
+
+    @app.errorhandler(PoolTimeout)
+    @app.errorhandler(OperationalError)
+    def database_unavailable(error: Exception):
+        # Not a bug in a page: the database did not answer. Say so, and invite a retry, rather than
+        # showing the generic failure that reads like a broken site.
+        app.logger.error("Database unavailable: %s", error)
+        message = "The service is busy for a moment. Please try again in a few seconds."
+        response = show(503, message, {"message": message})
+        response = app.make_response(response)
+        response.headers["Retry-After"] = "5"
+        return response
 
     @app.errorhandler(Exception)
     def unexpected(error: Exception):

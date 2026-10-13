@@ -40,10 +40,25 @@ def init_pool(database_url: str, max_size: int = 5) -> ConnectionPool:
         max_size=max_size,
         timeout=10,
         max_idle=30,
+        # Recycled well inside the proxy and database idle limits, so a connection is retired
+        # before the network path under it has had the chance to go quiet and half-close.
+        max_lifetime=900,
         # Managed Postgres closes connections that sit idle; a connection that has gone stale is
         # replaced here rather than failing the request that happened to be handed it.
         check=ConnectionPool.check_connection,
-        kwargs={"sslmode": ssl_mode(database_url), "row_factory": dict_row},
+        kwargs={
+            "sslmode": ssl_mode(database_url),
+            "row_factory": dict_row,
+            # Without these a connection that the network silently dropped looks open forever: the
+            # query on it waits for a TCP timeout measured in minutes while holding a pool slot, and
+            # a few of those leave every request waiting for a connection that never frees up.
+            "connect_timeout": 5,
+            "keepalives": 1,
+            "keepalives_idle": 20,
+            "keepalives_interval": 10,
+            "keepalives_count": 3,
+            "tcp_user_timeout": 20_000,
+        },
         open=True,
     )
     _pool.wait()

@@ -175,3 +175,24 @@ def test_the_nav_hides_the_link_to_the_current_page(browser):
     assert 'href="/about" class="is-active"' in text(browser.get("/about"))
     assert 'href="/about" class="is-active"' in text(browser.get("/"))
     assert 'href="/about" class="is-active"' not in text(browser.get("/message"))
+
+
+# --- the database not answering ----------------------------------------------------------------
+
+
+def test_an_unreachable_database_is_a_503_with_a_retry_hint_not_a_500(browser, monkeypatch):
+    from psycopg_pool import PoolTimeout
+
+    from all_an import settings
+
+    def timed_out():
+        raise PoolTimeout("couldn't get a connection after 10.00 sec")
+
+    monkeypatch.setattr(settings, "read", timed_out)
+
+    page = browser.get("/login")
+    api = browser.get("/api/settings")
+
+    assert page.status_code == 503 and page.headers["Retry-After"] == "5"
+    assert "busy for a moment" in text(page)
+    assert api.status_code == 503 and api.json == {"message": "The service is busy for a moment. Please try again in a few seconds."}
