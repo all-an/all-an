@@ -188,10 +188,23 @@ def test_a_failed_save_puts_the_form_back_in_place(alice):
     add(alice)
     row_id = timesheet.list_month(user_id("alice"), 2026, 3)[0]["id"]
 
-    response = alice.post(f"/timesheet/rows/{row_id}", data=form(start_hour=""), headers=HX)
+    response = alice.post(f"/timesheet/rows/{row_id}", data=form(end_work_hour="07:00"), headers=HX)
 
     assert response.status_code == 422 and response.headers["HX-Retarget"] == "#day-form"
-    assert "start of work is required" in text(response)
+    assert "end of work must be after the start" in text(response)
+
+
+def test_a_day_can_be_saved_with_no_times(alice):
+    response = alice.post(
+        "/timesheet/2026/3/rows",
+        data=form(start_hour="", start_lunch="", end_lunch="", end_work_hour=""),
+        headers=HX,
+    )
+
+    assert response.status_code == 200
+    row = timesheet.list_month(user_id("alice"), 2026, 3)[0]
+    assert row["start_hour"] is None and row["end_work_hour"] is None and row["total_worked"] == 0
+    assert row["below_minimum"] == 0
 
 
 def test_switching_a_day_to_leave_clears_its_hours(alice):

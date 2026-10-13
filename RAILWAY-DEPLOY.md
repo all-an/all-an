@@ -103,6 +103,95 @@ the dump, so migrations are recognised as already applied.
 
 Sessions are stored in the database, so people stay signed in across the move.
 
+## Connecting a database client (DBeaver, psql, ...)
+
+You can browse and query the Railway database from your own machine. The app itself uses the
+private address inside the project; a client on your laptop needs the **public** one.
+
+### With DBeaver
+
+1. In Railway, open the **PostgreSQL service** and look under **Variables** or **Connect**.
+2. Take the **public** connection details. Railway names the URL `DATABASE_PUBLIC_URL`; its host
+   looks like `*.proxy.rlwy.net` and it uses a custom port. The internal
+   `postgres.railway.internal` host only works inside the project.
+3. In DBeaver: **New Database Connection → PostgreSQL**, then either:
+   - paste the `DATABASE_PUBLIC_URL`, or
+   - fill in **Host**, **Port**, **Database** (usually `railway`), **Username** and **Password**
+     from the same page.
+4. On the **SSL** tab, enable SSL with mode `require` (do not verify the certificate; Railway's
+   is not signed by a public CA).
+5. **Test Connection**, then save.
+
+### Things to know
+
+- **TCP proxy**: the public endpoint is Railway's TCP proxy. If the Connect tab shows no public
+  URL, enable it in the Postgres service's **Settings → Networking** (a TCP proxy for port 5432).
+- **Traffic costs money**: data leaving Railway to your machine counts as network usage. A few
+  queries are nothing, but avoid big exports and constant refreshing of large tables.
+- **It is production**: you are connected to the live database. Prefer a read-only role for
+  everyday browsing, and run any `UPDATE` or `DELETE` deliberately (the timesheet constants
+  change is one such statement).
+- **Keep the URL secret**: it contains the database password and is reachable from the internet.
+  Keep it out of the repository, screenshots and chat. If it leaks, rotate the password from the
+  Postgres service's settings and update `DATABASE_URL` references.
+- **Connection limit**: your client uses a connection too, on top of the app's 10. Close idle
+  DBeaver connections (or lower its pool) if you run close to the plan's limit.
+- **If it will not connect**: the usual causes are SSL set to `disable`, using the internal host
+  instead of the public one, or the TCP proxy not being enabled.
+
+### Alternative: the Railway CLI (no public port needed)
+
+The CLI reaches the database through your Railway login, so you do not need to expose the TCP
+proxy or handle the password.
+
+**Install the CLI** (pick one):
+
+```bash
+# macOS (Homebrew)
+brew install railway
+
+# Any OS with Node.js
+npm install -g @railway/cli
+
+# macOS / Linux / WSL (install script)
+bash <(curl -fsSL cli.new)
+```
+
+On Windows without Node, use Scoop (`scoop install railway`) or download the binary from the
+Railway CLI releases page. Check it worked with `railway --version`.
+
+**Sign in and link the project** (once, from the repository folder):
+
+```bash
+railway login          # opens the browser to authenticate
+railway link           # choose the workspace, project and environment
+```
+
+**Open a SQL shell** to the database:
+
+```bash
+railway connect Postgres     # use your database service's exact name
+```
+
+This starts `psql` against the database, so `psql` must be installed locally
+(`brew install libpq`, or your OS package `postgresql-client`). From the prompt you can run
+queries directly, for example:
+
+```sql
+SELECT key, value FROM timesheet_constants;
+```
+
+Other handy commands:
+
+```bash
+railway logs                       # stream the web service's logs
+railway variables                  # list the environment's variables
+railway run <command>              # run a command with the project's variables loaded
+```
+
+The CLI gives a shell, not a port, so DBeaver still uses the public URL above. Use the CLI for
+quick checks and one-off statements, and DBeaver when you want to browse tables.
+
 ## Cost control (do this on day one)
 
 Railway bills by usage (CPU, memory, network and database storage), so a runaway process, a

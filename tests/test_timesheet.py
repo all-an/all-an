@@ -91,8 +91,20 @@ def problems(**overrides):
     return caught.value.details["fields"]
 
 
-def test_a_working_day_needs_a_start_and_an_end():
-    assert set(problems(start_hour="", end_work_hour="")) == {"start_hour", "end_work_hour"}
+def test_a_working_day_may_have_no_times_at_all():
+    result = timesheet.normalise(
+        row(start_hour="", start_lunch="", end_lunch="", end_work_hour=""), MINIMUM
+    )
+
+    assert result["start_hour"] is None and result["end_work_hour"] is None
+    assert (result["total_worked"], result["below_minimum"], result["above_minimum"]) == (0, 0, 0)
+
+
+def test_a_day_with_only_a_start_is_neutral_until_it_has_an_end():
+    result = timesheet.normalise(row(end_work_hour="", start_lunch="", end_lunch=""), MINIMUM)
+
+    assert result["start_hour"] is not None and result["total_worked"] == 0
+    assert result["below_minimum"] == 0
 
 
 def test_half_a_lunch_is_refused():
@@ -223,7 +235,8 @@ def test_delete_removes_the_row(app, alice):
 def test_the_database_refuses_what_the_service_would_have_refused(app, alice):
     with pytest.raises(Exception):
         db.execute(
-            "INSERT INTO timesheet (user_id, work_date, day_type) VALUES (%s, '2026-03-02', 'WORK')",
+            "INSERT INTO timesheet (user_id, work_date, day_type, start_hour, end_work_hour)"
+            " VALUES (%s, '2026-03-02', 'WORK', '18:00', '09:00')",
             (alice,),
         )
 

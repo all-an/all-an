@@ -81,10 +81,10 @@ checksums are verified at startup.
 | `user_id` | BIGINT FK `users` | `ON DELETE CASCADE` |
 | `work_date` | DATE | `UNIQUE (user_id, work_date)` |
 | `day_type` | TEXT | `WORK` (default), `LEAVE`, `HOLIDAY`, `SICK`; `CHECK` constraint |
-| `start_hour` | TIME NULL | required when `day_type = WORK` |
+| `start_hour` | TIME NULL | optional (V11); a day without both start and end counts as 0 worked |
 | `start_lunch` | TIME NULL | |
 | `end_lunch` | TIME NULL | |
-| `end_work_hour` | TIME NULL | required when `day_type = WORK` |
+| `end_work_hour` | TIME NULL | optional (V11); a day without both start and end counts as 0 worked |
 | `below_minimum` | INTEGER | minutes, computed |
 | `above_minimum` | INTEGER | minutes, computed |
 | `total_worked` | INTEGER | minutes, computed |

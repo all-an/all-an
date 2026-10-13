@@ -88,7 +88,8 @@ def worked_minutes(start: time, start_lunch: time | None, end_lunch: time | None
 
 def compute(day_type: str, start, start_lunch, end_lunch, end, minimum_minutes: int) -> dict:
     """The three stored columns. A day that is not WORK is neutral: it owes nothing and adds nothing."""
-    if day_type != "WORK":
+    # Without both a start and an end there is nothing to measure yet, so the day is neutral too.
+    if day_type != "WORK" or start is None or end is None:
         return {"total_worked": 0, "below_minimum": 0, "above_minimum": 0}
 
     total = worked_minutes(start, start_lunch, end_lunch, end)
@@ -164,24 +165,26 @@ def normalise(raw: dict, minimum_minutes: int | None = None) -> dict:
         fields.check(name, value is not False, "must be a time like 08:30")
 
     if day_type == "WORK":
-        start, start_lunch, end_lunch, end = (times[n] for n in names)
         usable = all(v is not False for v in times.values())
 
-        fields.check("start_hour", start is not None, "start of work is required")
-        fields.check("end_work_hour", end is not None, "end of work is required")
         fields.check(
             "start_lunch",
-            (start_lunch is None) == (end_lunch is None),
+            (times["start_lunch"] is None) == (times["end_lunch"] is None),
             "give both lunch times, or neither",
         )
 
-        if usable and start is not None and end is not None:
-            fields.check("end_work_hour", start < end, "end of work must be after the start")
+        if usable:
+            # Every time is optional; each pair that is present must be in order.
+            start, start_lunch, end_lunch, end = (times[n] for n in names)
 
-            if start_lunch is not None and end_lunch is not None:
-                fields.check("start_lunch", start < start_lunch, "lunch must start after work starts")
-                fields.check("end_lunch", start_lunch < end_lunch, "lunch must end after it starts")
-                fields.check("end_lunch", end_lunch < end, "lunch must end before work ends")
+            def ordered(name, earlier, later, message):
+                if earlier is not None and later is not None:
+                    fields.check(name, earlier < later, message)
+
+            ordered("end_work_hour", start, end, "end of work must be after the start")
+            ordered("start_lunch", start, start_lunch, "lunch must start after work starts")
+            ordered("end_lunch", start_lunch, end_lunch, "lunch must end after it starts")
+            ordered("end_lunch", end_lunch, end, "lunch must end before work ends")
     else:
         times = dict.fromkeys(names)
 

@@ -27,7 +27,7 @@ zoom, and native date and time pickers.
 | Column | Meaning |
 |---|---|
 | `day_type` | `WORK`, `LEAVE`, `HOLIDAY` or `SICK` |
-| `start_hour`, `start_lunch`, `end_lunch`, `end_work_hour` | Times; lunch is optional but both or neither |
+| `start_hour`, `start_lunch`, `end_lunch`, `end_work_hour` | Times; all optional on a Work day (V11), lunch is both or neither |
 | `total_worked`, `below_minimum`, `above_minimum` | Whole minutes, calculated by the server on save |
 | `onsite` | Worked on site that day |
 | `notes` | Free text, up to 500 characters |
@@ -53,7 +53,8 @@ UPDATE timesheet_constants SET value = '7.5' WHERE key = 'minimum_hours';
 
 - `total_worked = (end - start) - (end lunch - start lunch)`.
 - `below_minimum = max(minimum - total, 0)`, `above_minimum = max(total - minimum, 0)`.
-- Times must run in order (start, lunch out, lunch back, end).
+- Times must run in order (start, lunch out, lunch back, end) for whichever are given.
+- A Work day without both a start and an end is neutral: 0 worked, nothing below or above the minimum.
 - A day that is not `WORK` keeps no times and is not on site, and its computed columns are 0.
   It appears in the month but is neutral for the minimum and for the on-site percentage.
 - Changing `minimum_hours` does not touch saved rows. `timesheet.recompute()` brings them up to
