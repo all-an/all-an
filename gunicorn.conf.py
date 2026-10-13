@@ -1,7 +1,7 @@
-"""gunicorn settings, picked up automatically from the working directory, so Render's start command
+"""gunicorn settings, picked up automatically from the working directory, so the start command
 can be exactly:  gunicorn all_an.wsgi:app
 
-The port needs no setting: gunicorn binds 0.0.0.0:$PORT when PORT is set, which Render does.
+The port needs no setting: gunicorn binds 0.0.0.0:$PORT when PORT is set, which Railway does.
 """
 
 import os
@@ -18,6 +18,6 @@ threads = int(os.environ.get("GUNICORN_THREADS", 4))
 # A quiz page is a handful of queries; anything slower than this is stuck, not slow.
 timeout = 30
 
-# Render collects stdout, so access and error logs go there.
+# Railway collects stdout, so access and error logs go there.
 accesslog = "-"
 errorlog = "-"

@@ -22,12 +22,15 @@ You now have two services: the web service (your repo) and the Postgres database
 
 ## 2. Start command and health check
 
-In the web service, open **Settings** and set:
+Both come from `railway.json` in the repository, so there is nothing to type. In the web
+service's **Settings** you should see:
 
 | Setting | Value |
 |---|---|
 | Custom Start Command | `gunicorn all_an.wsgi:app` |
 | Healthcheck Path | `/healthz` |
+
+If they are empty, enter them by hand.
 
 `gunicorn.conf.py` already binds to the `PORT` that Railway injects and sets workers, threads and
 timeouts, so nothing else is needed on the command line.
@@ -56,15 +59,8 @@ feature, and nothing reads them.
 
 ## 4. Python version (recommended)
 
-Render pins Python with `PYTHON_VERSION=3.13.5`. Railway picks its own default unless told
-otherwise. To match what you have been running, add a file named `.python-version` at the
-repository root containing:
-
-```
-3.13
-```
-
-Commit and push it. (This file is not in the repository yet.)
+The repository has a `.python-version` file at its root containing `3.13`, so builds use that
+Python line. Change it there if you want another version.
 
 ## 5. Domain
 
@@ -82,14 +78,14 @@ Railway builds and deploys on every push to `main`. Watch the deploy log for:
 
 Open the domain. `/login` should render, and you can sign in as the administrator you configured.
 
-## Moving your data from Render
+## Moving data from an existing database
 
 Do this before anyone uses the Railway site, and before the first visit if possible: the app
 creates its tables on first start, and restoring over them needs a clean database.
 
 ```bash
-# 1. Dump Render's database (use the External Database URL from the Render dashboard)
-pg_dump --no-owner --no-acl "RENDER_EXTERNAL_DATABASE_URL" > all-an.sql
+# 1. Dump the old database (use its external connection URL)
+pg_dump --no-owner --no-acl "OLD_DATABASE_URL" > all-an.sql
 
 # 2. Restore into Railway's database (use its public connection URL from the Postgres service)
 psql "RAILWAY_DATABASE_PUBLIC_URL" < all-an.sql
@@ -111,8 +107,8 @@ Sessions are stored in the database, so people stay signed in across the move.
 
 1. Railway site works: sign in, take a quiz, add a timesheet day.
 2. Change DNS (or your links) to the Railway address.
-3. Keep the Render service and database for a few days as a fallback, then delete them.
-4. Remove the Render-only values (`RESEND_API_KEY`, `MAIL_FROM`) from anywhere you copied them.
+3. Keep the old service and database for a few days as a fallback, then delete them.
+4. Do not carry over `RESEND_API_KEY` or `MAIL_FROM`; nothing reads them.
 
 ## Operating notes
 

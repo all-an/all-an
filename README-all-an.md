@@ -121,7 +121,7 @@ existing one able to sign in.
 ```
 requirements.txt  requirements-dev.txt
 gunicorn.conf.py  workers and threads; the start command is just  gunicorn all_an.wsgi:app
-render.yaml       the Render blueprint: web service + all-an-database
+railway.json     Railway start command and health check
 db/migration/     schema, in order — read by the migrator at startup
 all_an/
 ├── __init__.py   create_app(): config, pool, migrations, blueprints, error handlers

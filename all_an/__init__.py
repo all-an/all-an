@@ -26,7 +26,7 @@ def create_app(config: Config | None = None) -> Flask:
     if config.run_startup_tasks:
         # Migrate before serving, never alongside: a request that arrives against a half-migrated
         # schema fails in ways that look like application bugs. A failure here stops the worker
-        # booting, so the health check never passes and Render keeps the previous deploy serving.
+        # booting, so the health check never passes and the host keeps the previous deploy serving.
         # Every gunicorn worker runs this; the advisory lock makes the second a no-op.
         migrate(pool)
 
@@ -69,7 +69,7 @@ def create_app(config: Config | None = None) -> Flask:
 
     @app.get("/healthz")
     def healthz():
-        """Render polls this to decide whether a deploy is live.
+        """The host polls this to decide whether a deploy is live.
 
         It checks the database rather than just returning 200: an instance that cannot reach
         Postgres can serve nothing that matters, and reporting it healthy would let a broken

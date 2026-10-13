@@ -73,5 +73,5 @@ def test_accepts_a_database_migrated_by_the_node_and_rust_versions(pool):
 def test_ssl_rule():
     assert db.ssl_mode("postgresql://u:p@localhost:5432/d") == "disable"
     assert db.ssl_mode("postgresql://u:p@127.0.0.1/d") == "disable"
-    assert db.ssl_mode("postgresql://u:p@dpg-abc123/d") == "disable"  # Render internal
-    assert db.ssl_mode("postgresql://u:p@dpg-abc123.oregon-postgres.render.com/d") == "require"
+    assert db.ssl_mode("postgresql://u:p@db-internal/d") == "disable"  # single-label private host
+    assert db.ssl_mode("postgresql://u:p@db.example.com/d") == "require"

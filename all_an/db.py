@@ -14,7 +14,7 @@ _pool: ConnectionPool | None = None
 
 
 def ssl_mode(database_url: str) -> str:
-    """`localhost` and single-label hostnames (Render's private network) speak plain TCP.
+    """`localhost` and single-label hostnames (a private network) speak plain TCP.
 
     Anything else is a public endpoint and gets TLS - required, but not certificate-verified,
     because managed Postgres hosts commonly present certificates that do not chain to a public CA.

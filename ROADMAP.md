@@ -5,7 +5,7 @@ Branch: `flask-rewrite`. Starting point: the current Rust (axum + Askama + vanil
 **Stack:** Python, Flask, Jinja2, PostgreSQL, HTMX.
 **Same database.** The existing Postgres schema, data, sessions and password hashes carry over
 untouched. Nothing in `db/migration/` is edited; the Python app is a new client of the same tables.
-**Render commands:**
+**Run commands:**
 
 ```
 pip install -r requirements.txt
@@ -36,7 +36,7 @@ gunicorn all_an.wsgi:app
 |---|---|
 | Keep the JSON `/api`? | Keep it for parity during the rewrite (it is the easiest thing to test against the Rust app), then decide in Phase 8 whether anything still needs it. |
 | Flask blueprints layout? | One blueprint per domain (`auth`, `quizzes`, `attempts`, `friends`, `shares`, `messages`, `settings`). |
-| Python version | 3.12, pinned with `PYTHON_VERSION` in `render.yaml`. |
+| Python version | 3.12, pinned with `.python-version`. |
 | Sync vs async | Sync Flask + gunicorn `gthread` workers. Nothing here needs async. |
 | CSRF | Add Flask-WTF-style CSRF tokens for HTMX form posts (see Phase 2). The Rust app relied on `SameSite=Lax` and JSON-only POSTs; HTML form posts change that. |
 
@@ -44,7 +44,7 @@ gunicorn all_an.wsgi:app
 
 ```
 requirements.txt
-render.yaml
+railway.json
 db/migration/            unchanged — read by the Python migrator at startup
 all_an/
 ├── __init__.py          create_app(): config, pool, blueprints, error handlers
@@ -208,16 +208,14 @@ which field, where Rust returned only the generic message. A visual check (pixel
 public pages in headless Chromium) found the front page, sign-in, register and both browse views
 identical; the About and Message pages differ only where their text was rewritten.
 
-### Phase 8 — Render deployment and cutover (1 day) — repo side ✅, deploy pending
-- `render.yaml`:
-  ```yaml
-  runtime: python
-  buildCommand: pip install -r requirements.txt
-  startCommand: gunicorn all_an.wsgi:app --workers 2 --threads 4 --bind 0.0.0.0:$PORT
-  healthCheckPath: /healthz
-  envVars: PYTHON_VERSION, DATABASE_URL (from the existing database), TRUST_PROXY_HEADERS=true,
-           SESSION_COOKIE_SECURE=true, SITE_URL, plus the `sync: false` secrets
+### Phase 8 — Deployment and cutover (1 day) — repo side ✅, deploy pending
+- `railway.json`:
+  ```json
+  startCommand: gunicorn all_an.wsgi:app
+  healthcheckPath: /healthz
   ```
+  with the variables DATABASE_URL (from the database), TRUST_PROXY_HEADERS=true,
+  SESSION_COOKIE_SECURE=true, SITE_URL and the admin secrets set in the host's dashboard.
 - Deploy to a **separate preview service** pointed at a **copy** of the production database first.
 - Cutover: because the schema is shared and sessions/hashes are compatible, switching is a deploy
   of `main`, not a data migration. Keep the last Rust deploy available for rollback.
@@ -228,15 +226,15 @@ identical; the About and Message pages differ only where their text was rewritte
 rollback to the Rust build has been rehearsed once.
 
 **Status:** everything that lives in the repository is done on this branch — `gunicorn.conf.py`
-(so the start command is literally `gunicorn all_an.wsgi:app`), `render.yaml`, a stale-connection
+(so the start command is literally `gunicorn all_an.wsgi:app`), `railway.json`, a stale-connection
 check on the pool, the Rust sources removed, and the README and `docs/` rewritten. Verified
 locally: gunicorn binds to `$PORT` by itself, two workers migrate concurrently without clashing,
 and the app boots against a copy of the real database with "9 migrations, 0 newly applied".
 
-**Still to do, by a person, on Render:** deploy this branch to a separate preview service pointed
+**Still to do, by a person, on the host:** deploy this branch to a separate preview service pointed
 at a *copy* of the production database; confirm sign-in works with an existing account; then
 cut over by deploying `main`, keeping the last Rust deploy available for rollback. Two things to
-check there that could not be checked here: the build runs on `PYTHON_VERSION` 3.13.5 (developed and
+check there that could not be checked here: the build runs on Python 3.13 (developed and
 tested on 3.14; nothing 3.14-specific is used, but 3.13 itself was not run), and the first deploy's
 log shows the migrator reporting 0 newly applied.
 
@@ -249,9 +247,9 @@ log shows the migrator reporting 0 newly applied.
 | Password hashes drift between implementations | Test both directions (Rust↔Python) with real hashes before cutover. |
 | Migrator rejects the live database | Phase 1's first check is an unmodified copy of production; checksums are SHA-256 of file text, byte-for-byte. |
 | gunicorn workers run migrations concurrently | Advisory lock (already used today) plus running the migrator once before workers serve. |
-| Wrong client IP behind Render collapses all throttles into one | Port the "last X-Forwarded-For entry" rule exactly; test with and without `TRUST_PROXY_HEADERS`. |
+| Wrong client IP behind the proxy collapses all throttles into one | Port the "last X-Forwarded-For entry" rule exactly; test with and without `TRUST_PROXY_HEADERS`. |
 | HTML form POSTs open a CSRF hole the JSON-only API did not have | CSRF token on every mutating route, plus `SameSite=Lax`. |
-| Cold start on Render free instances with two workers | Keep the pool small (max 10 across workers: size per worker accordingly). |
+| Cold start on small instances with two workers | Keep the pool small (max 10 across workers: size per worker accordingly). |
 
 ## Rough estimate
 

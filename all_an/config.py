@@ -13,7 +13,7 @@ def _env(name: str) -> str | None:
 class Config:
     database_url: str
     port: int = 8080
-    # Behind Render's proxy the real client is in X-Forwarded-For. Only safe when a proxy of ours
+    # Behind the host's proxy the real client is in X-Forwarded-For. Only safe when a proxy of ours
     # sets that header itself - exposed directly to the internet, anyone could spoof their address
     # past the per-IP throttles. Off by default.
     trust_proxy_headers: bool = False
