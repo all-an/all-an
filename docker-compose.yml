@@ -33,6 +33,8 @@ services:
       PORT: "10000"
       # Lets you read messages at http://localhost:10000/admin/messages?token=local-dev-token-1234
       ADMIN_TOKEN: local-dev-token-1234
+      # Set to "false" once the accounts you want exist.
+      REGISTRATION_OPEN: "${REGISTRATION_OPEN:-true}"
     # odin-http runs on io_uring on Linux, and Docker's default seccomp profile blocks those syscalls.
     security_opt:
       - seccomp=unconfined

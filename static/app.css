@@ -18,7 +18,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* --- shell --- */
 .nav { position: sticky; top: 0; z-index: 10; background: rgba(0,0,0,.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
 .nav-inner { max-width: 62rem; margin: 0 auto; padding: .6rem 1rem; display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
-.brand { font-weight: 800; color: var(--strong); text-decoration: none; margin-right: auto; letter-spacing: .02em; }
+.brand { font-weight: 800; color: var(--strong); text-decoration: none; letter-spacing: .02em; }
 .brand b { color: var(--accent); }
 .nav a.l { padding: .45rem .85rem; border-radius: 999px; color: var(--text); text-decoration: none; font-size: .88rem; font-weight: 600; background: var(--card); }
 .nav a.l:hover, .nav a.l:focus-visible { color: var(--accent); }
@@ -114,3 +114,61 @@ th { color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-s
 #toast { position: fixed; left: 50%; bottom: 1.25rem; transform: translateX(-50%); z-index: 50; display: none; max-width: calc(100% - 2rem); padding: .7rem 1rem; border-radius: 10px; background: var(--strong); color: #000; font-weight: 600; box-shadow: 0 8px 30px rgba(0,0,0,.6); }
 #toast.bad { background: var(--bad); }
 #toast.show { display: block; }
+
+/* The sign-out control is a form in the nav; make its button look like the links around it. */
+.nav form { display: inline; margin: 0; }
+.nav button.l { padding: .45rem .85rem; border-radius: 999px; color: var(--text); text-decoration: none; font-size: .88rem; font-weight: 600; background: var(--card); border: 0; cursor: pointer; }
+.nav button.l:hover, .nav button.l:focus-visible { color: var(--accent); }
+
+/* --- navigation: a row on wide screens, a menu button on narrow ones --- */
+.nav-inner { justify-content: space-between; }
+.nav-links { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; }
+/* Visually hidden but still focusable, so the menu button works from the keyboard. The global input
+   rules (padding, border, min-height) are cancelled here so nothing of the box can show. */
+.nav .nav-toggle { position: absolute; width: 1px; height: 1px; min-height: 0; margin: -1px; padding: 0; border: 0;
+              overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); opacity: 0; pointer-events: none; }
+.burger { display: none; }
+
+.nav a.l.on, .nav button.l.on { background: var(--accent); color: #000; }
+
+/* A terminal window filling the page below the nav: one scrolling screen, output then an inline prompt. */
+.term-drawer { position: fixed; inset: 0; z-index: 30; overflow-y: auto;
+               background: #000; padding: .75rem 1rem 2rem; cursor: text;
+               font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--text); }
+.term-drawer[hidden] { display: none; }
+body.term-open { overflow: hidden; }
+.term-out { white-space: pre-wrap; overflow-wrap: anywhere; }
+.term-line.cmd { color: var(--strong); }
+.term-line.ok { color: var(--good); }
+.term-line.err { color: var(--bad); }
+.term-line.dim { color: var(--muted); }
+.term-form { display: flex; gap: .5rem; align-items: baseline; margin: 0; }
+.term-prompt { color: var(--good); white-space: nowrap; }
+/* 16px keeps iOS from zooming the page when the prompt is focused. */
+.term-form input { flex: 1; min-width: 0; padding: 0; background: transparent; border: 0; outline: 0;
+                   font: inherit; font-size: 16px; color: var(--strong); caret-color: var(--strong); }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--strong); }
+
+@media (max-width: 720px) {
+  .nav-inner { flex-wrap: wrap; }
+  .burger { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem;
+            border-radius: 10px; background: var(--card); cursor: pointer; }
+  .burger:hover { background: var(--card-2); }
+  .bars, .bars::before, .bars::after { display: block; width: 1.25rem; height: 2px; background: var(--text);
+                                       border-radius: 1px; transition: transform .18s ease, opacity .18s ease; }
+  .bars { position: relative; }
+  .bars::before, .bars::after { content: ""; position: absolute; left: 0; }
+  .bars::before { top: -6px; }
+  .bars::after { top: 6px; }
+  .nav .nav-toggle:checked + .burger .bars { background: transparent; }
+  .nav-toggle:checked + .burger .bars::before { top: 0; transform: rotate(45deg); }
+  .nav-toggle:checked + .burger .bars::after { top: 0; transform: rotate(-45deg); }
+  .nav-toggle:focus-visible + .burger { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Everything sits behind the button until it is opened. */
+  .nav-links { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: .35rem; padding: .5rem 0 .25rem; }
+  .nav-toggle:checked ~ .nav-links { display: flex; }
+  .nav-links a.l, .nav-links button.l, .nav-links form { width: 100%; }
+  .nav-links a.l, .nav-links button.l { display: block; padding: .8rem 1rem; text-align: left; border-radius: 10px; }
+  .nav-links form { display: block; }
+}

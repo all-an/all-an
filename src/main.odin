@@ -1,6 +1,7 @@
 package main
 
 import "core:c/libc"
+import "core:crypto/hash"
 import "core:log"
 import "core:net"
 import "core:os"
@@ -15,9 +16,9 @@ FAVICON := #load("../static/favicon.svg")
 server: http.Server
 shutdown_context: runtime.Context
 
-// Cache-Control for assets: the URL carries a version, so an hour is safe and a deploy shows up soon.
+// The URL carries a hash of the content, so a changed file has a new URL and an old one never goes stale.
 asset :: proc(res: ^http.Response, name: string, content: []byte) {
-	http.headers_set(&res.headers, "cache-control", "public, max-age=3600")
+	http.headers_set(&res.headers, "cache-control", "public, max-age=31536000, immutable")
 	http.respond_file_content(res, name, content)
 }
 
@@ -31,13 +32,17 @@ healthz :: proc(req: ^http.Request, res: ^http.Response) {
 }
 
 not_found :: proc(req: ^http.Request, res: ^http.Response) {
-	error_page(res, .Not_Found, "Not found", "There is no such page.")
+	error_page(req, res, .Not_Found, "Not found", "There is no such page.")
 }
 
-// The page chrome (nav, About, Message me) is rendered here; quizzes and the timesheet run in the
-// browser. Their old paths land on the right screen of the app.
+// The page chrome (nav, About, Message me, sign in) is rendered here; quizzes and the timesheet run
+// in the browser. Their old paths land on the right screen of the app, or on sign in.
 to_app :: proc($screen: string) -> http.Handler {
 	return http.handler(proc(req: ^http.Request, res: ^http.Response) {
+		if _, ok := current_user(req); !ok {
+			redirect(res, "/login")
+			return
+		}
 		redirect(res, "/app#/" + screen)
 	})
 }
@@ -74,6 +79,13 @@ main :: proc() {
 	context.logger = log.create_console_logger(.Info)
 	load_config()
 
+	assets := make([dynamic]u8, context.allocator)
+	append(&assets, ..APP_CSS)
+	append(&assets, ..APP_JS)
+	append(&assets, ..FAVICON)
+	asset_version = hex_encode(hash.hash_bytes(.SHA256, assets[:], context.allocator)[:6], context.allocator)
+	delete(assets)
+
 	if config.database_url == "" {
 		log.error("DATABASE_URL is not set. See README-all-an.md for the local setup.")
 		os.exit(1)
@@ -82,6 +94,7 @@ main :: proc() {
 		log.error("cannot reach the database")
 		os.exit(1)
 	}
+	auth_init()
 
 	router: http.Router
 	http.router_init(&router)
@@ -94,6 +107,12 @@ main :: proc() {
 	http.route_get(&router, "/results", to_app("results"))
 	http.route_get(&router, "/timesheet", to_app("timesheet"))
 	http.route_get(&router, "/data", to_app("data"))
+
+	http.route_get(&router, "/login", http.handler(page_login))
+	http.route_post(&router, "/login", http.handler(login_submit))
+	http.route_get(&router, "/register", http.handler(page_register))
+	http.route_post(&router, "/register", http.handler(register_submit))
+	http.route_post(&router, "/logout", http.handler(logout_submit))
 
 	http.route_get(&router, "/message", http.handler(page_message))
 	http.route_post(&router, "/message", http.handler(message_submit))

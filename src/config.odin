@@ -12,6 +12,8 @@ Config :: struct {
 	contact_email:  string,
 	// When set (16+ characters), /admin/messages?token=... lists received messages.
 	admin_token:    string,
+	// Whether new accounts can be created. Turn it off once the accounts you want exist.
+	registration_open: bool,
 }
 
 config: Config
@@ -56,6 +58,7 @@ load_config :: proc() {
 		secure_cookies = env_bool("COOKIE_SECURE", on_render),
 		contact_email  = env("CONTACT_EMAIL", "allan6tech@gmail.com"),
 		admin_token    = env("ADMIN_TOKEN"),
+		registration_open = env_bool("REGISTRATION_OPEN", true),
 	}
 	if len(config.admin_token) < 16 {
 		config.admin_token = ""

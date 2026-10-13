@@ -31,8 +31,8 @@ redirect :: proc(res: ^http.Response, location: string) {
 	http.respond(res)
 }
 
-error_page :: proc(res: ^http.Response, status: http.Status, title, message: string) {
-	h := html_make()
+error_page :: proc(req: ^http.Request, res: ^http.Response, status: http.Status, title, message: string) {
+	h := html_for(req, res)
 	page_begin(&h, title, "")
 	raw(&h, `<div class="card"><h1>`)
 	esc(&h, title)
@@ -46,7 +46,7 @@ error_page :: proc(res: ^http.Response, status: http.Status, title, message: str
 // --- about -------------------------------------------------------------------------------------
 
 page_about :: proc(req: ^http.Request, res: ^http.Response) {
-	h := html_make()
+	h := html_for(req, res)
 	page_begin(&h, "About me", "about")
 	raw(&h, `<header class="head"><div><h1>Allan Pereira Abrahão</h1>`)
 	raw(&h, `<p class="lede">Full Stack Software Developer at Aubay Portugal</p></div></header>`)
@@ -76,7 +76,12 @@ page_about :: proc(req: ^http.Request, res: ^http.Response) {
 // --- the app shell: quizzes, results, timesheet and data run in the browser ---------------------
 
 page_app :: proc(req: ^http.Request, res: ^http.Response) {
-	h := html_make()
+	h := html_for(req, res)
+	// Quizzes and the timesheet belong to an account.
+	if !h.logged_in {
+		redirect(res, "/login")
+		return
+	}
 	page_begin(&h, "Quizzes", "quizzes", script = true)
 	page_end(&h, script = true)
 	send_html(res, &h)
@@ -98,13 +103,13 @@ field_error :: proc(h: ^Html, message: string) {
 	}
 }
 
-render_message_form :: proc(res: ^http.Response, token: string, f: Message_Form, status: http.Status = .OK) {
-	h := html_make()
+render_message_form :: proc(req: ^http.Request, res: ^http.Response, f: Message_Form, status: http.Status = .OK) {
+	h := html_for(req, res)
 	page_begin(&h, "Message me", "message")
 	raw(&h, `<header class="head"><div><h1>Message me</h1><p class="lede">Write a note and it reaches me directly. `)
 	raw(&h, `One message a day per address, so I can give each a proper reply.</p></div></header>`)
 	raw(&h, `<form class="card" method="post" action="/message">`)
-	raw(&h, `<input type="hidden" name="csrf_token" value="`, token, `">`)
+	raw(&h, `<input type="hidden" name="csrf_token" value="`, h.csrf, `">`)
 
 	raw(&h, `<label class="f"><span class="lab">Name <span class="hint">optional</span></span>`)
 	raw(&h, `<input type="text" name="name" maxlength="80" autocomplete="name" value="`)
@@ -138,11 +143,11 @@ render_message_form :: proc(res: ^http.Response, token: string, f: Message_Form,
 }
 
 page_message :: proc(req: ^http.Request, res: ^http.Response) {
-	render_message_form(res, csrf_token(req, res), {})
+	render_message_form(req, res, {})
 }
 
-message_sent :: proc(res: ^http.Response) {
-	h := html_make()
+message_sent :: proc(req: ^http.Request, res: ^http.Response) {
+	h := html_for(req, res)
 	page_begin(&h, "Message sent", "message")
 	raw(&h, `<div class="card"><h1>Thank you!</h1>`)
 	raw(&h, `<p class="lede">Your message is in. I read everything, and reply when you left an email.</p>`)
@@ -153,8 +158,8 @@ message_sent :: proc(res: ^http.Response) {
 
 // The daily limit is the one "error" a normal person will hit, so it gets the warmest copy on the
 // page and the email address as an immediate way through.
-message_limited :: proc(res: ^http.Response) {
-	h := html_make()
+message_limited :: proc(req: ^http.Request, res: ^http.Response) {
+	h := html_for(req, res)
 	page_begin(&h, "Thanks for writing again", "message")
 	raw(&h, `<div class="card" role="alert"><h1>Thanks for writing again!</h1>`)
 	raw(&h, `<p class="lede">Your message for today already came through — I keep it to one a day per address so I `)
@@ -173,7 +178,7 @@ message_limited :: proc(res: ^http.Response) {
 message_submit :: proc(req: ^http.Request, res: ^http.Response) {
 	read_form(req, res, proc(req: ^http.Request, res: ^http.Response, form: map[string]string) {
 		if !csrf_valid(req, form["csrf_token"]) {
-			error_page(res, .Forbidden, "Your session expired", "Go back, reload the page and try again.")
+			error_page(req, res, .Forbidden, "Your session expired", "Go back, reload the page and try again.")
 			return
 		}
 
@@ -202,17 +207,17 @@ message_submit :: proc(req: ^http.Request, res: ^http.Response) {
 			bad = true
 		}
 		if bad {
-			render_message_form(res, form["csrf_token"], f, .Unprocessable_Content)
+			render_message_form(req, res, f, .Unprocessable_Content)
 			return
 		}
 
 		switch messages_insert(client_ip(req), name, email, body) {
 		case .Sent:
-			message_sent(res)
+			message_sent(req, res)
 		case .Limited:
-			message_limited(res)
+			message_limited(req, res)
 		case .Failed:
-			error_page(res, .Service_Unavailable, "Could not save your message", "The database could not be reached. Try again in a moment, or write to me by email.")
+			error_page(req, res, .Service_Unavailable, "Could not save your message", "The database could not be reached. Try again in a moment, or write to me by email.")
 		}
 	})
 }
@@ -231,12 +236,12 @@ page_inbox :: proc(req: ^http.Request, res: ^http.Response) {
 
 	// The same answer whether the feature is off or the token is wrong: the page does not exist for you.
 	if config.admin_token == "" || !constant_time_equal(token, config.admin_token) {
-		error_page(res, .Not_Found, "Not found", "There is no such page.")
+		error_page(req, res, .Not_Found, "Not found", "There is no such page.")
 		return
 	}
 
 	list := messages_recent(200)
-	h := html_make()
+	h := html_for(req, res)
 	page_begin(&h, "Messages", "")
 	raw(&h, `<header class="head"><div><h1>Messages</h1><p class="lede">`)
 	esc(&h, fmt.tprintf("%d most recent", len(list)))

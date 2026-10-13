@@ -7,7 +7,11 @@
  * exports it as CSV or JSON and imports it back.
  * ==================================================================================== */
 
-const KEY = 'all-an:v1';
+// Saved data is keyed by account, so two people sharing a browser never see each other's.
+// The server puts the signed-in account's id on #app.
+const LEGACY_KEY = 'all-an:v1';
+const OWNER = (document.body && document.body.dataset.user) || 'anonymous';
+const KEY = `all-an:v1:user-${OWNER}`;
 const GRACE_MS = 2000;                 // same slack the server version gave an answer at the buzzer
 const DAY_TYPES = ['WORK', 'LEAVE', 'HOLIDAY', 'SICK'];
 const DAY_LABEL = { WORK: 'Work', LEAVE: 'Leave', HOLIDAY: 'Holiday', SICK: 'Sick' };
@@ -118,7 +122,20 @@ function normaliseDb(d) {
   };
 }
 
+/* Data saved before accounts existed sits under the old key. The first account to sign in on this
+ * browser takes it over, once; after that the old key is gone. */
+function adoptLegacyData() {
+  try {
+    if (localStorage.getItem(KEY) !== null) return;
+    const legacy = localStorage.getItem(LEGACY_KEY);
+    if (legacy === null) return;
+    localStorage.setItem(KEY, legacy);
+    localStorage.removeItem(LEGACY_KEY);
+  } catch (e) { /* storage is blocked; load() will notice */ }
+}
+
 function load() {
+  adoptLegacyData();
   let data = null;
   try { const raw = localStorage.getItem(KEY); if (raw) data = JSON.parse(raw); } catch (e) { storageOk = false; }
   const d = normaliseDb(data);
@@ -499,8 +516,8 @@ const ui = {
 let timer = null;
 let afterRender = null;
 
+// Only the app page has #app. Every other signed-in page loads this file for the terminal.
 const app = $('#app');
-if (!app) throw new Error('all-an: #app is missing');
 
 function go(hash) { if (location.hash === hash) render(); else location.hash = hash; }
 
@@ -514,6 +531,7 @@ function renderNav(active) {
 const TITLES = { quizzes: 'Quizzes', results: 'Results', timesheet: 'Timesheet', data: 'Data' };
 
 function render() {
+  if (!app) return;
   clearInterval(timer); timer = null; afterRender = null;
   const path = location.hash.replace(/^#\/?/, '').split('?')[0].replace(/\/$/, '') || 'quizzes';
   let m;
@@ -1065,6 +1083,562 @@ function pageData() {
   </section>`;
 }
 
+/* ---------- terminal ---------- */
+
+/* A command line over the same saved data as the pages: log hours, read balances, take a quiz,
+ * export. Output is added as text nodes, so nothing typed or stored can become markup. */
+
+const TERM_STORE = `all-an:terminal:${OWNER}`;
+const term = {
+  lines: [],      // {text, cls}
+  history: [],
+  cursor: 0,      // position while stepping through history with the arrow keys
+  quizId: null,   // the attempt being answered at the prompt, if any
+  flow: null,     // a multi-step prompt (login, register, message): {steps, i, data, done}
+  open: false,
+};
+
+/* The scrollback, history and open/closed state live in sessionStorage, so moving between pages
+ * (each one a full page load) does not reset the terminal. It goes when the tab does. */
+function termRestore() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(TERM_STORE) || 'null');
+    if (saved && Array.isArray(saved.lines)) {
+      term.lines = saved.lines.filter((l) => l && typeof l.text === 'string').slice(-500);
+      term.history = Array.isArray(saved.history) ? saved.history.filter((h) => typeof h === 'string').slice(-200) : [];
+      term.quizId = typeof saved.quizId === 'string' ? saved.quizId : null;
+      term.open = !!saved.open;
+      term.cursor = term.history.length;
+    }
+  } catch (e) { /* private mode or a damaged value: start empty */ }
+}
+
+function termPersist() {
+  try {
+    sessionStorage.setItem(TERM_STORE, JSON.stringify({
+      lines: term.lines.slice(-200), history: term.history.slice(-200), quizId: term.quizId, open: term.open,
+    }));
+  } catch (e) { /* best effort */ }
+}
+
+const SIGNED_IN = OWNER !== 'anonymous';
+const REGISTER_OPEN = !!(document.body && document.body.dataset.register);
+const SIGNED_OUT_COMMANDS = ['help', 'clear', 'about', 'message', 'login', 'register'];
+const SIGNED_OUT_ONLY = ['login', 'register'];
+
+const TERM_HELP_OUT = `  about       who I am and what I build
+  message     send me a message
+  login       sign in
+  register    create an account
+  clear       clear the screen
+  help        this list`;
+
+const TERM_HELP = `Account
+  about  message  logout
+
+Timesheet
+  today                      show today's row
+  day [YYYY-MM-DD]           show a day
+  in [HH:MM]                 start work (now, if no time)
+  out [HH:MM]                end work
+  lunch HH:MM HH:MM          lunch out and back
+  onsite [on|off]            mark today as on site
+  leave|holiday|sick [date]  mark a day off
+  note <text>                set today's note
+  rm <date>                  delete a day
+  week [date]  month [YYYY-MM]  balance
+  minimum <hours>  target <percent>
+
+Quizzes
+  quizzes                    list your quizzes
+  take <n>                   take quiz n here, answering at the prompt
+  stop                       stop the quiz and score what you have
+  results [n]                your last n attempts (default 5)
+
+Other
+  export <set> [csv|json] [year] [month]
+                             sets: ${Object.keys(DATASETS).join(', ')}
+  status  history  clear  help`;
+
+function termPrint(text, cls = '') {
+  for (const line of String(text).split('\n')) {
+    const entry = { text: line, cls };
+    term.lines.push(entry);
+    const out = $('#term-out');
+    if (out) { out.append(termNode(entry)); termScroll(); }
+  }
+  if (term.lines.length > 500) term.lines.splice(0, term.lines.length - 500);
+  termPersist();
+}
+
+/** The whole drawer scrolls, like a terminal window: output and the prompt line move together. */
+function termScroll() {
+  const d = $('#term-drawer');
+  if (d) d.scrollTop = d.scrollHeight;
+}
+
+function termNode(entry) {
+  const div = document.createElement('div');
+  div.className = 'term-line' + (entry.cls ? ' ' + entry.cls : '');
+  div.textContent = entry.text === '' ? ' ' : entry.text;
+  return div;
+}
+
+function termPrompt() {
+  const el = $('#term-prompt');
+  const step = term.flow && term.flow.steps[term.flow.i];
+  if (el) el.textContent = step ? step.label + ':' : term.quizId ? 'answer>' : '$';
+  const input = $('#term-in');
+  if (input) input.type = step && step.secret ? 'password' : 'text';
+}
+
+/** The terminal panel: created on first use, then shown or hidden. Any signed-in page can open it. */
+function termDrawer() {
+  let drawer = $('#term-drawer');
+  if (drawer) return drawer;
+
+  drawer = document.createElement('section');
+  drawer.id = 'term-drawer';
+  drawer.className = 'term-drawer';
+  drawer.hidden = true;
+  drawer.setAttribute('aria-label', 'Terminal');
+  drawer.innerHTML = `
+    <div class="term-out" id="term-out" role="log" aria-live="polite"></div>
+    <form class="term-form" data-form="term" autocomplete="off">
+      <label class="term-prompt" id="term-prompt" for="term-in">$</label>
+      <input id="term-in" name="cmd" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Command">
+    </form>`;
+  // Clicking anywhere in the window puts the cursor on the prompt, as in a real terminal,
+  // unless the click was selecting text.
+  drawer.addEventListener('click', () => {
+    if (!String(window.getSelection())) $('#term-in').focus();
+  });
+  document.body.append(drawer);
+
+  const out = $('#term-out', drawer);
+  term.lines.forEach((l) => out.append(termNode(l)));
+  return drawer;
+}
+
+function termShow(open) {
+  const drawer = termDrawer();
+  term.open = open;
+  drawer.hidden = !open;
+  document.body.classList.toggle('term-open', open);
+  
+  if (open) {
+    if (!term.lines.length) {
+      termPrint('Type "help" for the commands.', 'dim');
+    }
+    termPrompt();
+    termScroll();
+    $('#term-in').focus();
+  }
+  termPersist();
+}
+
+/* --- timesheet commands --- */
+
+const clockNow = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+
+function termRow(r) {
+  const parts = [r.date, parseDate(r.date).toLocaleDateString(undefined, { weekday: 'short' }), DAY_LABEL[r.dayType]];
+  if (r.dayType === 'WORK') {
+    parts.push(`${r.start || '--:--'}-${r.end || '--:--'}`);
+    if (r.lunchOut) parts.push(`lunch ${r.lunchOut}-${r.lunchBack}`);
+    if (r.total) parts.push(`worked ${fmtMin(r.total)} (${signed(r.above - r.below)})`);
+    if (r.onsite) parts.push('on site');
+  }
+  if (r.notes) parts.push(`"${r.notes}"`);
+  return parts.join('  ');
+}
+
+/** Applies a change to one day through the same rules as the form, and says what is wrong if it fails. */
+function termDay(date, patch) {
+  if (!validDate(date)) { termPrint(`error: "${date}" is not a date (use YYYY-MM-DD)`, 'err'); return null; }
+  const cur = db.timesheet.find((r) => r.date === date);
+  const raw = {
+    date,
+    dayType: cur ? cur.dayType : 'WORK',
+    start: (cur && cur.start) || '', lunchOut: (cur && cur.lunchOut) || '',
+    lunchBack: (cur && cur.lunchBack) || '', end: (cur && cur.end) || '',
+    onsite: cur ? cur.onsite : false,
+    notes: (cur && cur.notes) || '',
+    ...patch,
+  };
+  const result = normaliseDay(raw);
+  if (!result.row) {
+    Object.values(result.errors).forEach((m) => termPrint('error: ' + m, 'err'));
+    return null;
+  }
+  db.timesheet = db.timesheet.filter((r) => r.date !== date);
+  db.timesheet.push(result.row);
+  save();
+  termPrint(termRow(result.row), 'ok');
+  return result.row;
+}
+
+function termPeriod(label, from, to) {
+  const rows = tsBetween(from, to);
+  const a = aggregate(rows);
+  const r = review(a.onsiteDays, a.workDays, onsiteTarget());
+  termPrint(`${label}: ${fmtMin(a.total)} worked over ${plural(a.workDays, 'day')}, ${signed(a.net)} vs minimum`);
+  if (r.met !== null) {
+    termPrint(`on site ${r.percent}% of ${a.workDays} (target ${r.target}%) ${r.met ? '- met' : `- ${plural(r.needed, 'more on-site day')} needed`}`);
+  }
+  return rows;
+}
+
+/* --- quiz commands --- */
+
+function termAsk() {
+  const a = findAttempt(term.quizId);
+  const i = a ? nextIndex(a) : -1;
+  if (!a || i < 0) { termFinish(); return; }
+
+  const q = a.questions[i];
+  if (!q.servedAt) { q.servedAt = Date.now(); save(); }   // starts the clock; a reload resumes it
+  termPrint('');
+  termPrint(`Question ${i + 1}/${a.questions.length} (${q.time}s)`, 'dim');
+  termPrint(q.prompt);
+  if (q.kind === 'MULTIPLE_CHOICE') q.options.forEach((o, n) => termPrint(`  ${n + 1}) ${o.body}`));
+  termPrompt();
+}
+
+function termFinish() {
+  const a = findAttempt(term.quizId);
+  term.quizId = null;
+  termPrompt();
+  if (!a) return;
+  const s = attemptStats(a);
+  termPrint('');
+  termPrint(`${a.quizTitle}: ${s.correct} / ${s.total} (${s.percent}%)`, 'ok');
+}
+
+function termAnswer(text) {
+  const a = findAttempt(term.quizId);
+  const i = a ? nextIndex(a) : -1;
+  if (!a || i < 0) { termFinish(); return; }
+
+  const q = a.questions[i];
+  let given = text;
+  if (q.kind === 'MULTIPLE_CHOICE' && /^\d+$/.test(text.trim())) {
+    const option = q.options[Number(text.trim()) - 1];
+    if (option) given = option.body;
+  }
+
+  submitAnswer(a, given, false);
+  const done = a.questions[i];
+  if (done.correct) termPrint('correct', 'ok');
+  else termPrint(`${done.timedOut ? 'out of time' : 'wrong'} - answer: ${correctText(done)}`, 'err');
+  if (done.explanation) termPrint(done.explanation, 'dim');
+
+  if (nextIndex(a) < 0) termFinish(); else termAsk();
+}
+
+/* --- the command table --- */
+
+const ABOUT_STACK = [
+  ['Languages', 'Java, Python, Rust, Odin, TypeScript, JavaScript, Bash'],
+  ['Backend', 'Spring Boot, Quarkus, Flask, Axum, REST APIs'],
+  ['Frontend', 'Angular, React, HTMX'],
+  ['Data', 'PostgreSQL, MySQL, Redis, Flyway, Liquibase'],
+  ['Messaging', 'RabbitMQ, Apache Kafka'],
+  ['Infrastructure', 'AWS, Docker, Linux'],
+  ['Practices', 'TDD, BDD, DDD'],
+  ['AI Driven', 'Claude Code, Codex, prompt engineering'],
+];
+
+/* --- multi-step prompts: login, register and message --- */
+
+function termStartFlow(steps, done, hint) {
+  term.flow = { steps, i: 0, data: {}, done };
+  if (hint) termPrint(hint, 'dim');
+  termPrompt();
+}
+
+function termCancelFlow() {
+  term.flow = null;
+  termPrint('cancelled', 'dim');
+  termPrompt();
+}
+
+function termFlowInput(line) {
+  const f = term.flow;
+  const step = f.steps[f.i];
+  // A password is never echoed or kept in the history.
+  termPrint(`${step.label}: ${step.secret ? '' : line}`, 'cmd');
+  f.data[step.key] = line;
+  f.i += 1;
+  if (f.i < f.steps.length) { termPrompt(); return; }
+  term.flow = null;
+  termPrompt();
+  f.done(f.data);
+}
+
+/** Sends the same form the old pages used and reports what the server said. */
+async function termSubmit(path, fields, okText, reload) {
+  termPrint('...', 'dim');
+  try {
+    const body = new URLSearchParams({ csrf_token: (document.body.dataset.csrf || ''), ...fields });
+    const res = await fetch(path, {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' }, body,
+    });
+    if (res.ok && res.redirected !== false && reload) {
+      termPrint(okText, 'ok');
+      location.href = path === '/logout' ? '/about' : '/app';
+      return;
+    }
+    const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+    if (res.ok && !doc.querySelector('.err')) {
+      const lede = doc.querySelector('.card .lede');
+      termPrint(okText, 'ok');
+      if (lede && !reload) termPrint(lede.textContent, 'dim');
+      return;
+    }
+    const errs = [...doc.querySelectorAll('.err')].map((e) => e.textContent.trim()).filter(Boolean);
+    if (errs.length) { errs.forEach((e) => termPrint('error: ' + e, 'err')); return; }
+    const h1 = doc.querySelector('h1');
+    const lede = doc.querySelector('.lede');
+    termPrint('error: ' + [h1 && h1.textContent, lede && lede.textContent].filter(Boolean).join(' - '), 'err');
+  } catch (e) {
+    termPrint('error: could not reach the server', 'err');
+  }
+}
+
+
+const TERM_COMMANDS = {
+  help: () => termPrint(SIGNED_IN ? TERM_HELP : TERM_HELP_OUT),
+
+  about: () => {
+    termPrint('Allan Pereira Abrahão — Full Stack Software Developer at Aubay Portugal');
+    termPrint('');
+    termPrint('I build full stack products end to end, from the server and the database to the');
+    termPrint('interface and the deployment around them. I care about the parts that decide whether');
+    termPrint('software survives production: migrations that are safe to run twice, schemas that');
+    termPrint('fail loudly on drift, and tests written before the code they justify.');
+    termPrint('');
+    ABOUT_STACK.forEach(([label, items]) => termPrint(`  ${label.padEnd(15)}${items}`));
+    termPrint('');
+    termPrint('  linkedin.com/in/allan-pereira-abrahao');
+    termPrint('  github.com/all-an');
+  },
+
+  message: () => termStartFlow([
+    { key: 'name', label: 'name (optional)' },
+    { key: 'email', label: 'email (optional, for a reply)' },
+    { key: 'body', label: 'message' },
+  ], (d) => termSubmit('/message', d, 'message sent'), 'One message a day per address. Esc cancels.'),
+
+  login: () => termStartFlow([
+    { key: 'email', label: 'email' },
+    { key: 'password', label: 'password', secret: true },
+  ], (d) => termSubmit('/login', d, 'signed in', true), 'Esc cancels.'),
+
+  register: () => {
+    if (!REGISTER_OPEN) { termPrint('registration is closed', 'err'); return; }
+    termStartFlow([
+      { key: 'email', label: 'email' },
+      { key: 'password', label: 'password (10+ characters)', secret: true },
+      { key: 'confirm', label: 'repeat the password', secret: true },
+    ], (d) => termSubmit('/register', d, 'account created', true), 'Esc cancels.');
+  },
+
+  logout: async () => {
+    await termSubmit('/logout', {}, 'signed out', true);
+  },
+
+
+  clear: () => {
+    term.lines = [];
+    const out = $('#term-out');
+    if (out) out.textContent = '';
+  },
+
+  history: () => term.history.forEach((h, n) => termPrint(`${String(n + 1).padStart(3)}  ${h}`)),
+
+  status: () => {
+    const open = db.attempts.filter((a) => !a.finishedAt).length;
+    termPrint(`${plural(db.quizzes.length, 'quiz', 'quizzes')}, ${plural(db.attempts.length, 'attempt')}${open ? ` (${open} in progress)` : ''}, ${plural(db.timesheet.length, 'timesheet day')}`);
+    termPrint(`minimum ${fmtMin(minimumMinutes())} a day, on-site target ${onsiteTarget()}%`);
+  },
+
+  today: () => {
+    const r = db.timesheet.find((x) => x.date === today());
+    termPrint(r ? termRow(r) : `${today()}  nothing logged yet. Try "in".`);
+  },
+
+  day: ([date]) => {
+    const d = date || today();
+    const r = db.timesheet.find((x) => x.date === d);
+    termPrint(r ? termRow(r) : `${d}  nothing logged`);
+  },
+
+  in: ([time]) => { termDay(today(), { start: time || clockNow() }); },
+  out: ([time]) => { termDay(today(), { end: time || clockNow() }); },
+
+  lunch: ([a, b]) => {
+    if (!a || !b) { termPrint('usage: lunch HH:MM HH:MM', 'err'); return; }
+    termDay(today(), { lunchOut: a, lunchBack: b });
+  },
+
+  onsite: ([flag]) => { termDay(today(), { onsite: flag ? !['off', 'no', '0', 'false'].includes(flag.toLowerCase()) : true }); },
+
+  leave: ([date]) => { termDay(date || today(), { dayType: 'LEAVE' }); },
+  holiday: ([date]) => { termDay(date || today(), { dayType: 'HOLIDAY' }); },
+  sick: ([date]) => { termDay(date || today(), { dayType: 'SICK' }); },
+
+  note: (args) => { termDay(today(), { notes: args.join(' ') }); },
+
+  rm: ([date]) => {
+    if (!date || !validDate(date)) { termPrint('usage: rm YYYY-MM-DD', 'err'); return; }
+    if (!db.timesheet.some((r) => r.date === date)) { termPrint(`${date}  nothing to delete`, 'err'); return; }
+    db.timesheet = db.timesheet.filter((r) => r.date !== date);
+    save();
+    termPrint(`${date}  deleted`, 'ok');
+  },
+
+  week: ([date]) => {
+    const d = date && validDate(date) ? date : today();
+    const [from, to] = weekOf(d);
+    termPrint(`Week ${from} to ${to}`, 'dim');
+    termPeriod('week', from, to).forEach((r) => termPrint('  ' + termRow(r)));
+  },
+
+  month: ([ym]) => {
+    const m = /^(\d{4})-(\d{2})$/.exec(ym || '');
+    const first = m ? `${m[1]}-${m[2]}-01` : monthOf(today())[0];
+    if (!validDate(first)) { termPrint('usage: month [YYYY-MM]', 'err'); return; }
+    const [from, to] = monthOf(first);
+    termPrint(`${MONTHS[parseDate(first).getMonth()]} ${parseDate(first).getFullYear()}`, 'dim');
+    termPeriod('month', from, to).forEach((r) => termPrint('  ' + termRow(r)));
+  },
+
+  balance: () => {
+    const year = new Date().getFullYear();
+    const a = aggregate(tsYear(year));
+    termPrint(`${year} so far: ${fmtMin(a.total)} worked, balance ${signed(a.net)} (${signed(a.above)} over, -${fmtMin(a.below)} under)`);
+    termPeriod('this month', ...monthOf(today()));
+  },
+
+  minimum: ([hours]) => {
+    const n = Number(hours);
+    if (!(n > 0 && n <= 24)) { termPrint('usage: minimum <hours>, between 0 and 24', 'err'); return; }
+    db.settings.minimumHours = n;
+    save();
+    termPrint(`daily minimum is now ${fmtMin(minimumMinutes())}. Saved days keep their old balance.`, 'ok');
+  },
+
+  target: ([percent]) => {
+    const n = Number(percent);
+    if (!(Number.isInteger(n) && n >= 0 && n <= 100)) { termPrint('usage: target <percent>, between 0 and 100', 'err'); return; }
+    db.settings.onsitePercent = n;
+    save();
+    termPrint(`on-site target is now ${n}%`, 'ok');
+  },
+
+  quizzes: () => {
+    if (!db.quizzes.length) { termPrint('no quizzes yet'); return; }
+    db.quizzes.forEach((q, n) => termPrint(`${String(n + 1).padStart(2)}  ${q.title}  (${plural(q.questions.length, 'question')}, ${q.subject})`));
+    termPrint('take one with "take <n>"', 'dim');
+  },
+
+  take: ([n]) => {
+    if (term.quizId) { termPrint('a quiz is already running; answer it, or type "stop"', 'err'); return; }
+    const quiz = db.quizzes[Number(n) - 1];
+    if (!quiz) { termPrint('usage: take <n>  (see "quizzes")', 'err'); return; }
+    const r = startAttempt(quiz.id);
+    if (r.error) { termPrint('error: ' + r.error, 'err'); return; }
+    term.quizId = r.attempt.id;
+    termPrint(`${quiz.title}: type your answer, or the number of a choice.`, 'dim');
+    termAsk();
+  },
+
+  stop: () => {
+    const a = term.quizId && findAttempt(term.quizId);
+    if (!a) { termPrint('no quiz is running', 'err'); return; }
+    stopAttempt(a);
+    termFinish();
+  },
+
+  results: ([n]) => {
+    const count = Math.max(1, Math.min(50, Number(n) || 5));
+    const list = db.attempts.slice().sort((a, b) => (a.startedAt < b.startedAt ? 1 : -1)).slice(0, count);
+    if (!list.length) { termPrint('no attempts yet'); return; }
+    list.forEach((a) => {
+      const s = attemptStats(a);
+      termPrint(`${a.startedAt.slice(0, 16).replace('T', ' ')}  ${s.correct}/${s.total} (${s.percent}%)  ${a.quizTitle}${a.finishedAt ? '' : '  [in progress]'}`);
+    });
+  },
+
+  export: ([set, ...rest]) => {
+    if (!set || !DATASETS[set]) { termPrint(`usage: export <${Object.keys(DATASETS).join('|')}> [csv|json] [year] [month]`, 'err'); return; }
+    let format = 'csv';
+    const numbers = [];
+    for (const word of rest) {
+      if (word === 'csv' || word === 'json') format = word;
+      else if (/^\d+$/.test(word)) numbers.push(word);
+      else { termPrint(`error: "${word}" is not csv, json, a year or a month`, 'err'); return; }
+    }
+    if (!DATASETS[set].formats.includes(format)) format = DATASETS[set].formats[0];
+    const filter = { quizId: '', year: numbers[0] || '', month: numbers[1] || '' };
+    if (!DATASETS[set].rows(filter).length) { termPrint('nothing to export for that selection', 'err'); return; }
+    doExport(set, filter, format);
+    termPrint(`downloaded ${exportName(set, filter, format)}`, 'ok');
+  },
+};
+
+/** Words the command line completes with Tab. */
+const TERM_NAMES = Object.keys(TERM_COMMANDS)
+  .filter((n) => (SIGNED_IN ? !SIGNED_OUT_ONLY.includes(n) : SIGNED_OUT_COMMANDS.includes(n)))
+  .sort();
+
+function termRun(line) {
+  if (term.flow) { termFlowInput(line); return; }
+  const text = line.replace(/\s+$/, '');
+  termPrint(`${term.quizId ? 'answer>' : '$'} ${text}`, 'cmd');
+  if (!text.trim()) return;
+
+  if (term.history[term.history.length - 1] !== text) term.history.push(text);
+  term.cursor = term.history.length;
+
+  const [verb, ...args] = text.trim().split(/\s+/);
+  const name = verb.toLowerCase();
+
+  // While a quiz is running, everything typed is an answer, except the two ways out.
+  if (term.quizId && name !== 'stop' && name !== 'clear') {
+    termAnswer(text.trim());
+    return;
+  }
+
+  const allowed = SIGNED_IN ? !SIGNED_OUT_ONLY.includes(name) : SIGNED_OUT_COMMANDS.includes(name);
+  const command = allowed && Object.prototype.hasOwnProperty.call(TERM_COMMANDS, name) ? TERM_COMMANDS[name] : null;
+  if (!command) { termPrint(`${verb}: command not found. Try "help".`, 'err'); return; }
+  command(args);
+}
+
+function termKey(ev) {
+  const input = ev.target;
+  if (ev.key === 'ArrowUp') {
+    if (!term.history.length) return;
+    ev.preventDefault();
+    term.cursor = Math.max(0, term.cursor - 1);
+    input.value = term.history[term.cursor] || '';
+  } else if (ev.key === 'ArrowDown') {
+    ev.preventDefault();
+    term.cursor = Math.min(term.history.length, term.cursor + 1);
+    input.value = term.history[term.cursor] || '';
+  } else if (ev.key === 'Tab') {
+    ev.preventDefault();
+    const typed = input.value.trim().toLowerCase();
+    if (!typed || typed.includes(' ')) return;
+    const matches = TERM_NAMES.filter((n) => n.startsWith(typed));
+    if (matches.length === 1) input.value = matches[0] + ' ';
+    else if (matches.length > 1) termPrint(matches.join('  '), 'dim');
+  }
+}
+
 /* ======================================================================================
  * Events (delegated, so re-rendering never needs rebinding)
  * ==================================================================================== */
@@ -1266,7 +1840,13 @@ document.addEventListener('submit', (ev) => {
   const kind = form.dataset.form;
   const data = Object.fromEntries(new FormData(form));
 
-  if (kind === 'typed') {
+  if (kind === 'term') {
+    const input = $('#term-in');
+    const line = String(data.cmd || '');
+    if (input) input.value = '';
+    termRun(line);
+    if (input) input.focus();
+  } else if (kind === 'typed') {
     const a = findAttempt(form.dataset.id);
     submitAnswer(a, data.answer ?? $('#typed').value, false);
     render();
@@ -1304,6 +1884,17 @@ document.addEventListener('submit', (ev) => {
   }
 });
 
+document.addEventListener('keydown', (ev) => {
+  if (ev.target && ev.target.id === 'term-in') termKey(ev);
+  if (ev.key === 'Escape' && term.flow) termCancelFlow();
+});
+
+// On a phone the nav is a menu; after choosing an entry it should fold away.
+window.addEventListener('hashchange', () => {
+  const toggle = document.getElementById('nav-toggle');
+  if (toggle) toggle.checked = false;
+});
+
 window.addEventListener('hashchange', render);
 // Another tab changed the data: pick it up rather than overwrite it with a stale copy later.
 window.addEventListener('storage', (ev) => {
@@ -1312,4 +1903,6 @@ window.addEventListener('storage', (ev) => {
 });
 
 if (!storageOk) toast('This browser is blocking storage; nothing will be saved. Export from the Data page.', true);
+termRestore();
+termShow(true);
 render();

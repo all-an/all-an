@@ -71,3 +71,51 @@ html_escaping :: proc(t: ^testing.T) {
 	esc(&h, `<script>"x" & 'y'</script>`)
 	testing.expect_value(t, html_string(&h), "&lt;script&gt;&quot;x&quot; &amp; &#39;y&#39;&lt;/script&gt;")
 }
+
+@(test)
+password_hash_round_trip :: proc(t: ^testing.T) {
+	encoded, ok := hash_password("correct horse battery staple")
+	testing.expect(t, ok)
+	testing.expect(t, verify_password("correct horse battery staple", encoded))
+	testing.expect(t, !verify_password("correct horse battery stapl", encoded))
+	testing.expect(t, !verify_password("", encoded))
+	// Salted: the same password never hashes the same way twice.
+	again, _ := hash_password("correct horse battery staple")
+	testing.expect(t, encoded != again)
+}
+
+@(test)
+password_verify_rejects_malformed_hashes :: proc(t: ^testing.T) {
+	testing.expect(t, !verify_password("x", ""))
+	testing.expect(t, !verify_password("x", "plaintext"))
+	testing.expect(t, !verify_password("x", "argon2id$1$1$1$zz$zz"))
+	// A stored memory cost beyond the cap is refused rather than allocated.
+	testing.expect(t, !verify_password("x", "argon2id$999999999$2$1$00000000000000000000000000000000$0000000000000000000000000000000000000000000000000000000000000000"))
+}
+
+@(test)
+hex_round_trip :: proc(t: ^testing.T) {
+	raw := [4]u8{0x00, 0xab, 0xff, 0x10}
+	encoded := hex_encode(raw[:])
+	testing.expect_value(t, encoded, "00abff10")
+	back: [4]u8
+	testing.expect(t, hex_decode(encoded, back[:]))
+	testing.expect_value(t, back, raw)
+	testing.expect(t, !hex_decode("00abff1", back[:]))
+	testing.expect(t, !hex_decode("00abffgg", back[:]))
+}
+
+@(test)
+session_token_hash_is_stable_and_not_the_token :: proc(t: ^testing.T) {
+	token := "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+	digest := session_token_hash(token)
+	testing.expect_value(t, len(digest), 64)
+	testing.expect_value(t, digest, session_token_hash(token))
+	testing.expect(t, digest != token)
+	testing.expect(t, session_token_hash(token) != session_token_hash("x"))
+}
+
+@(test)
+emails_are_lower_cased_and_trimmed :: proc(t: ^testing.T) {
+	testing.expect_value(t, normalise_email("  Ann@Example.COM "), "ann@example.com")
+}

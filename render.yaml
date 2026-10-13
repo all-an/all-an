@@ -22,6 +22,9 @@ services:
       # Render puts one proxy in front of the app; see TRUSTED_PROXY_HOPS in README-all-an.md.
       - key: TRUSTED_PROXY_HOPS
         value: "1"
+      # Anyone can create an account while this is true. Set it to "false" after you have yours.
+      - key: REGISTRATION_OPEN
+        value: "true"
       - key: CONTACT_EMAIL
         value: allan6tech@gmail.com
       # Optional: a long random value, set in the dashboard, to read messages at /admin/messages?token=...

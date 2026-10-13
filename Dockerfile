@@ -6,8 +6,6 @@ FROM debian:bookworm-slim AS build
 # The Odin compiler release, and the odin-http commit known to build with it.
 ARG ODIN_VERSION=dev-2026-07a
 ARG ODIN_HTTP_REF=fac113fbd828aad3d71479a534b5de4358b6a07b
-# Appended to asset URLs so a deploy is not hidden behind a cached stylesheet.
-ARG ASSET_VERSION=dev
 ARG TARGETARCH
 
 RUN apt-get update \
@@ -28,8 +26,7 @@ RUN git clone --quiet https://github.com/laytan/odin-http vendor/odin-http \
 COPY src ./src
 COPY static ./static
 RUN mkdir -p /out \
- && odin build src -collection:deps=vendor -out:/out/all-an -o:speed -vet -strict-style \
-      -define:ASSET_VERSION="${ASSET_VERSION}"
+ && odin build src -collection:deps=vendor -out:/out/all-an -o:speed -vet -strict-style
 
 # --- test: `docker build --target test .` runs the unit tests with the same toolchain ---------------
 FROM build AS test
