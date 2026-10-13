@@ -30,8 +30,8 @@ unmatched page redirects to the front page.
 
 ## Deploying
 
-The repository has a `railway.json` with the start command and health check, and a
-`.python-version` that pins Python. The step-by-step guide is in
+The repository has a `Procfile` with the start command, a `railway.json` with the health check,
+and a `.python-version` that pins Python. The step-by-step guide is in
 [`RAILWAY-DEPLOY.md`](../RAILWAY-DEPLOY.md): create the project from the GitHub repository, add a
 PostgreSQL database, and set the variables below.
 

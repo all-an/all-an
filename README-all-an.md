@@ -121,7 +121,8 @@ existing one able to sign in.
 ```
 requirements.txt  requirements-dev.txt
 gunicorn.conf.py  workers and threads; the start command is just  gunicorn all_an.wsgi:app
-railway.json     Railway start command and health check
+Procfile         start command (gunicorn all_an.wsgi:app)
+railway.json     Railway health check and restart policy
 db/migration/     schema, in order — read by the migrator at startup
 all_an/
 ├── __init__.py   create_app(): config, pool, migrations, blueprints, error handlers
