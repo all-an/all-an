@@ -103,12 +103,38 @@ the dump, so migrations are recognised as already applied.
 
 Sessions are stored in the database, so people stay signed in across the move.
 
+## Cost control (do this on day one)
+
+Railway bills by usage (CPU, memory, network and database storage), so a runaway process, a
+request loop or a bot hammering the site costs more instead of just being slow. Set the guardrails
+before anything else, so there are no surprises on the invoice.
+
+1. **Usage limit / hard limit**: in the Railway dashboard open the **account or workspace
+   Settings → Usage** (also called Billing) and set a **hard limit**: a spend ceiling at which
+   services are stopped rather than billed further. Pick a number you would be comfortable losing
+   a month's uptime over, for example a small multiple of your expected bill.
+2. **Usage alert**: set a lower **alert threshold** (for example half the hard limit) so you get
+   an email before the limit is reached.
+3. **Right-size the app**: keep `WEB_CONCURRENCY=2` and `GUNICORN_THREADS=4`. More workers cost
+   more memory, and this app does not need them at small scale.
+4. **Look after the first week**: open **Usage** after a few days and compare it with what you
+   expected. A flat, boring graph is the goal.
+5. **Check the database too**: storage and backups are billed separately from the web service.
+
+If an alert fires: look at the web service's logs and metrics first (an error loop or unusual
+traffic), then the database's size. Pausing the service from its settings stops the meter
+immediately.
+
+Menu names change from time to time, so look for "Usage", "Billing" or "Spend limit" in your
+account settings if the labels differ.
+
 ## Cutover checklist
 
 1. Railway site works: sign in, take a quiz, add a timesheet day.
 2. Change DNS (or your links) to the Railway address.
 3. Keep the old service and database for a few days as a fallback, then delete them.
 4. Do not carry over `RESEND_API_KEY` or `MAIL_FROM`; nothing reads them.
+5. Cost control is set: a hard usage limit and an alert threshold (see above).
 
 ## Operating notes
 
@@ -122,7 +148,8 @@ Sessions are stored in the database, so people stay signed in across the move.
 - **Backups**: take them yourself. A nightly `pg_dump` from a machine you control (or a Railway
   cron service) is cheap insurance.
 - **Cost**: Railway bills by usage (CPU, memory, database storage) with a small monthly minimum.
-  Check the Usage page after the first week.
+  Configure the spend limit and alert described in "Cost control" above, and check the Usage page
+  after the first week.
 - **Constants**: the daily minimum hours and on-site target live in `timesheet_constants`. Change
   them with SQL from Railway's database **Data** or **Connect** tab:
 
