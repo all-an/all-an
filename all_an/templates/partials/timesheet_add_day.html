@@ -1,8 +1,0 @@
-{# A plain GET form: it works without JavaScript, and a day only exists once it is saved. #}
-<form class="card ts-add" action="/timesheet/add" method="get">
-  <label class="ts-add-field">
-    <span class="field-label">Add a day</span>
-    <input type="date" name="date" value="{{ today }}" required>
-  </label>
-  <button type="submit" class="btn primary ts-big">+ Add day</button>
-</form>

@@ -1,0 +1,43 @@
+# Local development: the app and its Postgres, both in Docker.
+#
+#   docker compose up --build        # http://localhost:10000
+#   docker compose down              # stop; the data stays in the volume
+#   docker compose down -v           # stop and delete the data
+services:
+  all-an-db-odin:
+    image: postgres:17-alpine
+    container_name: all-an-db-odin
+    environment:
+      POSTGRES_USER: allan
+      POSTGRES_PASSWORD: allan
+      POSTGRES_DB: all-an-database
+    ports:
+      # host:container. Change the left side if 5432 is already taken on your machine.
+      - "5432:5432"
+    volumes:
+      - all-an-db-odin-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U allan -d all-an-database"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    container_name: all-an-odin
+    depends_on:
+      all-an-db-odin:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://allan:allan@all-an-db-odin:5432/all-an-database
+      PORT: "10000"
+      # Lets you read messages at http://localhost:10000/admin/messages?token=local-dev-token-1234
+      ADMIN_TOKEN: local-dev-token-1234
+    # odin-http runs on io_uring on Linux, and Docker's default seccomp profile blocks those syscalls.
+    security_opt:
+      - seccomp=unconfined
+    ports:
+      - "10000:10000"
+
+volumes:
+  all-an-db-odin-data:

@@ -1,0 +1,9 @@
+.git
+.gitignore
+.vscode
+.env
+vendor
+bin
+*.md
+docker-compose.yml
+render.yaml

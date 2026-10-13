@@ -1,37 +1,21 @@
 # Build output
-/tmp
+/bin
 
-# Local configuration - DATABASE_URL and the admin bootstrap credentials live here
-.env
-.env.local
+# Fetched by scripts/fetch-deps.sh
+/vendor
 
 # IDEs and editors
 .idea/
-.vs/
 *.iml
-.project
-.classpath
-.settings/
-.history/*
-
-# Visual Studio Code
 .vscode/*
 !.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
 !.vscode/extensions.json
-!.vscode/mcp.json
 
-# Test output
+# Local configuration
+.env
+.env.local
 
 # OS
 .DS_Store
 Thumbs.db
-
-draft.md
-
-# Python
-__pycache__/
-*.pyc
-.venv/
-.pytest_cache/
+/src.bin
