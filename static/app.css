@@ -137,6 +137,9 @@ th { color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-s
                font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--text); }
 .term-drawer[hidden] { display: none; }
 body.term-open { overflow: hidden; }
+/* The terminal is the whole interface: never paint the server-rendered page behind it, so a reload
+ * does not flash it before app.js opens the terminal. */
+body > :not(.term-drawer):not(script):not(noscript) { display: none; }
 .term-out { white-space: pre-wrap; overflow-wrap: anywhere; }
 .term-line.cmd { color: var(--strong); }
 .term-line.ok { color: var(--good); }
